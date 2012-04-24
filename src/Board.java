@@ -13,7 +13,7 @@ public class Board extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(710,730);
         setLocationRelativeTo(null);
-        setTitle("Kism3t Game V0.000000000000.2 - Level 1");
+        setTitle("Java-Game V0.000000000000.2 - Level 1");
         setResizable(false);
         setVisible(true);
 	}

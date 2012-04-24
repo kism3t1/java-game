@@ -19,11 +19,16 @@ public class Map {
     private int width;      //number of tiles wide
     private int height;     //number of tiles high
     
+    private int screen_width;
+    private int screen_height;
+    
     Tile[][] TileSet;       //array to hold tiles and form level map
     
-    public Map(int setWidth, int setHeight, boolean isVisible){        //Map constructor
+    public Map(int screenWidth, int screenHeight, int setWidth, int setHeight, boolean isVisible){        //Map constructor
         width = setWidth;
-        height= setHeight;
+        height = setHeight;
+        screen_width = screenWidth;
+        screen_height = screenHeight;
         
         TileSet = new Tile[width][height];      //initialize TileSet to suit Map size
         for(int x=0; x<width; x++){

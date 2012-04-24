@@ -6,27 +6,21 @@ public class Marker {
     private int dy;
     private int x;
     private int y;
-    private int width;
-    private int height;
     private int level;
     private Color color;
     
     private long keyLastProcessed;
 
     public Marker() {
-        width = 32;
-        height = 32;
         level = 0;
         x = 0;
         y = 0;
         color = Color.GREEN;
     }
     
-    public Marker(int tileX, int tileY, int width, int height, int level, Color color){
-    	x = tileX;
-    	y = tileY;
-    	this.width = width;
-    	this.height = height;
+    public Marker(int x, int y, int level, Color color){
+    	this.x = x;
+    	this.y = y;
     	this.level = level;
     	this.color = color;
     }
@@ -43,17 +37,17 @@ public class Marker {
     public int getX() {
         return x;
     }
+    
+    public void setX(int x){
+    	this.x = x;
+    }
 
     public int getY() {
         return y;
     }
     
-    public int getWidth() {
-    	return width;
-    }
-    
-    public int getHeight() {
-    	return height;
+    public void setY(int y){
+    	this.y = y;
     }
     
     public int getLevel() {
@@ -63,6 +57,23 @@ public class Marker {
     public Color getColor(){
     	return color;
     }
+    
+    public void changeLevel(int level){
+    	this.level = level;
+    	
+    	switch(level){
+    	case 0:								//floor
+    		color = Color.GREEN;
+    		break;
+    	case 1:								//wall
+    		color = Color.RED;
+    		break;
+    	default:							//default to floor if other value set
+    		this.level = 0;
+    		color = Color.GREEN;
+    		break;
+    	}
+    }
 
     public void keyPressed(KeyEvent e) {
 
@@ -70,16 +81,18 @@ public class Marker {
         
         switch(key) {
         case KeyEvent.VK_A: 
-        	dx = -1 * width;
+        	if(x>0)
+        		dx = -1;
         	break;
         case KeyEvent.VK_D: 
-        	dx = 1 * width;
+        	dx = 1;
         	break;
         case KeyEvent.VK_W: 
-        	dy = -1 * height;
+        	if(y>0)
+        		dy = -1;
         	break;
         case KeyEvent.VK_S: 
-        	dy = 1 * height;
+        	dy = 1;
         	break;
         }
     }

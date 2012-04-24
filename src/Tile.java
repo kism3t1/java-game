@@ -59,6 +59,10 @@ public class Tile {
         visible = isVisible;
     }
     
+    public void toggleVisibility(){
+    	visible = !visible;
+    }
+    
     public int getHealth(){
         return health;
     }

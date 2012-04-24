@@ -36,8 +36,12 @@ public class Level1 extends JPanel implements ActionListener{
 	    private static final int LEVEL_WALL = 1;
 	    
 	    //screen size info to aide scrolling
-	    private static final int SCREEN_TILES_WIDE = 21;
-	    private static final int SCREEN_TILES_HIGH = 21;
+	    public static final int SCREEN_TILES_WIDE = 22;
+	    public static final int SCREEN_TILES_HIGH = 22;
+	    
+	    //global map info
+	    public static final int MAP_TILES_HIGH = 100;
+	    public static final int MAP_TILES_WIDE = 100;
 	    
 	    public Level1 (){
 	        addKeyListener(new TAdapter());
@@ -46,8 +50,8 @@ public class Level1 extends JPanel implements ActionListener{
 
 	        entity = new Entity();
 	        marker = new Marker();
-            floorMap = new Map(SCREEN_TILES_WIDE, SCREEN_TILES_HIGH, 100, 100, true);
-            wallMap = new Map(SCREEN_TILES_WIDE, SCREEN_TILES_HIGH, 100, 100, false);
+            floorMap = new Map(SCREEN_TILES_WIDE, SCREEN_TILES_HIGH, MAP_TILES_HIGH, MAP_TILES_WIDE, true);
+            wallMap = new Map(SCREEN_TILES_WIDE, SCREEN_TILES_HIGH, MAP_TILES_HIGH, MAP_TILES_WIDE, false);
             tileSkins = new Image[4];
             tileSkins[0] = new ImageIcon(this.getClass().getResource("Images/dirt.png")).getImage();
             tileSkins[1] = new ImageIcon(this.getClass().getResource("Images/grass.png")).getImage();
@@ -58,53 +62,44 @@ public class Level1 extends JPanel implements ActionListener{
 	        timer.start();
 	    }
 		
-		public void paintComponent (Graphics g){
-			
-			Graphics2D g2d = (Graphics2D) g;
-			{        
-				floorMap.draw(g2d, tileSkins, xOffset, yOffset, this);
-				wallMap.draw(g2d, tileSkins, xOffset, yOffset, this);
-			}
-		}
 
 		 public void paint(Graphics g) {
 		        super.paint(g);
-
+		        
+		        //initialize g2d and refresh screen
 		        Graphics2D g2d = (Graphics2D)g;
-		        g2d.drawImage(entity.getImage(), entity.getX(), entity.getY(), this);
+		        g2d.setBackground(Color.BLACK);
+		        g2d.setColor(Color.BLACK);
+		        g2d.clearRect(0, 0, getSize().width, getSize().height);
 		        
 		        //scroll tiles if necessary
-		        
-		        if(marker.getX() > SCREEN_TILES_WIDE){
-		        	xOffset += 1;
+		        if(marker.getTileX() >= SCREEN_TILES_WIDE - 1){
+		        	xOffset = marker.getTileX() - (SCREEN_TILES_WIDE - 1);
+		        }else{
+		        	xOffset = 0;
 		        }
 		        
-		        if (marker.getX() < 0){
-		        	if(xOffset>0)
-		        		xOffset -= 1;
+		        if(marker.getTileY() >= SCREEN_TILES_HIGH - 1){
+		        	yOffset = marker.getTileY() - (SCREEN_TILES_HIGH - 1);
+		        }else{
+		        	yOffset = 0;
 		        }
-		        /*
-		        if((marker.getY()/marker.getHeight()) > (SCREEN_TILES_HIGH + yOffset)){
-		        	yOffset += 1;
-		        }
-		        if((marker.getY()/marker.getHeight()) == (SCREEN_TILES_HIGH - yOffset)){
-		        	yOffset -= 1;
-		        }
-		        */
 		        
-		        //floorMap.draw(g2d, tileSkins, xOffset, yOffset, this);
-				//wallMap.draw(g2d, tileSkins, xOffset, yOffset, this);
+		        //redraw maps
+		        floorMap.draw(g2d, tileSkins, xOffset, yOffset, this);
+				wallMap.draw(g2d, tileSkins, xOffset, yOffset, this);
 		        
+				//draw entity
+				g2d.drawImage(entity.getImage(), entity.getX(), entity.getY(), this);
+				
 		        //draw tile marker
 		        g.setColor(marker.getColor());
-		        g2d.draw(new Rectangle2D.Double((marker.getX() - xOffset) * 32,
-		        		(marker.getY() - yOffset) * 32,
-		        		32, 32));
+		        g2d.draw(new Rectangle2D.Double(marker.getScreenX(), marker.getScreenY(), 32, 32));
 		        
 		        //write debug info
 		        g.setColor(Color.BLACK);
 		        g.drawString("X = "+entity.getX()+"Y = "+entity.getY(),20,20);
-		        g.drawString("Tile X,Y: " + marker.getX() + "," + marker.getY(), 20, 40);
+		        g.drawString("Tile X,Y: " + marker.getTileX() + "," + marker.getTileY(), 20, 40);
 		    }
 
 
@@ -120,20 +115,22 @@ public class Level1 extends JPanel implements ActionListener{
 		    	if(System.currentTimeMillis()-keyLastProcessed>keyDelayMillis){
 		    		switch(marker.getLevel()){
 		    		case LEVEL_FLOOR: 
-		    			currentSkin = floorMap.TileSet[marker.getX()/32][marker.getY()/32].getSkin();
+		    			currentSkin = floorMap.TileSet[marker.getTileX()][marker.getTileY()].getSkin();
 		    			nextSkin = currentSkin + 1;
 		    			if (nextSkin == tileSkins.length)
 		    				nextSkin = 0;
-		    			floorMap.TileSet[marker.getX()/32][marker.getY()/32].setSkin(nextSkin);
+		    			if (!floorMap.TileSet[marker.getTileX()][marker.getTileY()].isVisible())
+		    				floorMap.TileSet[marker.getTileX()][marker.getTileY()].setVisible(true);
+		    			floorMap.TileSet[marker.getTileX()][marker.getTileY()].setSkin(nextSkin);
 		    			break;
 		    		case LEVEL_WALL:
-		    			currentSkin = wallMap.TileSet[marker.getX()/32][marker.getY()/32].getSkin();
+		    			currentSkin = wallMap.TileSet[marker.getTileX()][marker.getTileY()].getSkin();
 		    			nextSkin = currentSkin + 1;
 		    			if (nextSkin == tileSkins.length)
 		    				nextSkin = 0;
-		    			if (!wallMap.TileSet[marker.getX()/32][marker.getY()/32].isVisible())
-		    				wallMap.TileSet[marker.getX()/32][marker.getY()/32].setVisible(true);
-		    			wallMap.TileSet[marker.getX()/32][marker.getY()/32].setSkin(nextSkin);
+		    			if (!wallMap.TileSet[marker.getTileX()][marker.getTileY()].isVisible())
+		    				wallMap.TileSet[marker.getTileX()][marker.getTileY()].setVisible(true);
+		    			wallMap.TileSet[marker.getTileX()][marker.getTileY()].setSkin(nextSkin);
 		    			break;
 		    		}
 		    		keyLastProcessed=System.currentTimeMillis();
@@ -146,20 +143,22 @@ public class Level1 extends JPanel implements ActionListener{
 		    	if(System.currentTimeMillis()-keyLastProcessed>keyDelayMillis){
 		    		switch(marker.getLevel()){
 		    		case LEVEL_FLOOR: 
-		    			currentSkin = floorMap.TileSet[marker.getX()/32][marker.getY()/32].getSkin();
+		    			currentSkin = floorMap.TileSet[marker.getTileX()][marker.getTileY()].getSkin();
 		    			nextSkin = currentSkin - 1;
 		    			if (nextSkin < 0)
 		    				nextSkin = tileSkins.length-1;
-		    			floorMap.TileSet[marker.getX()/32][marker.getY()/32].setSkin(nextSkin);
+		    			if (!floorMap.TileSet[marker.getTileX()][marker.getTileY()].isVisible())
+		    				floorMap.TileSet[marker.getTileX()][marker.getTileY()].setVisible(true);
+		    			floorMap.TileSet[marker.getTileX()][marker.getTileY()].setSkin(nextSkin);
 		    			break;
 		    		case LEVEL_WALL:
-		    			currentSkin = wallMap.TileSet[marker.getX()/32][marker.getY()/32].getSkin();
+		    			currentSkin = wallMap.TileSet[marker.getTileX()][marker.getTileY()].getSkin();
 		    			nextSkin = currentSkin - 1;
 		    			if (nextSkin < 0 )
 		    				nextSkin = tileSkins.length-1;
-		    			if (!wallMap.TileSet[marker.getX()/32][marker.getY()/32].isVisible())
-		    				wallMap.TileSet[marker.getX()/32][marker.getY()/32].setVisible(true);
-		    			wallMap.TileSet[marker.getX()/32][marker.getY()/32].setSkin(nextSkin);
+		    			if (!wallMap.TileSet[marker.getTileX()][marker.getTileY()].isVisible())
+		    				wallMap.TileSet[marker.getTileX()][marker.getTileY()].setVisible(true);
+		    			wallMap.TileSet[marker.getTileX()][marker.getTileY()].setSkin(nextSkin);
 		    			break;
 		    		}
 		    		keyLastProcessed=System.currentTimeMillis();
@@ -170,10 +169,10 @@ public class Level1 extends JPanel implements ActionListener{
 		    	if(System.currentTimeMillis()-keyLastProcessed>keyDelayMillis){
 		    		switch(marker.getLevel()){
 		    		case LEVEL_FLOOR: 
-		    			floorMap.TileSet[marker.getX()/32][marker.getY()/32].toggleVisibility();
+		    			floorMap.TileSet[marker.getTileX()][marker.getTileY()].toggleVisibility();
 		    			break;
 		    		case LEVEL_WALL:
-		    			wallMap.TileSet[marker.getX()/32][marker.getY()/32].toggleVisibility();
+		    			wallMap.TileSet[marker.getTileX()][marker.getTileY()].toggleVisibility();
 		    			break;
 		    		}
 		    		keyLastProcessed=System.currentTimeMillis();
@@ -206,10 +205,10 @@ public class Level1 extends JPanel implements ActionListener{
 		        		hideTile();
 		        		break;
 		        	case KeyEvent.VK_PAGE_UP:
-		        		marker.changeLevel(1);
+		        		marker.changeLevel(LEVEL_WALL);
 		        		break;
 		        	case KeyEvent.VK_PAGE_DOWN:
-		        		marker.changeLevel(0);
+		        		marker.changeLevel(LEVEL_FLOOR);
 		        		break;
 		        	}
 		        }

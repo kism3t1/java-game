@@ -56,10 +56,10 @@ public class Map {
     }
     
     public void draw(Graphics2D g, Image[] TileSkins, int xOffset, int yOffset, ImageObserver iObserver){
-        for(int x=xOffset; x<width; x++){
-            for(int y=yOffset; y<height; y++){
+        for(int x=xOffset; x<screen_width+xOffset; x++){
+            for(int y=yOffset; y<screen_height+yOffset; y++){
                 if(TileSet[x][y].isVisible()){
-                    g.drawImage(TileSkins[TileSet[x][y].getSkin()], x*32, y*32, iObserver);
+                    g.drawImage(TileSkins[TileSet[x][y].getSkin()], (x - xOffset) * 32, (y - yOffset) * 32, iObserver);
                 }
             }
         }

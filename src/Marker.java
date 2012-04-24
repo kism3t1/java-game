@@ -4,8 +4,10 @@ import java.awt.event.KeyEvent;
 public class Marker {
     private int dx;
     private int dy;
-    private int x;
-    private int y;
+    private int tileX;
+    private int tileY;
+    private int screenX;
+    private int screenY;
     private int level;
     private Color color;
     
@@ -13,14 +15,16 @@ public class Marker {
 
     public Marker() {
         level = 0;
-        x = 0;
-        y = 0;
+        tileX = 0;
+        tileY = 0;
+        screenX = 0;
+        screenY = 0;
         color = Color.GREEN;
     }
     
-    public Marker(int x, int y, int level, Color color){
-    	this.x = x;
-    	this.y = y;
+    public Marker(int tileX, int tileY, int level, Color color){
+    	this.tileX = tileX;
+    	this.tileY = tileY;
     	this.level = level;
     	this.color = color;
     }
@@ -28,29 +32,55 @@ public class Marker {
 
     public void move() {
     	if (System.currentTimeMillis() - keyLastProcessed > 75){
-    		x += dx;
-    		y += dy;
+    		if (tileX + dx >= 0 && tileX + dx < Level1.MAP_TILES_WIDE)
+    			tileX += dx;
+    		
+    		if (tileY + dy >= 0 && tileY + dy < Level1.MAP_TILES_HIGH)
+    			tileY += dy;
+    		
+    		if(tileX * 32 < Level1.SCREEN_TILES_WIDE * 32)
+    			screenX = tileX * 32;
+    		
+    		if(tileY * 32 < Level1.SCREEN_TILES_HIGH * 32)
+    			screenY = tileY * 32;
+    		
     		keyLastProcessed= System.currentTimeMillis();
     	}
     }
 
-    public int getX() {
-        return x;
+    public int getTileX() {
+        return tileX;
     }
     
-    public void setX(int x){
-    	this.x = x;
+    public void setTileX(int tileX){
+    	this.tileX = tileX;
     }
 
-    public int getY() {
-        return y;
+    public int getTileY() {
+        return tileY;
     }
     
-    public void setY(int y){
-    	this.y = y;
+    public void setTileY(int tileY){
+    	this.tileY = tileY;
     }
     
-    public int getLevel() {
+    public int getScreenX() {
+		return screenX;
+	}
+
+	public void setScreenX(int screenX) {
+		this.screenX = screenX;
+	}
+
+	public int getScreenY() {
+		return screenY;
+	}
+
+	public void setScreenY(int screenY) {
+		this.screenY = screenY;
+	}
+
+	public int getLevel() {
     	return level;
     }
     
@@ -81,14 +111,14 @@ public class Marker {
         
         switch(key) {
         case KeyEvent.VK_A: 
-        	if(x>0)
+        	if(tileX>0)
         		dx = -1;
         	break;
         case KeyEvent.VK_D: 
         	dx = 1;
         	break;
         case KeyEvent.VK_W: 
-        	if(y>0)
+        	if(tileY>0)
         		dy = -1;
         	break;
         case KeyEvent.VK_S: 

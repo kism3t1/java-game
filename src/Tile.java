@@ -4,8 +4,6 @@
  */
 
 
-import java.awt.Image;
-
 /**
  *
  * @author LosOjos
@@ -17,10 +15,8 @@ public class Tile {
     private boolean wall;
     private boolean visible;
     
-    private byte skin;
-    private byte health;
-    
-    private Image iSkin;
+    private int skin;
+    private int health;
     
     public Tile(){      //default constructor with default values
         skin = 0;
@@ -63,23 +59,23 @@ public class Tile {
         visible = isVisible;
     }
     
-    public byte getHealth(){
+    public int getHealth(){
         return health;
     }
     
-    public void setHealth(byte bHealth){
-        health = bHealth;
+    public void setHealth(int iHealth){
+        health = iHealth;
     }
     
-    public byte getSkin(){       //returns skin field
+    public int getSkin(){       //returns skin field
         return skin;
     }
     
-    public void setSkin(byte bSkin){    //changes skin
-        skin = bSkin;
+    public void setSkin(int iSkin){    //changes skin
+        skin = iSkin;
     }
     
-    public byte damage(byte bDamage){       //inflicts damage to tile
+    public int damage(byte bDamage){       //inflicts damage to tile
         if(destructible){
             health -= bDamage;
         }

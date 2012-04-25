@@ -25,11 +25,11 @@ public class Level1 extends JPanel implements ActionListener{
 	    private Marker marker;
 	    
 	    private long keyLastProcessed;
-	    private int keyDelayMillis = 75;			//set delay in milliseconds between key strokes
+	    public static final int KEY_DELAY = 75;			//set delay in milliseconds between key strokes
 	    
 	    //tile offset for scrolling
-	    private int xOffset = 0;
-	    private int yOffset = 0;
+	    public static int xOffset = 0;
+	    public static int yOffset = 0;
 	    
 	    //level numbers for handling floor and wall editing (should make it easier to keep track)
 	    private static final int LEVEL_FLOOR = 0;
@@ -71,21 +71,8 @@ public class Level1 extends JPanel implements ActionListener{
 		        g2d.setBackground(Color.BLACK);
 		        g2d.setColor(Color.BLACK);
 		        g2d.clearRect(0, 0, getSize().width, getSize().height);
-		        
-		        //scroll tiles if necessary
-		        if(marker.getTileX() >= SCREEN_TILES_WIDE - 1){
-		        	xOffset = marker.getTileX() - (SCREEN_TILES_WIDE - 1);
-		        }else{
-		        	xOffset = 0;
-		        }
-		        
-		        if(marker.getTileY() >= SCREEN_TILES_HIGH - 1){
-		        	yOffset = marker.getTileY() - (SCREEN_TILES_HIGH - 1);
-		        }else{
-		        	yOffset = 0;
-		        }
-		        
-		        //redraw maps
+		        		               
+		        //draw maps
 		        floorMap.draw(g2d, tileSkins, xOffset, yOffset, this);
 				wallMap.draw(g2d, tileSkins, xOffset, yOffset, this);
 		        
@@ -112,7 +99,7 @@ public class Level1 extends JPanel implements ActionListener{
 		    private void nextTile(){
 		    	int currentSkin;
 		    	int nextSkin;
-		    	if(System.currentTimeMillis()-keyLastProcessed>keyDelayMillis){
+		    	if(System.currentTimeMillis()-keyLastProcessed>KEY_DELAY){
 		    		switch(marker.getLevel()){
 		    		case LEVEL_FLOOR: 
 		    			currentSkin = floorMap.TileSet[marker.getTileX()][marker.getTileY()].getSkin();
@@ -140,7 +127,7 @@ public class Level1 extends JPanel implements ActionListener{
 		    private void previousTile(){
 		    	int currentSkin;
 		    	int nextSkin;
-		    	if(System.currentTimeMillis()-keyLastProcessed>keyDelayMillis){
+		    	if(System.currentTimeMillis()-keyLastProcessed>KEY_DELAY){
 		    		switch(marker.getLevel()){
 		    		case LEVEL_FLOOR: 
 		    			currentSkin = floorMap.TileSet[marker.getTileX()][marker.getTileY()].getSkin();
@@ -166,7 +153,7 @@ public class Level1 extends JPanel implements ActionListener{
 		    }
 		    
 		    private void hideTile(){
-		    	if(System.currentTimeMillis()-keyLastProcessed>keyDelayMillis){
+		    	if(System.currentTimeMillis()-keyLastProcessed>KEY_DELAY){
 		    		switch(marker.getLevel()){
 		    		case LEVEL_FLOOR: 
 		    			floorMap.TileSet[marker.getTileX()][marker.getTileY()].toggleVisibility();

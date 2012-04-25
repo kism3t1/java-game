@@ -31,18 +31,32 @@ public class Marker {
 
 
     public void move() {
-    	if (System.currentTimeMillis() - keyLastProcessed > 75){
-    		if (tileX + dx >= 0 && tileX + dx < Level1.MAP_TILES_WIDE)
+    	if (System.currentTimeMillis() - keyLastProcessed > Level1.KEY_DELAY){
+    		//check marker is within bounds of tileset
+    		if (tileX + dx >= 0 && tileX + dx < Level1.MAP_TILES_WIDE){			
+    			
+    			//calculate scrolling offset
+    			if (tileX + dx >= Level1.SCREEN_TILES_WIDE + Level1.xOffset || 
+    					(tileX + dx < Level1.xOffset && Level1.xOffset > 0))
+    				Level1.xOffset += dx;
+    			
     			tileX += dx;
+    		}
     		
-    		if (tileY + dy >= 0 && tileY + dy < Level1.MAP_TILES_HIGH)
+    		//check marker is within bounds of tileset
+    		if (tileY + dy >= 0 && tileY + dy < Level1.MAP_TILES_HIGH){
+    	
+    			//calculate scrolling offset
+    			if (tileY + dy >= Level1.SCREEN_TILES_HIGH + Level1.yOffset || 
+    					(tileY + dy < Level1.yOffset && Level1.yOffset > 0))
+    				Level1.yOffset += dy;
+    			
     			tileY += dy;
-    		
-    		if(tileX * 32 < Level1.SCREEN_TILES_WIDE * 32)
-    			screenX = tileX * 32;
-    		
-    		if(tileY * 32 < Level1.SCREEN_TILES_HIGH * 32)
-    			screenY = tileY * 32;
+    		}
+    			
+    		//calculate screen position of marker    		
+    		screenX = (tileX - Level1.xOffset) * 32;
+    		screenY = (tileY - Level1.yOffset) * 32;
     		
     		keyLastProcessed= System.currentTimeMillis();
     	}
@@ -145,7 +159,5 @@ public class Marker {
         	dy = 0;
         	break;
         }
-        
-        keyLastProcessed= System.currentTimeMillis();
     }
 }

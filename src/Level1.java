@@ -13,6 +13,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -234,10 +236,13 @@ public class Level1 extends JPanel implements ActionListener{
 		    	int n = JOptionPane.showConfirmDialog(null, "Save current world?", "Save Dialog", JOptionPane.YES_NO_OPTION);
 		    	if(n == JOptionPane.YES_OPTION){
 		    		FileOutputStream saveFile = new FileOutputStream("world.wld");
-		    		ObjectOutputStream saveObject = new ObjectOutputStream(saveFile);
+		    		GZIPOutputStream gzipFile = new GZIPOutputStream(saveFile);
+		    		ObjectOutputStream saveObject = new ObjectOutputStream(gzipFile);
 		    		saveObject.writeObject(world);
-		    		saveFile.close();
+		    		saveObject.flush();
 		    		saveObject.close();
+		    		gzipFile.close();
+		    		saveFile.close();
 		    	}
 				
 			}
@@ -246,10 +251,12 @@ public class Level1 extends JPanel implements ActionListener{
 		    	int n = JOptionPane.showConfirmDialog(null, "Load previously saved world?", "Load Dialog", JOptionPane.YES_NO_OPTION);
 		    	if(n == JOptionPane.YES_OPTION){
 		    		FileInputStream loadFile = new FileInputStream("world.wld");
-		    		ObjectInputStream loadObject = new ObjectInputStream(loadFile);
+		    		GZIPInputStream gzipFile = new GZIPInputStream(loadFile);
+		    		ObjectInputStream loadObject = new ObjectInputStream(gzipFile);
 		    		world = (World) loadObject.readObject();
-		    		loadFile.close();
+		    		gzipFile.close();
 		    		loadObject.close();
+		    		loadFile.close();
 		    		repaint();
 		    	}
 		    }

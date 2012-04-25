@@ -9,5 +9,5 @@ Controls:
 	PGUP - Edit wall map
 	PGDWN - Edit floor map
 	
-	F11 - Load current world
-	F12 - Save previous save
+	F11 - Load previous save
+	F12 - Save current world

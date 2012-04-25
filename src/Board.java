@@ -5,7 +5,6 @@ public class Board extends JFrame{
 // The new way to set up the main class using OOP,
 // Splitting the main and level1 class into two
 	
-	
 	public Board(){
 		
         add(new Level1());
@@ -13,7 +12,7 @@ public class Board extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(710,730);
         setLocationRelativeTo(null);
-        setTitle("Java-Game V0.000000000000.2 - Level 1");
+        setTitle("Java-Game V0.1 - Map Editor");
         setResizable(false);
         setVisible(true);
 	}

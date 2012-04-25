@@ -7,12 +7,13 @@
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
+import java.io.Serializable;
 
 /**
  *
  * @author LosOjos
  */
-public class Map {
+public class Map implements Serializable{
     
     // initialize Map fields
     

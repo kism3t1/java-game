@@ -7,8 +7,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -16,8 +23,9 @@ import javax.swing.Timer;
 @SuppressWarnings("serial")
 public class Level1 extends JPanel implements ActionListener{
                 
-		Map floorMap;
-		Map wallMap;
+		//Map floorMap;
+		//Map wallMap;
+		World world;
 		Image[] tileSkins;
 		
 		private Timer timer;
@@ -50,8 +58,9 @@ public class Level1 extends JPanel implements ActionListener{
 
 	        entity = new Entity();
 	        marker = new Marker();
-            floorMap = new Map(SCREEN_TILES_WIDE, SCREEN_TILES_HIGH, MAP_TILES_HIGH, MAP_TILES_WIDE, true);
-            wallMap = new Map(SCREEN_TILES_WIDE, SCREEN_TILES_HIGH, MAP_TILES_HIGH, MAP_TILES_WIDE, false);
+	        world = new World("Default World", MAP_TILES_WIDE, MAP_TILES_HIGH);
+            //floorMap = new Map(SCREEN_TILES_WIDE, SCREEN_TILES_HIGH, MAP_TILES_HIGH, MAP_TILES_WIDE, true);
+            //wallMap = new Map(SCREEN_TILES_WIDE, SCREEN_TILES_HIGH, MAP_TILES_HIGH, MAP_TILES_WIDE, false);
             tileSkins = new Image[4];
             tileSkins[0] = new ImageIcon(this.getClass().getResource("Images/dirt.png")).getImage();
             tileSkins[1] = new ImageIcon(this.getClass().getResource("Images/grass.png")).getImage();
@@ -73,8 +82,8 @@ public class Level1 extends JPanel implements ActionListener{
 		        g2d.clearRect(0, 0, getSize().width, getSize().height);
 		        		               
 		        //draw maps
-		        floorMap.draw(g2d, tileSkins, xOffset, yOffset, this);
-				wallMap.draw(g2d, tileSkins, xOffset, yOffset, this);
+		        world.floorMap.draw(g2d, tileSkins, xOffset, yOffset, this);
+				world.wallMap.draw(g2d, tileSkins, xOffset, yOffset, this);
 		        
 				//draw entity
 				g2d.drawImage(entity.getImage(), entity.getX(), entity.getY(), this);
@@ -102,22 +111,22 @@ public class Level1 extends JPanel implements ActionListener{
 		    	if(System.currentTimeMillis()-keyLastProcessed>KEY_DELAY){
 		    		switch(marker.getLevel()){
 		    		case LEVEL_FLOOR: 
-		    			currentSkin = floorMap.TileSet[marker.getTileX()][marker.getTileY()].getSkin();
+		    			currentSkin = world.floorMap.TileSet[marker.getTileX()][marker.getTileY()].getSkin();
 		    			nextSkin = currentSkin + 1;
 		    			if (nextSkin == tileSkins.length)
 		    				nextSkin = 0;
-		    			if (!floorMap.TileSet[marker.getTileX()][marker.getTileY()].isVisible())
-		    				floorMap.TileSet[marker.getTileX()][marker.getTileY()].setVisible(true);
-		    			floorMap.TileSet[marker.getTileX()][marker.getTileY()].setSkin(nextSkin);
+		    			if (!world.floorMap.TileSet[marker.getTileX()][marker.getTileY()].isVisible())
+		    				world.floorMap.TileSet[marker.getTileX()][marker.getTileY()].setVisible(true);
+		    			world.floorMap.TileSet[marker.getTileX()][marker.getTileY()].setSkin(nextSkin);
 		    			break;
 		    		case LEVEL_WALL:
-		    			currentSkin = wallMap.TileSet[marker.getTileX()][marker.getTileY()].getSkin();
+		    			currentSkin = world.wallMap.TileSet[marker.getTileX()][marker.getTileY()].getSkin();
 		    			nextSkin = currentSkin + 1;
 		    			if (nextSkin == tileSkins.length)
 		    				nextSkin = 0;
-		    			if (!wallMap.TileSet[marker.getTileX()][marker.getTileY()].isVisible())
-		    				wallMap.TileSet[marker.getTileX()][marker.getTileY()].setVisible(true);
-		    			wallMap.TileSet[marker.getTileX()][marker.getTileY()].setSkin(nextSkin);
+		    			if (!world.wallMap.TileSet[marker.getTileX()][marker.getTileY()].isVisible())
+		    				world.wallMap.TileSet[marker.getTileX()][marker.getTileY()].setVisible(true);
+		    			world.wallMap.TileSet[marker.getTileX()][marker.getTileY()].setSkin(nextSkin);
 		    			break;
 		    		}
 		    		keyLastProcessed=System.currentTimeMillis();
@@ -130,22 +139,22 @@ public class Level1 extends JPanel implements ActionListener{
 		    	if(System.currentTimeMillis()-keyLastProcessed>KEY_DELAY){
 		    		switch(marker.getLevel()){
 		    		case LEVEL_FLOOR: 
-		    			currentSkin = floorMap.TileSet[marker.getTileX()][marker.getTileY()].getSkin();
+		    			currentSkin = world.floorMap.TileSet[marker.getTileX()][marker.getTileY()].getSkin();
 		    			nextSkin = currentSkin - 1;
 		    			if (nextSkin < 0)
 		    				nextSkin = tileSkins.length-1;
-		    			if (!floorMap.TileSet[marker.getTileX()][marker.getTileY()].isVisible())
-		    				floorMap.TileSet[marker.getTileX()][marker.getTileY()].setVisible(true);
-		    			floorMap.TileSet[marker.getTileX()][marker.getTileY()].setSkin(nextSkin);
+		    			if (!world.floorMap.TileSet[marker.getTileX()][marker.getTileY()].isVisible())
+		    				world.floorMap.TileSet[marker.getTileX()][marker.getTileY()].setVisible(true);
+		    			world.floorMap.TileSet[marker.getTileX()][marker.getTileY()].setSkin(nextSkin);
 		    			break;
 		    		case LEVEL_WALL:
-		    			currentSkin = wallMap.TileSet[marker.getTileX()][marker.getTileY()].getSkin();
+		    			currentSkin = world.wallMap.TileSet[marker.getTileX()][marker.getTileY()].getSkin();
 		    			nextSkin = currentSkin - 1;
 		    			if (nextSkin < 0 )
 		    				nextSkin = tileSkins.length-1;
-		    			if (!wallMap.TileSet[marker.getTileX()][marker.getTileY()].isVisible())
-		    				wallMap.TileSet[marker.getTileX()][marker.getTileY()].setVisible(true);
-		    			wallMap.TileSet[marker.getTileX()][marker.getTileY()].setSkin(nextSkin);
+		    			if (!world.wallMap.TileSet[marker.getTileX()][marker.getTileY()].isVisible())
+		    				world.wallMap.TileSet[marker.getTileX()][marker.getTileY()].setVisible(true);
+		    			world.wallMap.TileSet[marker.getTileX()][marker.getTileY()].setSkin(nextSkin);
 		    			break;
 		    		}
 		    		keyLastProcessed=System.currentTimeMillis();
@@ -156,10 +165,10 @@ public class Level1 extends JPanel implements ActionListener{
 		    	if(System.currentTimeMillis()-keyLastProcessed>KEY_DELAY){
 		    		switch(marker.getLevel()){
 		    		case LEVEL_FLOOR: 
-		    			floorMap.TileSet[marker.getTileX()][marker.getTileY()].toggleVisibility();
+		    			world.floorMap.TileSet[marker.getTileX()][marker.getTileY()].toggleVisibility();
 		    			break;
 		    		case LEVEL_WALL:
-		    			wallMap.TileSet[marker.getTileX()][marker.getTileY()].toggleVisibility();
+		    			world.wallMap.TileSet[marker.getTileX()][marker.getTileY()].toggleVisibility();
 		    			break;
 		    		}
 		    		keyLastProcessed=System.currentTimeMillis();
@@ -182,23 +191,67 @@ public class Level1 extends JPanel implements ActionListener{
 		        	marker.keyPressed(e);
 		        	
 		        	switch(key){
-		        	case KeyEvent.VK_Z:
+		        	case KeyEvent.VK_Z:						//next tile
 		        		nextTile();
 		        		break;
-		        	case KeyEvent.VK_X:
+		        	case KeyEvent.VK_X:						//previous tile
 		        		previousTile();
 		        		break;
-		        	case KeyEvent.VK_DELETE:
+		        	case KeyEvent.VK_DELETE:				//toggle tile visibility		
 		        		hideTile();
 		        		break;
-		        	case KeyEvent.VK_PAGE_UP:
+		        	case KeyEvent.VK_PAGE_UP:				//edit wall map
 		        		marker.changeLevel(LEVEL_WALL);
 		        		break;
-		        	case KeyEvent.VK_PAGE_DOWN:
+		        	case KeyEvent.VK_PAGE_DOWN:				//edit floor map
 		        		marker.changeLevel(LEVEL_FLOOR);
+		        		break;
+		        	case KeyEvent.VK_F11:					//load world
+		        		try {
+							loadWorld();
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+		        		break;
+		        	case KeyEvent.VK_F12:					//save world
+		        		try {
+							saveWorld();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 		        		break;
 		        	}
 		        }
+		    }
+		    
+		    //file handling
+		    public void saveWorld() throws IOException{
+		    	int n = JOptionPane.showConfirmDialog(null, "Save current world?", "Save Dialog", JOptionPane.YES_NO_OPTION);
+		    	if(n == JOptionPane.YES_OPTION){
+		    		FileOutputStream saveFile = new FileOutputStream("world.wld");
+		    		ObjectOutputStream saveObject = new ObjectOutputStream(saveFile);
+		    		saveObject.writeObject(world);
+		    		saveFile.close();
+		    		saveObject.close();
+		    	}
+				
+			}
+		    
+		    public void loadWorld() throws IOException, ClassNotFoundException{
+		    	int n = JOptionPane.showConfirmDialog(null, "Load previously saved world?", "Load Dialog", JOptionPane.YES_NO_OPTION);
+		    	if(n == JOptionPane.YES_OPTION){
+		    		FileInputStream loadFile = new FileInputStream("world.wld");
+		    		ObjectInputStream loadObject = new ObjectInputStream(loadFile);
+		    		world = (World) loadObject.readObject();
+		    		loadFile.close();
+		    		loadObject.close();
+		    		repaint();
+		    	}
 		    }
 		   
 

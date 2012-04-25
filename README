@@ -2,8 +2,12 @@ Java game
 
 Controls:
 	Up, Down, Left, Right - Move Entity
+	
 	W, A, S, D - Move tile marker
 	Z, X - Change tile
 	DEL - Hide tile
 	PGUP - Edit wall map
 	PGDWN - Edit floor map
+	
+	F11 - Load current world
+	F12 - Save previous save

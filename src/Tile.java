@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -8,7 +10,7 @@
  *
  * @author LosOjos
  */
-public class Tile {
+public class Tile implements Serializable {
     
     // initialize Tile fields
     private boolean destructible;

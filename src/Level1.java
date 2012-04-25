@@ -88,7 +88,7 @@ public class Level1 extends JPanel implements ActionListener{
 				world.wallMap.draw(g2d, tileSkins, xOffset, yOffset, this);
 		        
 				//draw entity
-				g2d.drawImage(entity.getImage(), entity.getX(), entity.getY(), this);
+				g2d.drawImage(entity.getImage(), entity.getX() - (xOffset * 32), entity.getY() - (yOffset * 32), this);
 				
 		        //draw tile marker
 		        g.setColor(marker.getColor());

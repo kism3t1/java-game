@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
-public class Entity {
+public class Enemy {
 
     private String entity = "Images/entity.png";
 
@@ -12,20 +12,16 @@ public class Entity {
     private int dy;
     private int x;
     private int y;
-    private int height;
-    private int width;
     private Image image;
     
-    Enemy en;
-    
 
-    public Entity() {
+    public Enemy() {
         ImageIcon ii = new ImageIcon(this.getClass().getResource(entity));
         image = ii.getImage();
         //width = image.getWidth(null); //dont think needed
         //height = image.getHeight(null);
-        x = 40;
-        y = 60;
+        x = 100;
+        y = 150;
     }
 
 
@@ -91,14 +87,4 @@ public class Entity {
         }
     }
     
-    /*public void checkCollisions(){
-    	//Rectangle r1 = Level1.getBounds();
-    	Rectangle r2 = getBounds();
-    	//Rectangle r3 = en.getBounds();
-    	
-    	if (r2.intersects()){
-    		System.out.println("COLLISION!");
-    	}
-    	}
-    	*/
 }

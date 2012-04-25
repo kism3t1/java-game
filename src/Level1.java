@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -33,6 +34,10 @@ public class Level1 extends JPanel implements ActionListener{
 		private Timer timer;
 	    private  Entity entity;
 	    private Marker marker;
+	    private Enemy enemy;
+	    //private int width;
+	    //private int height;
+	    
 	    
 	    private long keyLastProcessed;
 	    public static final int KEY_DELAY = 75;			//set delay in milliseconds between key strokes
@@ -60,6 +65,7 @@ public class Level1 extends JPanel implements ActionListener{
 
 	        entity = new Entity();
 	        marker = new Marker();
+	        enemy = new Enemy();
 	        world = new World("Default World", MAP_TILES_WIDE, MAP_TILES_HIGH);
             //floorMap = new Map(SCREEN_TILES_WIDE, SCREEN_TILES_HIGH, MAP_TILES_HIGH, MAP_TILES_WIDE, true);
             //wallMap = new Map(SCREEN_TILES_WIDE, SCREEN_TILES_HIGH, MAP_TILES_HIGH, MAP_TILES_WIDE, false);
@@ -68,7 +74,10 @@ public class Level1 extends JPanel implements ActionListener{
             tileSkins[1] = new ImageIcon(this.getClass().getResource("Images/grass.png")).getImage();
             tileSkins[2] = new ImageIcon(this.getClass().getResource("Images/stone.png")).getImage();
             tileSkins[3] = new ImageIcon(this.getClass().getResource("Images/tree.png")).getImage();
-
+           // width = tileSkins[4].getWidth(null); //for collision detection // dont think needed
+           // height = tileSkins[4].getHeight(null); //for collision detection
+            		
+            		
 	        timer = new Timer(10, this);
 	        timer.start();
 	    }
@@ -89,6 +98,7 @@ public class Level1 extends JPanel implements ActionListener{
 		        
 				//draw entity
 				g2d.drawImage(entity.getImage(), entity.getX() - (xOffset * 32), entity.getY() - (yOffset * 32), this);
+				g2d.drawImage(enemy.getImage(), enemy.getX() - (xOffset * 32), enemy.getY() - (yOffset * 32), this);
 				
 		        //draw tile marker
 		        g.setColor(marker.getColor());
@@ -105,6 +115,7 @@ public class Level1 extends JPanel implements ActionListener{
 		    	entity.move();
 		    	marker.move();
 		        repaint();  
+		    	//entity.checkCollisions();
 		    }
 		    
 		    private void nextTile(){
@@ -176,6 +187,16 @@ public class Level1 extends JPanel implements ActionListener{
 		    		keyLastProcessed=System.currentTimeMillis();
 		    	}
 		    }
+		    
+		    public void checkCollisions(){	//Collision Detection
+		    	Rectangle r1 = enemy.getBounds();	//Get bounds if enemy
+		    	Rectangle r2 = getBounds();			//Get bounds of supposedly tiles?....
+		    	Rectangle r3 = entity.getBounds();	//Get bounds of entity
+		    	
+		    	if (r2.intersects(r3) || r3.intersects(r1)){	//Checks if entity collides with either a tile or an enemy
+		    		System.out.println("COLLISION!");			//Temporary prints out COLLISION
+		    	}
+		    	}
 
 
 		    private class TAdapter extends KeyAdapter {
@@ -184,6 +205,7 @@ public class Level1 extends JPanel implements ActionListener{
 		        
 		        	entity.keyReleased(e);
 		        	marker.keyReleased(e);
+		        	//entity.checkCollisions();
 		        }
 
 		        public void keyPressed(KeyEvent e) {
@@ -191,6 +213,8 @@ public class Level1 extends JPanel implements ActionListener{
 		        	
 		        	entity.keyPressed(e);
 		        	marker.keyPressed(e);
+		            checkCollisions();
+
 		        	
 		        	switch(key){
 		        	case KeyEvent.VK_Z:						//next tile
@@ -260,6 +284,8 @@ public class Level1 extends JPanel implements ActionListener{
 		    		repaint();
 		    	}
 		    }
-		   
+		    public Rectangle getBounds(){	//Get bounds for collision detection
+		    	return new Rectangle (getX(),getY(),32,32);
+		    }
 
 	}

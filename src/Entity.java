@@ -20,7 +20,7 @@ public class Entity {
         image = ii.getImage();
         x = 40;
         y = 60;
-        setSpeed(5);
+        speed = 5;;
     }
     
     public Entity(int x, int y) {
@@ -28,6 +28,7 @@ public class Entity {
         image = ii.getImage();
         this.x = x;
         this.y = y;
+        speed = 5;
     }
 
 

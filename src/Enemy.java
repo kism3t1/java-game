@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 
 public class Enemy {
 
-    private String entity = "Images/entity.png";
+    private String enemy = "Images/enemy.png";
 
     private int dx;
     private int dy;
@@ -15,7 +15,7 @@ public class Enemy {
     private Image image;
 
     public Enemy() {
-        ImageIcon ii = new ImageIcon(this.getClass().getResource(entity));
+        ImageIcon ii = new ImageIcon(this.getClass().getResource(enemy));
         image = ii.getImage();
         x = 40;
         y = 60;
@@ -23,7 +23,7 @@ public class Enemy {
     }
     
     public Enemy(int x, int y) {
-        ImageIcon ii = new ImageIcon(this.getClass().getResource(entity));
+        ImageIcon ii = new ImageIcon(this.getClass().getResource(enemy));
         image = ii.getImage();
         this.x = x;
         this.y = y;

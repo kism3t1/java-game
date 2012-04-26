@@ -54,9 +54,7 @@ public class Marker {
     			tileY += dy;
     		}
     			
-    		//calculate screen position of marker    		
-    		screenX = (tileX - Level1.xOffset) * 32;
-    		screenY = (tileY - Level1.yOffset) * 32;
+    		calculateScreenPos();
     		
     		keyLastProcessed= System.currentTimeMillis();
     	}
@@ -117,6 +115,12 @@ public class Marker {
     		color = Color.GREEN;
     		break;
     	}
+    }
+    
+    private void calculateScreenPos(){
+    	//calculate screen position of marker    		
+		screenX = (tileX - Level1.xOffset) * 32;
+		screenY = (tileY - Level1.yOffset) * 32;
     }
 
     public void keyPressed(KeyEvent e) {

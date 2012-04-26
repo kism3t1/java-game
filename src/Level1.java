@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -24,10 +26,10 @@ import javax.swing.Timer;
 
 	
 @SuppressWarnings("serial")
-public class Level1 extends JPanel implements ActionListener{
+public class Level1 extends JPanel implements ActionListener, MouseListener{
                 
 		public static World world;
-		Image[] tileSkins;
+		private Image[] tileSkins;
 		
 		private Timer timer;
 	    private Entity entity;
@@ -59,6 +61,7 @@ public class Level1 extends JPanel implements ActionListener{
 	    
 	    public Level1 (){
 	        addKeyListener(new TAdapter());
+	        addMouseListener(this);
 	        setFocusable(true);
 	        setDoubleBuffered(true);
 
@@ -327,5 +330,48 @@ public class Level1 extends JPanel implements ActionListener{
 		    		repaint();
 		    	}
 		    }
+
+
+			@Override
+			public void mouseClicked(MouseEvent m) {
+				// TODO Auto-generated method stub
+				for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
+					for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
+						if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
+							marker.setTileX(x);
+							marker.setTileY(y);
+						}
+					}
+				}
+			}
+			
+
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
 
 	}

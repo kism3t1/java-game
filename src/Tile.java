@@ -1,3 +1,4 @@
+import java.awt.Rectangle;
 import java.io.Serializable;
 
 /*
@@ -10,6 +11,8 @@ import java.io.Serializable;
  *
  * @author LosOjos
  */
+
+@SuppressWarnings("serial")
 public class Tile implements Serializable {
     
     // initialize Tile fields
@@ -19,6 +22,9 @@ public class Tile implements Serializable {
     
     private int skin;
     private int health;
+    
+    private int x;
+    private int y;
     
     public Tile(){      //default constructor with default values
         skin = 0;
@@ -53,6 +59,10 @@ public class Tile implements Serializable {
         wall = isWall;
     }
     
+    public void toggleWall(){
+    	wall = !wall;
+    }
+    
     public boolean isVisible(){     //returns visible field
         return visible;
     }
@@ -81,10 +91,35 @@ public class Tile implements Serializable {
         skin = iSkin;
     }
     
-    public int damage(byte bDamage){       //inflicts damage to tile
+    public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+	
+	public void setPos(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+
+	public int damage(byte bDamage){       //inflicts damage to tile
         if(destructible){
             health -= bDamage;
         }
         return health;
+    }
+	
+	public Rectangle getBounds(){	//Get bounds for collision detection
+    	return new Rectangle (x,y,32,32); //32, 32 size of tile
     }
 }

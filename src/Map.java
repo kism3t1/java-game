@@ -13,6 +13,8 @@ import java.io.Serializable;
  *
  * @author LosOjos
  */
+
+@SuppressWarnings("serial")
 public class Map implements Serializable{
     
     // initialize Map fields
@@ -25,7 +27,7 @@ public class Map implements Serializable{
     
     Tile[][] TileSet;       //array to hold tiles and form level map
     
-    public Map(int screenWidth, int screenHeight, int setWidth, int setHeight, boolean isVisible){        //Map constructor
+    public Map(int screenWidth, int screenHeight, int setWidth, int setHeight, boolean isVisible, boolean isWall){        //Map constructor
         width = setWidth;
         height = setHeight;
         screen_width = screenWidth;
@@ -36,6 +38,7 @@ public class Map implements Serializable{
             for(int y=0; y<height; y++){
                 TileSet[x][y] = new Tile();
                 TileSet[x][y].setVisible(isVisible);
+                TileSet[x][y].setWall(isWall);
             }
         }
     }
@@ -60,7 +63,8 @@ public class Map implements Serializable{
         for(int x=xOffset; x<screen_width+xOffset; x++){
             for(int y=yOffset; y<screen_height+yOffset; y++){
                 if(TileSet[x][y].isVisible()){
-                    g.drawImage(TileSkins[TileSet[x][y].getSkin()], (x - xOffset) * 32, (y - yOffset) * 32, iObserver);
+                	TileSet[x][y].setPos((x - xOffset) * 32, (y - yOffset) * 32);
+                    g.drawImage(TileSkins[TileSet[x][y].getSkin()], TileSet[x][y].getX(), TileSet[x][y].getY(), iObserver);
                 }
             }
         }

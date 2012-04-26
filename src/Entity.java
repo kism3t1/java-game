@@ -12,20 +12,22 @@ public class Entity {
     private int dy;
     private int x;
     private int y;
-    private int height;
-    private int width;
+    private int speed;
     private Image image;
-    
-    Enemy en;
-    
 
     public Entity() {
         ImageIcon ii = new ImageIcon(this.getClass().getResource(entity));
         image = ii.getImage();
-        //width = image.getWidth(null); //dont think needed
-        //height = image.getHeight(null);
         x = 40;
         y = 60;
+        setSpeed(5);
+    }
+    
+    public Entity(int x, int y) {
+        ImageIcon ii = new ImageIcon(this.getClass().getResource(entity));
+        image = ii.getImage();
+        this.x = x;
+        this.y = y;
     }
 
 
@@ -42,7 +44,15 @@ public class Entity {
         return y;
     }
 
-    public Image getImage() {
+    public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	public Image getImage() {
         return image;
     }
     
@@ -55,19 +65,19 @@ public class Entity {
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
-            dx = -1;
+            dx = -speed;
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-            dx = 1;
+            dx = speed;
         }
 
         if (key == KeyEvent.VK_UP) {
-            dy = -1;
+            dy = -speed;
         }
 
         if (key == KeyEvent.VK_DOWN) {
-            dy = 1;
+            dy = speed;
         }
     }
 

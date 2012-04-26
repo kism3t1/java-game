@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-
+@SuppressWarnings("serial")
 public class World implements Serializable{
 
 	public Map floorMap;
@@ -15,8 +15,8 @@ public class World implements Serializable{
 		this.setWidth(width);
 		this.setHeight(height);
 		
-        floorMap = new Map(Level1.SCREEN_TILES_WIDE, Level1.SCREEN_TILES_HIGH, width, height, true);
-        wallMap = new Map(Level1.SCREEN_TILES_WIDE, Level1.SCREEN_TILES_HIGH, width, height, false);
+        floorMap = new Map(Level1.SCREEN_TILES_WIDE, Level1.SCREEN_TILES_HIGH, width, height, true, false);
+        wallMap = new Map(Level1.SCREEN_TILES_WIDE, Level1.SCREEN_TILES_HIGH, width, height, false, true);
 	}
 
 	public String getTitle() {

@@ -9,11 +9,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -26,18 +26,13 @@ import javax.swing.Timer;
 @SuppressWarnings("serial")
 public class Level1 extends JPanel implements ActionListener{
                 
-		//Map floorMap;
-		//Map wallMap;
 		World world;
 		Image[] tileSkins;
 		
 		private Timer timer;
-	    private  Entity entity;
-	    private Marker marker;
-	    private Enemy enemy;
-	    //private int width;
-	    //private int height;
-	    
+	    private Entity entity;
+	    private ArrayList<Entity> enemy = new ArrayList<Entity>();
+	    private Marker marker;  
 	    
 	    private long keyLastProcessed;
 	    public static final int KEY_DELAY = 75;			//set delay in milliseconds between key strokes
@@ -63,20 +58,20 @@ public class Level1 extends JPanel implements ActionListener{
 	        setFocusable(true);
 	        setDoubleBuffered(true);
 
+	        world = new World("Default World", MAP_TILES_WIDE, MAP_TILES_HIGH);
 	        entity = new Entity();
 	        marker = new Marker();
-	        enemy = new Enemy();
-	        world = new World("Default World", MAP_TILES_WIDE, MAP_TILES_HIGH);
-            //floorMap = new Map(SCREEN_TILES_WIDE, SCREEN_TILES_HIGH, MAP_TILES_HIGH, MAP_TILES_WIDE, true);
-            //wallMap = new Map(SCREEN_TILES_WIDE, SCREEN_TILES_HIGH, MAP_TILES_HIGH, MAP_TILES_WIDE, false);
+	        
+	        for (int i=0; i < 10; i++){			//create 10 enemies at random positions on map
+	        	enemy.add(new Entity(32 + (int)(Math.random() * (world.floorMap.getWidth() * 32) - 32), 
+	        			32 + (int)(Math.random() * (world.floorMap.getHeight() * 32) - 32)));
+	        }
+	        
             tileSkins = new Image[4];
             tileSkins[0] = new ImageIcon(this.getClass().getResource("Images/dirt.png")).getImage();
             tileSkins[1] = new ImageIcon(this.getClass().getResource("Images/grass.png")).getImage();
             tileSkins[2] = new ImageIcon(this.getClass().getResource("Images/stone.png")).getImage();
-            tileSkins[3] = new ImageIcon(this.getClass().getResource("Images/tree.png")).getImage();
-           // width = tileSkins[4].getWidth(null); //for collision detection // dont think needed
-           // height = tileSkins[4].getHeight(null); //for collision detection
-            		
+            tileSkins[3] = new ImageIcon(this.getClass().getResource("Images/tree.png")).getImage();         		
             		
 	        timer = new Timer(10, this);
 	        timer.start();
@@ -98,7 +93,12 @@ public class Level1 extends JPanel implements ActionListener{
 		        
 				//draw entity
 				g2d.drawImage(entity.getImage(), entity.getX() - (xOffset * 32), entity.getY() - (yOffset * 32), this);
-				g2d.drawImage(enemy.getImage(), enemy.getX() - (xOffset * 32), enemy.getY() - (yOffset * 32), this);
+				
+				//draw enemies
+				for(int i = 0; i < enemy.size(); i++){
+					g2d.drawImage(enemy.get(i).getImage(), enemy.get(i).getX() - (xOffset * 32), enemy.get(i).getY() - (yOffset * 32), this);
+				}
+				
 				
 		        //draw tile marker
 		        g.setColor(marker.getColor());
@@ -189,14 +189,32 @@ public class Level1 extends JPanel implements ActionListener{
 		    }
 		    
 		    public void checkCollisions(){	//Collision Detection
-		    	Rectangle r1 = enemy.getBounds();	//Get bounds if enemy
-		    	Rectangle r2 = getBounds();			//Get bounds of supposedly tiles?....
-		    	Rectangle r3 = entity.getBounds();	//Get bounds of entity
+		    	Rectangle r1 = entity.getBounds();	//Get bounds of entity
+		    	Rectangle r2;
 		    	
-		    	if (r2.intersects(r3) || r3.intersects(r1)){	//Checks if entity collides with either a tile or an enemy
-		    		System.out.println("COLLISION!");			//Temporary prints out COLLISION
+		    	//check collision with enemies
+		    	for(int i=0; i < enemy.size(); i++){
+		    		r2 = enemy.get(i).getBounds();	//Get bounds if enemy
+
+		    		if (r1.intersects(r2)){	//Checks if entity collides with an enemy
+		    			System.out.println("ENEMY COLLISION!");			//Temporary prints out ENEMY COLLISION
+		    		}
 		    	}
+		    	
+		    	//check for tile collision
+		    	for(int x = 0; x < world.getWidth(); x++){
+		    		for (int y = 0; y < world.getHeight(); y++){
+		    			if (world.wallMap.TileSet[x][y].isWall()
+		    					&& world.wallMap.TileSet[x][y].isVisible()){			//no need to check for collision if it isn't a wall
+		    				r2 = world.wallMap.TileSet[x][y].getBounds();
+
+		    				if (r1.intersects(r2)){								//Checks if entity collides with a tile
+		    					System.out.println("TILE COLLISION!");			//Temporary prints out ENEMY COLLISION
+		    				}
+		    			}
+		    		}
 		    	}
+		    }
 
 
 		    private class TAdapter extends KeyAdapter {
@@ -283,9 +301,6 @@ public class Level1 extends JPanel implements ActionListener{
 		    		loadFile.close();
 		    		repaint();
 		    	}
-		    }
-		    public Rectangle getBounds(){	//Get bounds for collision detection
-		    	return new Rectangle (getX(),getY(),32,32);
 		    }
 
 	}

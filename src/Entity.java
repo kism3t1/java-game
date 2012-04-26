@@ -48,6 +48,12 @@ public class Entity {
     public int getY() {
         return y;
     }
+    
+    public void setPos(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
 
     public int getSpeed() {
 		return speed;
@@ -62,7 +68,7 @@ public class Entity {
     }
     
     public Rectangle getBounds(){	//Get bounds for collision detection
-    	return new Rectangle (x,y,22,32); //22, 32 size of tile
+    	return new Rectangle (x,y, image.getWidth(null), image.getHeight(null)); //22, 32 size of tile
     }
 
     public void keyPressed(KeyEvent e) {
@@ -113,7 +119,7 @@ public class Entity {
     	
     	//check collision with enemies
     	for(int i=0; i < Level1.enemy.size(); i++){
-    		r2 = Level1.enemy.get(i).getBounds();	//Get bounds if enemy
+    		r2 = Level1.enemy.get(i).getBounds();	//Get bounds of enemy
 
     		if (r1.intersects(r2)){	//Checks if entity collides with an enemy
     			collision = true;
@@ -121,13 +127,13 @@ public class Entity {
     	}
     	
     	//check for tile collision
-    	for(int x = 0; x < Level1.world.getWidth(); x++){
-    		for (int y = 0; y < Level1.world.getHeight(); y++){
+    	for(int x = Level1.xOffset; x < Level1.SCREEN_TILES_WIDE + Level1.xOffset; x++){
+    		for (int y = Level1.yOffset; y < Level1.SCREEN_TILES_HIGH + Level1.yOffset; y++){
     			if (Level1.world.wallMap.TileSet[x][y].isWall()
     					&& Level1.world.wallMap.TileSet[x][y].isVisible()){			//no need to check for collision if it isn't a wall
     				r2 = Level1.world.wallMap.TileSet[x][y].getBounds();
 
-    				if (r1.intersects(r2)){								//Checks if entity collides with a tile
+    				if (r1.intersects(r2)){		//Checks if entity collides with a tile
     					collision = true;
     				}
     			}

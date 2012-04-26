@@ -2,7 +2,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -43,6 +42,8 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 	    //tile offset for scrolling
 	    public static int xOffset = 0;
 	    public static int yOffset = 0;
+	    public static int prevXOffset = 0;
+	    public static int prevYOffset = 0;
 	    
 	    //environment options
 	    private boolean exclusiveLayer = false;			//show only current editing layer
@@ -66,6 +67,17 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 	        setDoubleBuffered(true);
 
 	        world = new World("Default World", MAP_TILES_WIDE, MAP_TILES_HIGH);
+	        
+	        try {
+				loadWorld(false);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
 	        entity = new Entity();
 	        marker = new Marker();
 	        
@@ -109,12 +121,24 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 		        	world.wallMap.draw(g2d, tileSkins, xOffset, yOffset, this);
 		        }
 		        
+		        //move enemies and entity for scrolling effect
+		        if(xOffset != prevXOffset || yOffset != prevYOffset)
+		        {
+		        	entity.setPos(entity.getX() - ((xOffset - prevXOffset) * 32), entity.getY() - ((yOffset - prevYOffset) * 32));
+		        	
+		        	for(int i = 0; i < enemy.size(); i++){
+		        		enemy.get(i).setPos(enemy.get(i).getX() - ((xOffset - prevXOffset) * 32), enemy.get(i).getY() - ((yOffset - prevYOffset) * 32));
+					}
+		        }
+		        prevXOffset = xOffset;
+		        prevYOffset = yOffset;
+		        
 				//draw entity
-				g2d.drawImage(entity.getImage(), entity.getX() - (xOffset * 32), entity.getY() - (yOffset * 32), this);
+				g2d.drawImage(entity.getImage(), entity.getX(), entity.getY(), this);
 				
 				//draw enemies
 				for(int i = 0; i < enemy.size(); i++){
-					g2d.drawImage(enemy.get(i).getImage(), enemy.get(i).getX() - (xOffset * 32), enemy.get(i).getY() - (yOffset * 32), this);
+					g2d.drawImage(enemy.get(i).getImage(), enemy.get(i).getX(), enemy.get(i).getY(), this);
 				}
 				
 				
@@ -133,7 +157,6 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 		    	entity.move();
 		    	marker.move();
 		        repaint();  
-		    	//entity.checkCollisions();
 		    }
 		    
 		    private void nextTile(){
@@ -212,34 +235,6 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 		    		keyLastProcessed=System.currentTimeMillis();
 		    	}
 		    }
-		    
-		    public void checkCollisions(){	//Collision Detection
-		    	Rectangle r1 = entity.getBounds();	//Get bounds of entity
-		    	Rectangle r2;
-		    	
-		    	//check collision with enemies
-		    	for(int i=0; i < enemy.size(); i++){
-		    		r2 = enemy.get(i).getBounds();	//Get bounds if enemy
-
-		    		if (r1.intersects(r2)){	//Checks if entity collides with an enemy
-		    			System.out.println("ENEMY COLLISION!");			//Temporary prints out ENEMY COLLISION
-		    		}
-		    	}
-		    	
-		    	//check for tile collision
-		    	for(int x = 0; x < world.getWidth(); x++){
-		    		for (int y = 0; y < world.getHeight(); y++){
-		    			if (world.wallMap.TileSet[x][y].isWall()
-		    					&& world.wallMap.TileSet[x][y].isVisible()){			//no need to check for collision if it isn't a wall
-		    				r2 = world.wallMap.TileSet[x][y].getBounds();
-
-		    				if (r1.intersects(r2)){								//Checks if entity collides with a tile
-		    					System.out.println("TILE COLLISION!");			//Temporary prints out ENEMY COLLISION
-		    				}
-		    			}
-		    		}
-		    	}
-		    }
 
 
 		    private class TAdapter extends KeyAdapter {
@@ -248,7 +243,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 		        
 		        	entity.keyReleased(e);
 		        	marker.keyReleased(e);
-		        	//entity.checkCollisions();
+		        	
 		        }
 
 		        public void keyPressed(KeyEvent e) {
@@ -256,8 +251,6 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 		        	
 		        	entity.keyPressed(e);
 		        	marker.keyPressed(e);
-		            checkCollisions();
-
 		        	
 		        	switch(key){
 		        	case KeyEvent.VK_Z:						//next tile
@@ -280,7 +273,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 		        		break;
 		        	case KeyEvent.VK_F11:					//load world
 		        		try {
-							loadWorld();
+							loadWorld(false);
 						} catch (ClassNotFoundException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -317,9 +310,11 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 				
 			}
 		    
-		    public void loadWorld() throws IOException, ClassNotFoundException{
-		    	int n = JOptionPane.showConfirmDialog(null, "Load previously saved world?", "Load Dialog", JOptionPane.YES_NO_OPTION);
-		    	if(n == JOptionPane.YES_OPTION){
+		    public void loadWorld(boolean confirm) throws IOException, ClassNotFoundException{
+		    	int n = 0;
+		    	if(confirm)
+		    		n = JOptionPane.showConfirmDialog(null, "Load previously saved world?", "Load Dialog", JOptionPane.YES_NO_OPTION);
+		    	if(n == JOptionPane.YES_OPTION || !confirm){
 		    		FileInputStream loadFile = new FileInputStream("world.wld");
 		    		GZIPInputStream gzipFile = new GZIPInputStream(loadFile);
 		    		ObjectInputStream loadObject = new ObjectInputStream(gzipFile);
@@ -334,7 +329,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 
 			@Override
 			public void mouseClicked(MouseEvent m) {
-				// TODO Auto-generated method stub
+				// TODO Add drag to select
 				for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
 					for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
 						if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
@@ -349,28 +344,24 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 

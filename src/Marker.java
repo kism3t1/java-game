@@ -20,6 +20,8 @@ public class Marker {
         level = 0;
         firstTileX = 0;
         firstTileY = 0;
+        lastTileX = 0;
+        lastTileY = 0;
         screenX = 0;
         screenY = 0;
         color = Color.GREEN;
@@ -28,6 +30,8 @@ public class Marker {
     public Marker(int tileX, int tileY, int level, Color color){
     	firstTileX = tileX;
     	firstTileY = tileY;
+    	lastTileX = tileX;
+        lastTileY = tileY;
     	this.level = level;
     	this.color = color;
     }
@@ -36,28 +40,30 @@ public class Marker {
     public void move() {
     	if (System.currentTimeMillis() - keyLastProcessed > Level1.KEY_DELAY){
     		//check marker is within bounds of tileset
-    		if (firstTileX + dx >= 0 && firstTileX + dx < Level1.MAP_TILES_WIDE){			
+    		if (firstTileX + dx >= 0 && lastTileX + dx < Level1.MAP_TILES_WIDE){			
     			
     			//calculate scrolling offset
-    			if (firstTileX + dx >= Level1.SCREEN_TILES_WIDE + Level1.xOffset || 
+    			if (lastTileX + dx >= Level1.SCREEN_TILES_WIDE + Level1.xOffset || 
     					(firstTileX + dx < Level1.xOffset && Level1.xOffset > 0))
     				Level1.xOffset += dx;
     			
     			firstTileX += dx;
+    			lastTileX += dx;
+    			//lastTileX = firstTileX;
     		}
     		
     		//check marker is within bounds of tileset
-    		if (firstTileY + dy >= 0 && firstTileY + dy < Level1.MAP_TILES_HIGH){
+    		if (firstTileY + dy >= 0 && lastTileY + dy < Level1.MAP_TILES_HIGH){
     	
     			//calculate scrolling offset
-    			if (firstTileY + dy >= Level1.SCREEN_TILES_HIGH + Level1.yOffset || 
+    			if (lastTileY + dy >= Level1.SCREEN_TILES_HIGH + Level1.yOffset || 
     					(firstTileY + dy < Level1.yOffset && Level1.yOffset > 0))
     				Level1.yOffset += dy;
     			
     			firstTileY += dy;
+    			lastTileY += dy;
+    			//lastTileY = firstTileY;
     		}
-    			
-    		calculateScreenPos();
     		
     		keyLastProcessed= System.currentTimeMillis();
     	}
@@ -66,6 +72,15 @@ public class Marker {
     public void selectRange(int startTileX, int startTileY, int lastTileX, int lastTileY){
     	this.firstTileX = startTileX;
     	this.firstTileY = startTileY;
+    	this.lastTileX = lastTileX;
+    	this.lastTileY = lastTileY;
+    }
+    
+    public void selectRange(Point startPoint, Point endPoint){
+    	this.firstTileX = (int)startPoint.getX();
+    	this.firstTileY = (int)startPoint.getY();
+    	this.lastTileX = (int)endPoint.getX();
+    	this.lastTileY = (int)endPoint.getY();
     }
 
     public int getFirstTileX() {
@@ -103,15 +118,25 @@ public class Marker {
 	public void setSelectionStart(Point p){
 		firstTileX = (int)p.getX();
 		firstTileY = (int)p.getY();
-		calculateScreenPos();
+	}
+	
+	public void setSelectionStart(int tileX, int tileY){
+		firstTileX = tileX;
+		firstTileY = tileY;
 	}
 	
 	public void setSelectionEnd(Point p){
 		lastTileX = (int)p.getX();
 		lastTileY = (int)p.getY();
 	}
+	
+	public void setSelectionEnd(int tileX, int tileY){
+		lastTileX = tileX;
+		lastTileY = tileY;
+	}
 
 	public int getScreenX() {
+		calculateScreenPos();
 		return screenX;
 	}
 
@@ -120,6 +145,7 @@ public class Marker {
 	}
 
 	public int getScreenY() {
+		calculateScreenPos();
 		return screenY;
 	}
 
@@ -198,5 +224,7 @@ public class Marker {
         	dy = 0;
         	break;
         }
+        
+        keyLastProcessed = System.currentTimeMillis() - Level1.KEY_DELAY;
     }
 }

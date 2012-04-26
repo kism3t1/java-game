@@ -9,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -26,7 +27,7 @@ import javax.swing.Timer;
 
 	
 @SuppressWarnings("serial")
-public class Level1 extends JPanel implements ActionListener, MouseListener{
+public class Level1 extends JPanel implements ActionListener, MouseListener, MouseMotionListener{
                 
 		public static World world;
 		private Image[] tileSkins;
@@ -61,9 +62,11 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 	    public static final int MAP_TILES_HIGH = 100;
 	    public static final int MAP_TILES_WIDE = 100;
 	    
+	    
 	    public Level1 (){
 	        addKeyListener(new TAdapter());
 	        addMouseListener(this);
+	        addMouseMotionListener(this);
 	        setFocusable(true);
 	        setDoubleBuffered(true);
 
@@ -137,14 +140,28 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 				
 				
 		        //draw tile marker
+				if(marker.getFirstTileX() > marker.getLastTileX()){
+					int x = marker.getFirstTileX();
+					marker.setFirstTileX(marker.getLastTileX());
+					marker.setLastTileX(x);
+				}
+				if(marker.getFirstTileY() > marker.getLastTileY()){
+					int y = marker.getFirstTileY();
+					marker.setFirstTileY(marker.getLastTileY());
+					marker.setLastTileY(y);
+				}
 		        g.setColor(marker.getColor());
-		        g2d.draw(new Rectangle2D.Double(marker.getScreenX(), marker.getScreenY(), 32, 32));
+		        g2d.draw(new Rectangle2D.Double(marker.getScreenX(), marker.getScreenY(), 
+		        		32 * (Math.abs(marker.getFirstTileX() - marker.getLastTileX()) + 1), 
+		        		32 * (Math.abs(marker.getFirstTileY() - marker.getLastTileY()) + 1)));
 		        
 		        //write debug info
 		        g.setColor(Color.BLACK);
 		        g.drawString("X = "+entity.getX()+"Y = "+entity.getY(),20,20);
-		        g.drawString("Tile X,Y: " + marker.getFirstTileX() + "," + marker.getFirstTileY(), 20, 40);
-		    }
+		        g.drawString("Tile X,Y:X,Y = " + 
+		        		marker.getFirstTileX() + "," + marker.getFirstTileY() + ":" +
+		        		marker.getLastTileX() + "," + marker.getLastTileY(), 20, 40);
+		        }
 
 
 		    public void actionPerformed(ActionEvent e) {
@@ -164,9 +181,14 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 		    		nextSkin = currentSkin + 1;
 		    		if (nextSkin == tileSkins.length)
 		    			nextSkin = 0;
-		    		if (!m.TileSet[marker.getFirstTileX()][marker.getFirstTileY()].isVisible())
-		    			m.TileSet[marker.getFirstTileX()][marker.getFirstTileY()].setVisible(true);
-		    		m.TileSet[marker.getFirstTileX()][marker.getFirstTileY()].setSkin(nextSkin);
+		    		
+		    		for(int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++){
+		    			for(int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++){
+		    				if (!m.TileSet[x][y].isVisible())
+				    			m.TileSet[x][y].setVisible(true);
+				    		m.TileSet[x][y].setSkin(nextSkin);
+		    			}
+		    		}
 
 		    		writeCurrentMap(m);
 		    		
@@ -185,9 +207,14 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 	    			nextSkin = currentSkin - 1;
 	    			if (nextSkin < 0)
 	    				nextSkin = tileSkins.length-1;
-	    			if (!m.TileSet[marker.getFirstTileX()][marker.getFirstTileY()].isVisible())
-	    				m.TileSet[marker.getFirstTileX()][marker.getFirstTileY()].setVisible(true);
-	    			m.TileSet[marker.getFirstTileX()][marker.getFirstTileY()].setSkin(nextSkin);
+
+	    			for(int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++){
+	    				for(int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++){
+	    					if (!m.TileSet[x][y].isVisible())
+	    						m.TileSet[x][y].setVisible(true);
+	    					m.TileSet[x][y].setSkin(nextSkin);
+	    				}
+	    			}
 	    			
 	    			writeCurrentMap(m);
 	    			
@@ -198,7 +225,12 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 		    private void hideTile(){
 		    	if(System.currentTimeMillis()-keyLastProcessed>KEY_DELAY){
 		    		Map m = readCurrentMap();
-		    		m.TileSet[marker.getFirstTileX()][marker.getFirstTileY()].toggleVisibility();
+
+		    		for(int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++){
+		    			for(int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++){
+		    				m.TileSet[x][y].toggleVisibility();
+		    			}
+		    		}
 		    		writeCurrentMap(m);
 		    		keyLastProcessed=System.currentTimeMillis();
 		    	}
@@ -334,8 +366,8 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 				for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
 					for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
 						if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
-							marker.setSelectionStart(new Point(x, y));
-							marker.setSelectionEnd(new Point(x, y));
+							marker.selectRange(new Point(x,y), new Point(x,y));
+							return;
 						}
 					}
 				}
@@ -357,13 +389,49 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 
 			@Override
 			public void mousePressed(MouseEvent m) {
-				marker.setSelectionStart(m.getPoint());
+				for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
+					for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
+						if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
+							marker.selectRange(new Point(x,y), new Point(x,y));
+							return;
+						}
+					}
+				}
 			}
 
 
 			@Override
 			public void mouseReleased(MouseEvent m) {
-				marker.setSelectionEnd(m.getPoint());
+				for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
+					for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
+						if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
+							marker.setSelectionEnd(new Point(x, y));
+							return;
+						}
+					}
+				}
+			}
+
+
+			@Override
+			public void mouseDragged(MouseEvent m) {
+				// TODO Auto-generated method stub
+				for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
+					for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
+						if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
+							marker.setSelectionEnd(new Point(x, y));
+							repaint();
+							return;
+						}
+					}
+				}
+			}
+
+
+			@Override
+			public void mouseMoved(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
 			}
 
 	}

@@ -62,7 +62,7 @@ public class Entity {
     }
     
     public Rectangle getBounds(){	//Get bounds for collision detection
-    	return new Rectangle (x,y,32,32); //32, 32 size of tile
+    	return new Rectangle (x,y,22,32); //22, 32 size of tile
     }
 
     public void keyPressed(KeyEvent e) {

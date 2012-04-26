@@ -9,5 +9,7 @@ Controls:
 	PGUP - Edit wall map
 	PGDWN - Edit floor map
 	
+	F8 - Toggle exclusive layer mode
+	
 	F11 - Load previous save
 	F12 - Save current world

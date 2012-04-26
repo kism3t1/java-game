@@ -34,6 +34,11 @@ public class Entity {
     public void move() {
         x += dx;
         y += dy;
+        
+        if(checkCollisions()){
+        	x -= dx;
+        	y -= dy;
+        }
     }
 
     public int getX() {
@@ -99,6 +104,36 @@ public class Entity {
         if (key == KeyEvent.VK_DOWN) {
             dy = 0;
         }
+    }
+    
+    private boolean checkCollisions(){	//Collision Detection
+    	boolean collision = false;
+    	Rectangle r1 = getBounds();	//Get bounds of entity
+    	Rectangle r2;
+    	
+    	//check collision with enemies
+    	for(int i=0; i < Level1.enemy.size(); i++){
+    		r2 = Level1.enemy.get(i).getBounds();	//Get bounds if enemy
+
+    		if (r1.intersects(r2)){	//Checks if entity collides with an enemy
+    			collision = true;
+    		}
+    	}
+    	
+    	//check for tile collision
+    	for(int x = 0; x < Level1.world.getWidth(); x++){
+    		for (int y = 0; y < Level1.world.getHeight(); y++){
+    			if (Level1.world.wallMap.TileSet[x][y].isWall()
+    					&& Level1.world.wallMap.TileSet[x][y].isVisible()){			//no need to check for collision if it isn't a wall
+    				r2 = Level1.world.wallMap.TileSet[x][y].getBounds();
+
+    				if (r1.intersects(r2)){								//Checks if entity collides with a tile
+    					collision = true;
+    				}
+    			}
+    		}
+    	}
+    	return collision;
     }
     
     /*public void checkCollisions(){

@@ -26,12 +26,13 @@ import javax.swing.Timer;
 @SuppressWarnings("serial")
 public class Level1 extends JPanel implements ActionListener{
                 
-		World world;
+		public static World world;
 		Image[] tileSkins;
 		
 		private Timer timer;
 	    private Entity entity;
-	    private ArrayList<Entity> enemy = new ArrayList<Entity>();
+	    
+	    static public ArrayList<Enemy> enemy = new ArrayList<Enemy>();
 	    private Marker marker;  
 	    
 	    private long keyLastProcessed;
@@ -40,6 +41,9 @@ public class Level1 extends JPanel implements ActionListener{
 	    //tile offset for scrolling
 	    public static int xOffset = 0;
 	    public static int yOffset = 0;
+	    
+	    //environment options
+	    private boolean exclusiveLayer = false;			//show only current editing layer
 	    
 	    //level numbers for handling floor and wall editing (should make it easier to keep track)
 	    private static final int LEVEL_FLOOR = 0;
@@ -63,7 +67,7 @@ public class Level1 extends JPanel implements ActionListener{
 	        marker = new Marker();
 	        
 	        for (int i=0; i < 10; i++){			//create 10 enemies at random positions on map
-	        	enemy.add(new Entity(32 + (int)(Math.random() * (world.floorMap.getWidth() * 32) - 32), 
+	        	enemy.add(new Enemy(32 + (int)(Math.random() * (world.floorMap.getWidth() * 32) - 32), 
 	        			32 + (int)(Math.random() * (world.floorMap.getHeight() * 32) - 32)));
 	        }
 	        
@@ -88,8 +92,19 @@ public class Level1 extends JPanel implements ActionListener{
 		        g2d.clearRect(0, 0, getSize().width, getSize().height);
 		        		               
 		        //draw maps
-		        world.floorMap.draw(g2d, tileSkins, xOffset, yOffset, this);
-				world.wallMap.draw(g2d, tileSkins, xOffset, yOffset, this);
+		        if(exclusiveLayer){
+		        	switch(marker.getLevel()){
+		        	case LEVEL_FLOOR:
+		        		world.floorMap.draw(g2d, tileSkins, xOffset, yOffset, this);
+		        		break;
+		        	case LEVEL_WALL:
+		        		world.wallMap.draw(g2d, tileSkins, xOffset, yOffset, this);
+		        		break;
+		        	}
+		        }else{
+		        	world.floorMap.draw(g2d, tileSkins, xOffset, yOffset, this);
+		        	world.wallMap.draw(g2d, tileSkins, xOffset, yOffset, this);
+		        }
 		        
 				//draw entity
 				g2d.drawImage(entity.getImage(), entity.getX() - (xOffset * 32), entity.getY() - (yOffset * 32), this);
@@ -188,6 +203,13 @@ public class Level1 extends JPanel implements ActionListener{
 		    	}
 		    }
 		    
+		    private void toggleExclusiveLayer(){
+		    	if(System.currentTimeMillis()-keyLastProcessed>KEY_DELAY){
+		    		exclusiveLayer = !exclusiveLayer;
+		    		keyLastProcessed=System.currentTimeMillis();
+		    	}
+		    }
+		    
 		    public void checkCollisions(){	//Collision Detection
 		    	Rectangle r1 = entity.getBounds();	//Get bounds of entity
 		    	Rectangle r2;
@@ -249,6 +271,9 @@ public class Level1 extends JPanel implements ActionListener{
 		        		break;
 		        	case KeyEvent.VK_PAGE_DOWN:				//edit floor map
 		        		marker.changeLevel(LEVEL_FLOOR);
+		        		break;
+		        	case KeyEvent.VK_F8:					//toggle exclusive layer mode
+		        		toggleExclusiveLayer();
 		        		break;
 		        	case KeyEvent.VK_F11:					//load world
 		        		try {

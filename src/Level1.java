@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -142,7 +143,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 		        //write debug info
 		        g.setColor(Color.BLACK);
 		        g.drawString("X = "+entity.getX()+"Y = "+entity.getY(),20,20);
-		        g.drawString("Tile X,Y: " + marker.getTileX() + "," + marker.getTileY(), 20, 40);
+		        g.drawString("Tile X,Y: " + marker.getFirstTileX() + "," + marker.getFirstTileY(), 20, 40);
 		    }
 
 
@@ -159,13 +160,13 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 		    	if(System.currentTimeMillis()-keyLastProcessed>KEY_DELAY){
 		    		Map m = readCurrentMap();
 
-		    		currentSkin = m.TileSet[marker.getTileX()][marker.getTileY()].getSkin();
+		    		currentSkin = m.TileSet[marker.getFirstTileX()][marker.getFirstTileY()].getSkin();
 		    		nextSkin = currentSkin + 1;
 		    		if (nextSkin == tileSkins.length)
 		    			nextSkin = 0;
-		    		if (!m.TileSet[marker.getTileX()][marker.getTileY()].isVisible())
-		    			m.TileSet[marker.getTileX()][marker.getTileY()].setVisible(true);
-		    		m.TileSet[marker.getTileX()][marker.getTileY()].setSkin(nextSkin);
+		    		if (!m.TileSet[marker.getFirstTileX()][marker.getFirstTileY()].isVisible())
+		    			m.TileSet[marker.getFirstTileX()][marker.getFirstTileY()].setVisible(true);
+		    		m.TileSet[marker.getFirstTileX()][marker.getFirstTileY()].setSkin(nextSkin);
 
 		    		writeCurrentMap(m);
 		    		
@@ -180,13 +181,13 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 		    	if(System.currentTimeMillis()-keyLastProcessed>KEY_DELAY){
 		    		Map m = readCurrentMap();
 		    		
-		    		currentSkin = m.TileSet[marker.getTileX()][marker.getTileY()].getSkin();
+		    		currentSkin = m.TileSet[marker.getFirstTileX()][marker.getFirstTileY()].getSkin();
 	    			nextSkin = currentSkin - 1;
 	    			if (nextSkin < 0)
 	    				nextSkin = tileSkins.length-1;
-	    			if (!m.TileSet[marker.getTileX()][marker.getTileY()].isVisible())
-	    				m.TileSet[marker.getTileX()][marker.getTileY()].setVisible(true);
-	    			m.TileSet[marker.getTileX()][marker.getTileY()].setSkin(nextSkin);
+	    			if (!m.TileSet[marker.getFirstTileX()][marker.getFirstTileY()].isVisible())
+	    				m.TileSet[marker.getFirstTileX()][marker.getFirstTileY()].setVisible(true);
+	    			m.TileSet[marker.getFirstTileX()][marker.getFirstTileY()].setSkin(nextSkin);
 	    			
 	    			writeCurrentMap(m);
 	    			
@@ -197,7 +198,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 		    private void hideTile(){
 		    	if(System.currentTimeMillis()-keyLastProcessed>KEY_DELAY){
 		    		Map m = readCurrentMap();
-		    		m.TileSet[marker.getTileX()][marker.getTileY()].toggleVisibility();
+		    		m.TileSet[marker.getFirstTileX()][marker.getFirstTileY()].toggleVisibility();
 		    		writeCurrentMap(m);
 		    		keyLastProcessed=System.currentTimeMillis();
 		    	}
@@ -333,8 +334,8 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 				for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
 					for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
 						if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
-							marker.setTileX(x);
-							marker.setTileY(y);
+							marker.setSelectionStart(new Point(x, y));
+							marker.setSelectionEnd(new Point(x, y));
 						}
 					}
 				}
@@ -355,14 +356,14 @@ public class Level1 extends JPanel implements ActionListener, MouseListener{
 
 
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				
+			public void mousePressed(MouseEvent m) {
+				marker.setSelectionStart(m.getPoint());
 			}
 
 
 			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				
+			public void mouseReleased(MouseEvent m) {
+				marker.setSelectionEnd(m.getPoint());
 			}
 
 	}

@@ -1,11 +1,14 @@
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 
 public class Marker {
     private int dx;
     private int dy;
-    private int tileX;
-    private int tileY;
+    private int firstTileX;
+    private int firstTileY;
+    private int lastTileX;
+    private int lastTileY;
     private int screenX;
     private int screenY;
     private int level;
@@ -15,16 +18,16 @@ public class Marker {
 
     public Marker() {
         level = 0;
-        tileX = 0;
-        tileY = 0;
+        firstTileX = 0;
+        firstTileY = 0;
         screenX = 0;
         screenY = 0;
         color = Color.GREEN;
     }
     
     public Marker(int tileX, int tileY, int level, Color color){
-    	this.tileX = tileX;
-    	this.tileY = tileY;
+    	firstTileX = tileX;
+    	firstTileY = tileY;
     	this.level = level;
     	this.color = color;
     }
@@ -33,25 +36,25 @@ public class Marker {
     public void move() {
     	if (System.currentTimeMillis() - keyLastProcessed > Level1.KEY_DELAY){
     		//check marker is within bounds of tileset
-    		if (tileX + dx >= 0 && tileX + dx < Level1.MAP_TILES_WIDE){			
+    		if (firstTileX + dx >= 0 && firstTileX + dx < Level1.MAP_TILES_WIDE){			
     			
     			//calculate scrolling offset
-    			if (tileX + dx >= Level1.SCREEN_TILES_WIDE + Level1.xOffset || 
-    					(tileX + dx < Level1.xOffset && Level1.xOffset > 0))
+    			if (firstTileX + dx >= Level1.SCREEN_TILES_WIDE + Level1.xOffset || 
+    					(firstTileX + dx < Level1.xOffset && Level1.xOffset > 0))
     				Level1.xOffset += dx;
     			
-    			tileX += dx;
+    			firstTileX += dx;
     		}
     		
     		//check marker is within bounds of tileset
-    		if (tileY + dy >= 0 && tileY + dy < Level1.MAP_TILES_HIGH){
+    		if (firstTileY + dy >= 0 && firstTileY + dy < Level1.MAP_TILES_HIGH){
     	
     			//calculate scrolling offset
-    			if (tileY + dy >= Level1.SCREEN_TILES_HIGH + Level1.yOffset || 
-    					(tileY + dy < Level1.yOffset && Level1.yOffset > 0))
+    			if (firstTileY + dy >= Level1.SCREEN_TILES_HIGH + Level1.yOffset || 
+    					(firstTileY + dy < Level1.yOffset && Level1.yOffset > 0))
     				Level1.yOffset += dy;
     			
-    			tileY += dy;
+    			firstTileY += dy;
     		}
     			
     		calculateScreenPos();
@@ -59,24 +62,56 @@ public class Marker {
     		keyLastProcessed= System.currentTimeMillis();
     	}
     }
-
-    public int getTileX() {
-        return tileX;
-    }
     
-    public void setTileX(int tileX){
-    	this.tileX = tileX;
+    public void selectRange(int startTileX, int startTileY, int lastTileX, int lastTileY){
+    	this.firstTileX = startTileX;
+    	this.firstTileY = startTileY;
     }
 
-    public int getTileY() {
-        return tileY;
+    public int getFirstTileX() {
+        return firstTileX;
     }
     
-    public void setTileY(int tileY){
-    	this.tileY = tileY;
+    public void setFirstTileX(int tileX){
+    	this.firstTileX = tileX;
+    }
+
+    public int getFirstTileY() {
+        return firstTileY;
     }
     
-    public int getScreenX() {
+    public void setFirstTileY(int tileY){
+    	this.firstTileY = tileY;
+    }
+    
+    public int getLastTileX() {
+		return lastTileX;
+	}
+
+	public void setLastTileX(int lastTileX) {
+		this.lastTileX = lastTileX;
+	}
+
+	public int getLastTileY() {
+		return lastTileY;
+	}
+
+	public void setLastTileY(int lastTileY) {
+		this.lastTileY = lastTileY;
+	}
+	
+	public void setSelectionStart(Point p){
+		firstTileX = (int)p.getX();
+		firstTileY = (int)p.getY();
+		calculateScreenPos();
+	}
+	
+	public void setSelectionEnd(Point p){
+		lastTileX = (int)p.getX();
+		lastTileY = (int)p.getY();
+	}
+
+	public int getScreenX() {
 		return screenX;
 	}
 
@@ -119,8 +154,8 @@ public class Marker {
     
     private void calculateScreenPos(){
     	//calculate screen position of marker    		
-		screenX = (tileX - Level1.xOffset) * 32;
-		screenY = (tileY - Level1.yOffset) * 32;
+		screenX = (firstTileX - Level1.xOffset) * 32;
+		screenY = (firstTileY - Level1.yOffset) * 32;
     }
 
     public void keyPressed(KeyEvent e) {
@@ -129,14 +164,14 @@ public class Marker {
         
         switch(key) {
         case KeyEvent.VK_A: 
-        	if(tileX>0)
+        	if(firstTileX>0)
         		dx = -1;
         	break;
         case KeyEvent.VK_D: 
         	dx = 1;
         	break;
         case KeyEvent.VK_W: 
-        	if(tileY>0)
+        	if(firstTileY>0)
         		dy = -1;
         	break;
         case KeyEvent.VK_S: 

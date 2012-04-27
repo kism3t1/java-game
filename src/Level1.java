@@ -50,10 +50,13 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 	    
 	    //environment options
 	    private boolean exclusiveLayer = false;			//show only current editing layer
+	    private boolean shiftKey = false;				//shift key pressed?
+	    private boolean mouseDragging = false;			//is mouse being dragged?
+	    private int mouseButtonDown = 0;				//hack for dragging
 	    
 	    //level numbers for handling floor and wall editing (should make it easier to keep track)
-	    private static final int LEVEL_FLOOR = 0;
-	    private static final int LEVEL_WALL = 1;
+	    public static final int LEVEL_FLOOR = 0;
+	    public static final int LEVEL_WALL = 1;
 	    
 	    //screen size info to aide scrolling
 	    public static final int SCREEN_TILES_WIDE = 22;
@@ -145,16 +148,19 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 				
 				
 		        //draw tile marker
-				if(marker.getFirstTileX() > marker.getLastTileX()){
+				if(marker.getFirstTileX() > marker.getLastTileX()
+						&& (!mouseDragging && !shiftKey)){
 					int x = marker.getFirstTileX();
 					marker.setFirstTileX(marker.getLastTileX());
 					marker.setLastTileX(x);
 				}
-				if(marker.getFirstTileY() > marker.getLastTileY()){
+				if(marker.getFirstTileY() > marker.getLastTileY()
+						&& (!mouseDragging && !shiftKey)){
 					int y = marker.getFirstTileY();
 					marker.setFirstTileY(marker.getLastTileY());
 					marker.setLastTileY(y);
 				}
+				
 		        g.setColor(marker.getColor());
 		        g2d.draw(new Rectangle2D.Double(marker.getScreenX(), marker.getScreenY(), 
 		        		32 * (Math.abs(marker.getFirstTileX() - marker.getLastTileX()) + 1), 
@@ -171,7 +177,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 
 		    public void actionPerformed(ActionEvent e) {
 		    	entity.move();
-		    	marker.move();
+		    	marker.move(shiftKey);
 		    	ene1.move(); //test entity move routine
 		        repaint();  
 		    }
@@ -287,6 +293,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 
 		        public void keyPressed(KeyEvent e) {
 		        	int key = e.getKeyCode();
+		        	shiftKey = e.isShiftDown();
 		        	
 		        	entity.keyPressed(e);
 		        	marker.keyPressed(e);
@@ -365,79 +372,87 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 		    	}
 		    }
 
-
+		    //mouse control
 			@Override
 			public void mouseClicked(MouseEvent m) {
-				// TODO Add drag to select
-				for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
-					for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
-						if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
-							marker.selectRange(new Point(x,y), new Point(x,y));
-							return;
+				switch(m.getButton()){
+				case MouseEvent.BUTTON1:
+					for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
+						for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
+							if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
+								marker.selectRange(new Point(x,y), new Point(x,y));
+								return;
+							}
 						}
 					}
+					break;
 				}
 			}
 			
 
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				
-			}
-
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				
-			}
-
-
 			@Override
 			public void mousePressed(MouseEvent m) {
-				for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
-					for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
-						if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
-							marker.selectRange(new Point(x,y), new Point(x,y));
-							return;
+				mouseButtonDown = m.getButton();
+				switch(mouseButtonDown){
+				case MouseEvent.BUTTON1:
+					for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
+						for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
+							if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
+								marker.selectRange(new Point(x,y), new Point(x,y));
+								return;
+							}
 						}
 					}
+					break;
 				}
 			}
 
 
 			@Override
 			public void mouseReleased(MouseEvent m) {
-				for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
-					for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
-						if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
-							marker.setSelectionEnd(new Point(x, y));
-							return;
+				switch(mouseButtonDown){
+				case MouseEvent.BUTTON1:
+					for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
+						for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
+							if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
+								marker.setSelectionEnd(new Point(x, y));
+								mouseDragging = false;
+								return;
+							}
 						}
 					}
+					break;
 				}
+				mouseButtonDown = 0;
 			}
 
 
 			@Override
 			public void mouseDragged(MouseEvent m) {
-				// TODO Auto-generated method stub
-				for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
-					for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
-						if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
-							marker.setSelectionEnd(new Point(x, y));
-							repaint();
-							return;
+				switch(mouseButtonDown){
+				case MouseEvent.BUTTON1:
+					for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
+						for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
+							if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
+								marker.setSelectionEnd(new Point(x, y));
+								mouseDragging=true;
+								return;
+							}
 						}
 					}
+					break;
 				}
 			}
 
 
 			@Override
-			public void mouseMoved(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mouseMoved(MouseEvent arg0) {}
 
+			
+			@Override
+			public void mouseEntered(MouseEvent arg0) {}
+
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {}
 	}

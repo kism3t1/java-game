@@ -37,7 +37,7 @@ public class Marker {
     }
 
 
-    public void move() {
+    public void move(boolean shiftKey) {
     	if (System.currentTimeMillis() - keyLastProcessed > Level1.KEY_DELAY){
     		//check marker is within bounds of tileset
     		if (firstTileX + dx >= 0 && lastTileX + dx < Level1.MAP_TILES_WIDE){			
@@ -47,9 +47,9 @@ public class Marker {
     					(firstTileX + dx < Level1.xOffset && Level1.xOffset > 0))
     				Level1.xOffset += dx;
     			
-    			firstTileX += dx;
+    			if(!shiftKey)
+    				firstTileX += dx;
     			lastTileX += dx;
-    			//lastTileX = firstTileX;
     		}
     		
     		//check marker is within bounds of tileset
@@ -60,9 +60,9 @@ public class Marker {
     					(firstTileY + dy < Level1.yOffset && Level1.yOffset > 0))
     				Level1.yOffset += dy;
     			
-    			firstTileY += dy;
+    			if(!shiftKey)
+    				firstTileY += dy;
     			lastTileY += dy;
-    			//lastTileY = firstTileY;
     		}
     		
     		keyLastProcessed= System.currentTimeMillis();
@@ -76,11 +76,11 @@ public class Marker {
     	this.lastTileY = lastTileY;
     }
     
-    public void selectRange(Point startPoint, Point endPoint){
-    	this.firstTileX = (int)startPoint.getX();
-    	this.firstTileY = (int)startPoint.getY();
-    	this.lastTileX = (int)endPoint.getX();
-    	this.lastTileY = (int)endPoint.getY();
+    public void selectRange(Point startTile, Point endTile){
+    	this.firstTileX = (int)startTile.getX();
+    	this.firstTileY = (int)startTile.getY();
+    	this.lastTileX = (int)endTile.getX();
+    	this.lastTileY = (int)endTile.getY();
     }
 
     public int getFirstTileX() {
@@ -113,6 +113,14 @@ public class Marker {
 
 	public void setLastTileY(int lastTileY) {
 		this.lastTileY = lastTileY;
+	}
+	
+	public Point getFirstTile(){
+		return new Point(firstTileX, firstTileY);
+	}
+	
+	public Point getLastTile(){
+		return new Point(lastTileX, lastTileY);
 	}
 	
 	public void setSelectionStart(Point p){
@@ -165,23 +173,31 @@ public class Marker {
     	this.level = level;
     	
     	switch(level){
-    	case 0:								//floor
+    	case Level1.LEVEL_FLOOR:								//floor
     		color = Color.GREEN;
     		break;
-    	case 1:								//wall
+    	case Level1.LEVEL_WALL:								//wall
     		color = Color.RED;
     		break;
     	default:							//default to floor if other value set
-    		this.level = 0;
+    		this.level = Level1.LEVEL_FLOOR;
     		color = Color.GREEN;
     		break;
     	}
     }
     
     private void calculateScreenPos(){
-    	//calculate screen position of marker    		
-		screenX = (firstTileX - Level1.xOffset) * 32;
-		screenY = (firstTileY - Level1.yOffset) * 32;
+    	if (firstTileX < lastTileX){
+    		screenX = (firstTileX - Level1.xOffset) * 32;
+    	}else{
+    		screenX = (lastTileX - Level1.xOffset) * 32;
+    	}
+
+    	if(firstTileY < lastTileY){
+    		screenY = (firstTileY - Level1.yOffset) * 32;
+    	}else{
+    		screenY = (lastTileY - Level1.yOffset) * 32;
+    	}
     }
 
     public void keyPressed(KeyEvent e) {

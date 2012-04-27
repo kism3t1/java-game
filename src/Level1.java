@@ -516,8 +516,6 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 		// TODO Auto-generated method stub
 		screenTilesWide = this.getWidth() / tileWidth;
 		screenTilesHigh = this.getHeight() / tileHeight;
-		System.out.println(screenTilesWide);
-		System.out.println(screenTilesHigh);
 	}
 
 	@Override

@@ -14,7 +14,7 @@ public class CollisionDetection {
     	//check collision with enemies
     	if(checkEnemy){
     		for(int i=0; i < Level1.enemy.size(); i++){
-    			if(enemyID != -1 && i != enemyID){
+    			if(i != enemyID){
     				r2 = Level1.enemy.get(i).getBounds();	//Get bounds of enemy
 
     				if (r1.intersects(r2)){	//Checks if entity collides with an enemy

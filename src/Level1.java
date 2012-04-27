@@ -33,6 +33,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 
 	public static World world;
 	private Image[] tileSkins;
+	private Image[] enemySkins;
 
 	private Timer timer;
 	private Entity entity;
@@ -75,7 +76,27 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 		addComponentListener(this);
 		setFocusable(true);
 		setDoubleBuffered(true);
+		
+		
+		//load resources in to memory
+		tileSkins = new Image[4];
+		tileSkins[0] = new ImageIcon(this.getClass().getResource(
+				"Images/dirt.png")).getImage();
+		tileSkins[1] = new ImageIcon(this.getClass().getResource(
+				"Images/grass.png")).getImage();
+		tileSkins[2] = new ImageIcon(this.getClass().getResource(
+				"Images/stone.png")).getImage();
+		tileSkins[3] = new ImageIcon(this.getClass().getResource(
+				"Images/tree.png")).getImage();
+		
+		enemySkins = new Image[2];
+		enemySkins[0] = new ImageIcon(this.getClass().getResource(
+				"Images/enemy.png")).getImage();
+		enemySkins[1] = new ImageIcon(this.getClass().getResource(
+				"Images/eye.png")).getImage();
 
+		
+		//initialize world
 		world = new World("Default World", MAP_TILES_WIDE, MAP_TILES_HIGH);
 
 		try {
@@ -88,26 +109,24 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 			e.printStackTrace();
 		}
 
-		entity = new Entity();
+		
+		//initialize tile marker
 		marker = new Marker();
+		
+		
+		//initialize players
+		entity = new Entity();
+		
 
+		//initialize enemies
 		for (int i = 0; i < 100; i++) { // create 100 enemies at random positions
 										// on map
-			enemy.add(new Enemy(i, 32 + (int) (Math.random()
+			enemy.add(new Enemy(i, enemySkins[0], 32 + (int) (Math.random()
 					* (world.floorMap.getWidth() * 32) - 32), 32 + (int) (Math
 					.random() * (world.floorMap.getHeight() * 32) - 32)));
 		}
 
-		tileSkins = new Image[4];
-		tileSkins[0] = new ImageIcon(this.getClass().getResource(
-				"Images/dirt.png")).getImage();
-		tileSkins[1] = new ImageIcon(this.getClass().getResource(
-				"Images/grass.png")).getImage();
-		tileSkins[2] = new ImageIcon(this.getClass().getResource(
-				"Images/stone.png")).getImage();
-		tileSkins[3] = new ImageIcon(this.getClass().getResource(
-				"Images/tree.png")).getImage();
-
+		
 		timer = new Timer(10, this);
 		timer.start();
 	}

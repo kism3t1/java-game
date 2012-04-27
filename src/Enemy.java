@@ -1,11 +1,8 @@
 import java.awt.Image;
 import java.awt.Rectangle;
 
-import javax.swing.ImageIcon;
 
 public class Enemy extends CollisionDetection {
-
-	private String enemy = "Images/enemy.png";
 
 	private int dx;
 	private int dy;
@@ -13,9 +10,8 @@ public class Enemy extends CollisionDetection {
 	private int speed;
 	private long dLast;
 
-	public Enemy(int id) {
-		ImageIcon ii = new ImageIcon(this.getClass().getResource(enemy));
-		image = ii.getImage();
+	public Enemy(int id, Image image) {
+		this.image = image;
 		x = 80;
 		y = 120;
 		this.id = id;
@@ -24,9 +20,8 @@ public class Enemy extends CollisionDetection {
 		dLast = System.currentTimeMillis() - 2000; //Do not set delay at start of game
 	}
 
-	public Enemy(int id, int x, int y) {
-		ImageIcon ii = new ImageIcon(this.getClass().getResource(enemy));
-		image = ii.getImage();
+	public Enemy(int id, Image image, int x, int y) {
+		this.image = image;
 		this.x = x;
 		this.y = y;
 		this.id = id;

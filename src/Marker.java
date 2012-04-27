@@ -42,7 +42,7 @@ public class Marker {
 			if (firstTileX + dx >= 0 && lastTileX + dx < Level1.MAP_TILES_WIDE) {
 
 				// calculate scrolling offset
-				if (lastTileX + dx >= Level1.SCREEN_TILES_WIDE + Level1.xOffset
+				if (lastTileX + dx >= Level1.screenTilesWide + Level1.xOffset
 						|| (firstTileX + dx < Level1.xOffset && Level1.xOffset > 0))
 					Level1.xOffset += dx;
 
@@ -55,7 +55,7 @@ public class Marker {
 			if (firstTileY + dy >= 0 && lastTileY + dy < Level1.MAP_TILES_HIGH) {
 
 				// calculate scrolling offset
-				if (lastTileY + dy >= Level1.SCREEN_TILES_HIGH + Level1.yOffset
+				if (lastTileY + dy >= Level1.screenTilesHigh + Level1.yOffset
 						|| (firstTileY + dy < Level1.yOffset && Level1.yOffset > 0))
 					Level1.yOffset += dy;
 

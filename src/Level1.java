@@ -32,8 +32,9 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 		MouseMotionListener, ComponentListener {
 
 	public static World world;
-	private Image[] tileSkins;
-	private Image[] enemySkins;
+	public static Image[] tileSkins;
+	public static Image[] enemySkins;
+	public static Image[] entitySkins;
 
 	private Timer timer;
 	private Entity entity;
@@ -62,8 +63,12 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 	public static final int LEVEL_WALL = 1;
 
 	// screen size info to aide scrolling
-	public static int SCREEN_TILES_WIDE = 22;
-	public static int SCREEN_TILES_HIGH = 22;
+	public static int screenWidth = 0;
+	public static int screenHeight = 0;
+	public static int screenTilesWide = 0;
+	public static int screenTilesHigh = 0;
+	public static int tileWidth = 32;
+	public static int tileHeight = 32;
 
 	// global map info
 	public static final int MAP_TILES_HIGH = 100;
@@ -94,6 +99,10 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 				"Images/enemy.png")).getImage();
 		enemySkins[1] = new ImageIcon(this.getClass().getResource(
 				"Images/eye.png")).getImage();
+		
+		entitySkins = new Image[1];
+		entitySkins[0] = new ImageIcon(this.getClass().getResource(
+				"Images/entity.png")).getImage();
 
 		
 		//initialize world
@@ -121,7 +130,8 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 		//initialize enemies
 		for (int i = 0; i < 100; i++) { // create 100 enemies at random positions
 										// on map
-			enemy.add(new Enemy(i, enemySkins[0], 32 + (int) (Math.random()
+			int im = (int)(Math.random() * enemySkins.length);		//randomize enemySkin, just for fun
+			enemy.add(new Enemy(i, im, 32 + (int) (Math.random()
 					* (world.floorMap.getWidth() * 32) - 32), 32 + (int) (Math
 					.random() * (world.floorMap.getHeight() * 32) - 32)));
 		}
@@ -142,10 +152,10 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 
 		// draw maps
 		if (exclusiveLayer) {
-			readCurrentMap().draw(g2d, tileSkins, xOffset, yOffset, this);
+			readCurrentMap().draw(g2d, xOffset, yOffset);
 		} else {
-			world.floorMap.draw(g2d, tileSkins, xOffset, yOffset, this);
-			world.wallMap.draw(g2d, tileSkins, xOffset, yOffset, this);
+			world.floorMap.draw(g2d, xOffset, yOffset);
+			world.wallMap.draw(g2d, xOffset, yOffset);
 		}
 
 		// move enemies and entity for scrolling effect
@@ -163,11 +173,11 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 		prevYOffset = yOffset;
 
 		// draw entity
-		g2d.drawImage(entity.getImage(), entity.getX(), entity.getY(), this);
+		g2d.drawImage(entitySkins[entity.getSkin()], entity.getX(), entity.getY(), this);
 
 		// draw enemies
 		for (int i = 0; i < enemy.size(); i++) {
-			g2d.drawImage(enemy.get(i).getImage(), enemy.get(i).getX(), enemy
+			g2d.drawImage(enemySkins[enemy.get(i).getSkin()], enemy.get(i).getX(), enemy
 					.get(i).getY(), this);
 		}
 
@@ -409,8 +419,8 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 	public void mouseClicked(MouseEvent m) {
 		switch (m.getButton()) {
 		case MouseEvent.BUTTON1:
-			for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++) {
-				for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++) {
+			for (int x = xOffset; x < xOffset + screenTilesWide; x++) {
+				for (int y = yOffset; y < yOffset + screenTilesHigh; y++) {
 					if (world.floorMap.TileSet[x][y].getBounds().contains(
 							m.getPoint())) {
 						marker.selectRange(new Point(x, y), new Point(x, y));
@@ -427,8 +437,8 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 		mouseButtonDown = m.getButton();
 		switch (mouseButtonDown) {
 		case MouseEvent.BUTTON1:
-			for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++) {
-				for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++) {
+			for (int x = xOffset; x < xOffset + screenTilesWide; x++) {
+				for (int y = yOffset; y < yOffset + screenTilesHigh; y++) {
 					if (world.floorMap.TileSet[x][y].getBounds().contains(
 							m.getPoint())) {
 						marker.selectRange(new Point(x, y), new Point(x, y));
@@ -444,8 +454,8 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 	public void mouseReleased(MouseEvent m) {
 		switch (mouseButtonDown) {
 		case MouseEvent.BUTTON1:
-			for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++) {
-				for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++) {
+			for (int x = xOffset; x < xOffset + screenTilesWide; x++) {
+				for (int y = yOffset; y < yOffset + screenTilesHigh; y++) {
 					if (world.floorMap.TileSet[x][y].getBounds().contains(
 							m.getPoint())) {
 						marker.setSelectionEnd(new Point(x, y));
@@ -463,8 +473,8 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 	public void mouseDragged(MouseEvent m) {
 		switch (mouseButtonDown) {
 		case MouseEvent.BUTTON1:
-			for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++) {
-				for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++) {
+			for (int x = xOffset; x < xOffset + screenTilesWide; x++) {
+				for (int y = yOffset; y < yOffset + screenTilesHigh; y++) {
 					if (world.floorMap.TileSet[x][y].getBounds().contains(
 							m.getPoint())) {
 						marker.setSelectionEnd(new Point(x, y));
@@ -504,7 +514,10 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 	@Override
 	public void componentResized(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
-		
+		screenTilesWide = this.getWidth() / tileWidth;
+		screenTilesHigh = this.getHeight() / tileHeight;
+		System.out.println(screenTilesWide);
+		System.out.println(screenTilesHigh);
 	}
 
 	@Override

@@ -1,29 +1,26 @@
-import java.awt.Image;
 import java.awt.event.KeyEvent;
-import javax.swing.ImageIcon;
 
 public class Entity extends CollisionDetection {
-
-	private String entity = "Images/entity.png";
 
 	private int dx;
 	private int dy;
 	private int speed;
 
 	public Entity() {
-		ImageIcon ii = new ImageIcon(this.getClass().getResource(entity));
-		image = ii.getImage();
+		skin = 0;
 		x = 40;
 		y = 60;
+		width = Level1.entitySkins[skin].getWidth(null);
+		height = Level1.entitySkins[skin].getHeight(null);
 		speed = 5;
-		;
 	}
 
-	public Entity(int x, int y) {
-		ImageIcon ii = new ImageIcon(this.getClass().getResource(entity));
-		image = ii.getImage();
+	public Entity(int skin, int x, int y) {
+		this.skin = skin;
 		this.x = x;
 		this.y = y;
+		width = Level1.entitySkins[skin].getWidth(null);
+		height = Level1.entitySkins[skin].getHeight(null);
 		speed = 5;
 	}
 
@@ -56,10 +53,6 @@ public class Entity extends CollisionDetection {
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
-	}
-
-	public Image getImage() {
-		return image;
 	}
 
 	public void keyPressed(KeyEvent e) {

@@ -11,9 +11,12 @@ import java.io.Serializable;
  * @author LosOjos
  */
 
-@SuppressWarnings("serial")
 public class Tile implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6973028747019539127L;
 	// initialize Tile fields
 	private boolean destructible;
 	private boolean wall;

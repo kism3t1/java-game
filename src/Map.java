@@ -1,28 +1,24 @@
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.ImageObserver;
 import java.io.Serializable;
 
 
-@SuppressWarnings("serial")
 public class Map implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 570366463465046839L;
 	// initialize Map fields
 
 	private int width; // number of tiles wide
 	private int height; // number of tiles high
 
-	private int screen_width;
-	private int screen_height;
-
 	Tile[][] TileSet; // array to hold tiles and form level map
 
-	public Map(int screenWidth, int screenHeight, int setWidth, int setHeight,
+	public Map(int setWidth, int setHeight,
 			boolean isVisible, boolean isWall) { // Map constructor
 		width = setWidth;
 		height = setHeight;
-		screen_width = screenWidth;
-		screen_height = screenHeight;
 
 		TileSet = new Tile[width][height]; // initialize TileSet to suit Map
 											// size
@@ -52,18 +48,32 @@ public class Map implements Serializable {
 		TileSet[tileX][tileY].setVisible(isVisible);
 	}
 
-	public void draw(Graphics2D g, Image[] TileSkins, int xOffset, int yOffset,
-			ImageObserver iObserver) {
-		for (int x = xOffset; x < screen_width + xOffset; x++) {
-			for (int y = yOffset; y < screen_height + yOffset; y++) {
+	public void draw(Graphics2D g, int xOffset, int yOffset) {
+		int toX, toY = 0;
+		
+		if(Level1.screenTilesWide + xOffset + 1 > TileSet.length){
+			toX = Level1.screenTilesWide + xOffset;
+		}else{
+			toX = Level1.screenTilesWide + xOffset + 1;
+		}
+		
+		if(Level1.screenTilesHigh + yOffset + 1 > TileSet[0].length){
+			toY = Level1.screenTilesHigh + yOffset;
+		}else{
+			toY = Level1.screenTilesHigh + yOffset + 1;
+		}
+		
+		for (int x = xOffset; x < toX; x++) {
+			for (int y = yOffset; y < toY; y++) {
 				if (TileSet[x][y].isVisible()) {
 					TileSet[x][y]
-							.setPos((x - xOffset) * 32, (y - yOffset) * 32);
-					g.drawImage(TileSkins[TileSet[x][y].getSkin()],
+							.setPos((x - xOffset) * Level1.tileWidth, (y - yOffset) * Level1.tileHeight);
+					g.drawImage(Level1.tileSkins[TileSet[x][y].getSkin()],
 							TileSet[x][y].getX(), TileSet[x][y].getY(),
-							iObserver);
+							null);
 				}
 			}
 		}
+			
 	}
 }

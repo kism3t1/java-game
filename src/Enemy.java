@@ -1,6 +1,3 @@
-import java.awt.Image;
-import java.awt.Rectangle;
-
 
 public class Enemy extends CollisionDetection {
 
@@ -10,20 +7,24 @@ public class Enemy extends CollisionDetection {
 	private int speed;
 	private long dLast;
 
-	public Enemy(int id, Image image) {
-		this.image = image;
+	public Enemy(int id, int skin) {
+		this.skin = skin;
 		x = 80;
 		y = 120;
+		width = Level1.enemySkins[skin].getWidth(null);
+		height = Level1.enemySkins[skin].getHeight(null);
 		this.id = id;
 		setSpeed(2);
 		speed = 1;	//Speed of Enemy
 		dLast = System.currentTimeMillis() - 2000; //Do not set delay at start of game
 	}
 
-	public Enemy(int id, Image image, int x, int y) {
-		this.image = image;
+	public Enemy(int id, int skin, int x, int y) {
+		this.skin = skin;
 		this.x = x;
 		this.y = y;
+		width = Level1.enemySkins[skin].getWidth(null);
+		height = Level1.enemySkins[skin].getHeight(null);
 		this.id = id;
 		speed = 1;
 		dLast = System.currentTimeMillis() - 2000;
@@ -66,18 +67,6 @@ public class Enemy extends CollisionDetection {
 		}
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setPos(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
 
 	public int getSpeed() {
 		return speed;
@@ -85,14 +74,6 @@ public class Enemy extends CollisionDetection {
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
-	}
-
-	public Image getImage() {
-		return image;
-	}
-
-	public Rectangle getBounds() { // Get bounds for collision detection
-		return new Rectangle(x, y, image.getWidth(null), image.getHeight(null));
 	}
 
 }

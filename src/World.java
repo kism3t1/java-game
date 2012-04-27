@@ -1,8 +1,12 @@
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
+
 public class World implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2736137640198437766L;
 	public Map floorMap;
 	public Map wallMap;
 
@@ -15,10 +19,8 @@ public class World implements Serializable {
 		this.setWidth(width);
 		this.setHeight(height);
 
-		floorMap = new Map(Level1.SCREEN_TILES_WIDE, Level1.SCREEN_TILES_HIGH,
-				width, height, true, false);
-		wallMap = new Map(Level1.SCREEN_TILES_WIDE, Level1.SCREEN_TILES_HIGH,
-				width, height, false, true);
+		floorMap = new Map(width, height, true, false);
+		wallMap = new Map(width, height, false, true);
 	}
 
 	public String getTitle() {

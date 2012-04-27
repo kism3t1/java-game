@@ -5,6 +5,8 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -27,7 +29,7 @@ import javax.swing.Timer;
 
 @SuppressWarnings("serial")
 public class Level1 extends JPanel implements ActionListener, MouseListener,
-		MouseMotionListener {
+		MouseMotionListener, ComponentListener {
 
 	public static World world;
 	private Image[] tileSkins;
@@ -59,8 +61,8 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 	public static final int LEVEL_WALL = 1;
 
 	// screen size info to aide scrolling
-	public static final int SCREEN_TILES_WIDE = 22;
-	public static final int SCREEN_TILES_HIGH = 22;
+	public static int SCREEN_TILES_WIDE = 22;
+	public static int SCREEN_TILES_HIGH = 22;
 
 	// global map info
 	public static final int MAP_TILES_HIGH = 100;
@@ -70,6 +72,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 		addKeyListener(new TAdapter());
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		addComponentListener(this);
 		setFocusable(true);
 		setDoubleBuffered(true);
 
@@ -465,5 +468,29 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void componentResized(ComponentEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void componentShown(ComponentEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

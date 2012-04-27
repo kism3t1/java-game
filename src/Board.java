@@ -1,3 +1,5 @@
+import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
@@ -13,7 +15,7 @@ public class Board extends JFrame {
 		setSize(710, 730);
 		setLocationRelativeTo(null);
 		setTitle("Java-Game V0.1 - Map Editor");
-		setResizable(false);
+		setResizable(true);
 		setVisible(true);
 	}
 

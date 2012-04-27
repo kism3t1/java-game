@@ -20,8 +20,8 @@ public class Enemy extends CollisionDetection {
 		y = 120;
 		this.id = id;
 		setSpeed(2);
-		speed = 1;
-		dLast = System.currentTimeMillis() - 2000;
+		speed = 1;	//Speed of Enemy
+		dLast = System.currentTimeMillis() - 2000; //Do not set delay at start of game
 	}
 
 	public Enemy(int id, int x, int y) {
@@ -37,22 +37,23 @@ public class Enemy extends CollisionDetection {
 	public void move() {
 		x += dx;
 		y += dy;
-		if (System.currentTimeMillis() - dLast > 2000) {
-			randomDirection();
+		if (System.currentTimeMillis() - dLast > 2000) {	//Wait 2 seconds 
+			randomDirection();								
 			dLast = System.currentTimeMillis();
 		}
 
-		if (checkCollisions(getBounds(), true, true, true, id)) {
+		if (checkCollisions(getBounds(), true, true, true, id)) {	//Check Collision
 			randomDirection();
 			dLast = System.currentTimeMillis() - 2000;
 		}
 	}
-
-	public void randomDirection() {
-		int Direction = (int) (Math.random() * 4); // return 0,1,2,3
+// AI ROUTINE!
+	
+	public void randomDirection() {					//Random Direction for AI
+		int Direction = (int) (Math.random() * 4); // Either return 0,1,2,3 for Right,left,down,up
 		switch (Direction) {
-		case 0:
-			dx = speed; // RIGHT
+		case 0:	//RIGHT
+			dx = speed; 
 			dy = 0;
 			break;
 		case 1: // LEFT
@@ -68,8 +69,6 @@ public class Enemy extends CollisionDetection {
 			dy = -speed;
 			break;
 		}
-		// System.out.println("dx " + Direction);
-		// System.out.println("dy " + Direction);
 	}
 
 	public int getX() {

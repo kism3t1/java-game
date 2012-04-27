@@ -1,11 +1,7 @@
-import java.awt.event.WindowEvent;
-
 import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
 public class Board extends JFrame {
-	// The new way to set up the main class using OOP,
-	// Splitting the main and level1 class into two
 
 	public Board() {
 

@@ -103,10 +103,4 @@ public class Entity extends CollisionDetection {
 		}
 	}
 
-	/*
-	 * public void checkCollisions(){ //Rectangle r1 = Level1.getBounds();
-	 * Rectangle r2 = getBounds(); //Rectangle r3 = en.getBounds();
-	 * 
-	 * if (r2.intersects()){ System.out.println("COLLISION!"); } }
-	 */
 }

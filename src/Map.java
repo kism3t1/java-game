@@ -1,17 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
 import java.io.Serializable;
 
-/**
- * 
- * @author LosOjos
- */
 
 @SuppressWarnings("serial")
 public class Map implements Serializable {

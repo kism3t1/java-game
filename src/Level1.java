@@ -51,10 +51,11 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 	    //environment options
 	    private boolean exclusiveLayer = false;			//show only current editing layer
 	    private boolean shiftKey = false;				//shift key pressed?
+	    private boolean mouseDragging = false;			//is mouse being dragged?
 	    
 	    //level numbers for handling floor and wall editing (should make it easier to keep track)
-	    private static final int LEVEL_FLOOR = 0;
-	    private static final int LEVEL_WALL = 1;
+	    public static final int LEVEL_FLOOR = 0;
+	    public static final int LEVEL_WALL = 1;
 	    
 	    //screen size info to aide scrolling
 	    public static final int SCREEN_TILES_WIDE = 22;
@@ -146,16 +147,19 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 				
 				
 		        //draw tile marker
-				if(marker.getFirstTileX() > marker.getLastTileX()){
+				if(marker.getFirstTileX() > marker.getLastTileX()
+						&& (!mouseDragging && !shiftKey)){
 					int x = marker.getFirstTileX();
 					marker.setFirstTileX(marker.getLastTileX());
 					marker.setLastTileX(x);
 				}
-				if(marker.getFirstTileY() > marker.getLastTileY()){
+				if(marker.getFirstTileY() > marker.getLastTileY()
+						&& (!mouseDragging && !shiftKey)){
 					int y = marker.getFirstTileY();
 					marker.setFirstTileY(marker.getLastTileY());
 					marker.setLastTileY(y);
 				}
+				
 		        g.setColor(marker.getColor());
 		        g2d.draw(new Rectangle2D.Double(marker.getScreenX(), marker.getScreenY(), 
 		        		32 * (Math.abs(marker.getFirstTileX() - marker.getLastTileX()) + 1), 
@@ -367,10 +371,9 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 		    	}
 		    }
 
-
+		    //mouse control
 			@Override
 			public void mouseClicked(MouseEvent m) {
-				// TODO Add drag to select
 				for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
 					for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
 						if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
@@ -414,6 +417,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 					for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
 						if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
 							marker.setSelectionEnd(new Point(x, y));
+							mouseDragging = false;
 							return;
 						}
 					}
@@ -423,11 +427,11 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 
 			@Override
 			public void mouseDragged(MouseEvent m) {
-				// TODO Auto-generated method stub
 				for (int x = xOffset; x < xOffset + SCREEN_TILES_WIDE; x++){
 					for (int y = yOffset; y < yOffset + SCREEN_TILES_HIGH; y++){
 						if(world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())){
 							marker.setSelectionEnd(new Point(x, y));
+							mouseDragging=true;
 							repaint();
 							return;
 						}

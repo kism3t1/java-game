@@ -4,33 +4,33 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
-public class Enemy {
+public class Enemy extends CollisionDetection{
 
     private String enemy = "Images/enemy.png";
 
     private int dx;
     private int dy;
-    private int x;
-    private int y;
+    private int id;
     private int speed;
     private long dLast;
-    private Image image;
 
-    public Enemy() {
+    public Enemy(int id) {
         ImageIcon ii = new ImageIcon(this.getClass().getResource(enemy));
         image = ii.getImage();
         x = 80;
         y = 120;
+        this.id=id;
         setSpeed(2);
         speed = 1;
         dLast = System.currentTimeMillis()-2000;
     }
     
-    public Enemy(int x, int y) {
+    public Enemy(int id, int x, int y) {
         ImageIcon ii = new ImageIcon(this.getClass().getResource(enemy));
         image = ii.getImage();
         this.x = x;
         this.y = y;
+        this.id = id;
         speed = 1;
         dLast = System.currentTimeMillis()-2000;
     }
@@ -39,16 +39,14 @@ public class Enemy {
         x += dx;
         y += dy;
         if (System.currentTimeMillis()-dLast > 2000){
-        randomDirection();
-        dLast = System.currentTimeMillis();
+        	randomDirection();
+        	dLast = System.currentTimeMillis();
         }
-        /*if(checkCollisions()){
+        
+        if(checkCollisions(getBounds(), true, true, true, id)){
         	randomDirection();
         	dLast = System.currentTimeMillis()-2000;
-        }
-        */
-		//tr.sleep(500);
-        
+        }     
     }
     
     public void randomDirection(){
@@ -102,36 +100,6 @@ public class Enemy {
     
     public Rectangle getBounds(){	//Get bounds for collision detection
     	return new Rectangle (x, y, image.getWidth(null), image.getHeight(null)); 
-    }
-    
-    private boolean checkCollisions(){	//Collision Detection
-    	boolean collision = false;
-    	Rectangle r1 = getBounds();	//Get bounds of entity
-    	Rectangle r2;
-    	
-    	//check collision with enemies
-    	for(int i=0; i < Level1.enemy.size(); i++){
-    		r2 = Level1.enemy.get(i).getBounds();	//Get bounds of enemy
-
-    		if (r1.intersects(r2)){	//Checks if entity collides with an enemy
-    			collision = true;
-    		}
-    	}
-    	
-    	//check for tile collision
-    	for(int x = Level1.xOffset; x < Level1.SCREEN_TILES_WIDE + Level1.xOffset; x++){
-    		for (int y = Level1.yOffset; y < Level1.SCREEN_TILES_HIGH + Level1.yOffset; y++){
-    			if (Level1.world.wallMap.TileSet[x][y].isWall()
-    					&& Level1.world.wallMap.TileSet[x][y].isVisible()){			//no need to check for collision if it isn't a wall
-    				r2 = Level1.world.wallMap.TileSet[x][y].getBounds();
-
-    				if (r1.intersects(r2)){		//Checks if entity collides with a tile
-    					collision = true;
-    				}
-    			}
-    		}
-    	}
-    	return collision;
     }
 
 }

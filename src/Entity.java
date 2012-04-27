@@ -1,19 +1,15 @@
 
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
-public class Entity {
+public class Entity extends CollisionDetection{
 
     private String entity = "Images/entity.png";
 
     private int dx;
     private int dy;
-    private int x;
-    private int y;
     private int speed;
-    private Image image;
 
     public Entity() {
         ImageIcon ii = new ImageIcon(this.getClass().getResource(entity));
@@ -36,7 +32,7 @@ public class Entity {
         x += dx;
         y += dy;
         
-        if(checkCollisions()){
+        if(checkCollisions(getBounds(), false, true, true, -1)){
         	x -= dx;
         	y -= dy;
         }
@@ -68,9 +64,7 @@ public class Entity {
         return image;
     }
     
-    public Rectangle getBounds(){	//Get bounds for collision detection
-    	return new Rectangle (x,y, image.getWidth(null), image.getHeight(null)); //22, 32 size of tile
-    }
+
 
     public void keyPressed(KeyEvent e) {
 
@@ -113,35 +107,7 @@ public class Entity {
         }
     }
     
-    private boolean checkCollisions(){	//Collision Detection
-    	boolean collision = false;
-    	Rectangle r1 = getBounds();	//Get bounds of entity
-    	Rectangle r2;
-    	
-    	//check collision with enemies
-    	for(int i=0; i < Level1.enemy.size(); i++){
-    		r2 = Level1.enemy.get(i).getBounds();	//Get bounds of enemy
-
-    		if (r1.intersects(r2)){	//Checks if entity collides with an enemy
-    			collision = true;
-    		}
-    	}
-    	
-    	//check for tile collision
-    	for(int x = Level1.xOffset; x < Level1.SCREEN_TILES_WIDE + Level1.xOffset; x++){
-    		for (int y = Level1.yOffset; y < Level1.SCREEN_TILES_HIGH + Level1.yOffset; y++){
-    			if (Level1.world.wallMap.TileSet[x][y].isWall()
-    					&& Level1.world.wallMap.TileSet[x][y].isVisible()){			//no need to check for collision if it isn't a wall
-    				r2 = Level1.world.wallMap.TileSet[x][y].getBounds();
-
-    				if (r1.intersects(r2)){		//Checks if entity collides with a tile
-    					collision = true;
-    				}
-    			}
-    		}
-    	}
-    	return collision;
-    }
+    
     
     /*public void checkCollisions(){
     	//Rectangle r1 = Level1.getBounds();

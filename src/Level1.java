@@ -33,9 +33,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 		private Image[] tileSkins;
 		
 		private Timer timer;
-	    private Entity entity;
-	    private Enemy ene1; //added to test AI with one enemy
-	    
+	    private Entity entity;  
 	    static public ArrayList<Enemy> enemy = new ArrayList<Enemy>();
 	    private Marker marker;  
 	    
@@ -86,12 +84,11 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 				e.printStackTrace();
 			}
 	        
-	        ene1 = new Enemy(); //Add one enemy for testing
 	        entity = new Entity();
 	        marker = new Marker();
 	        
 	        for (int i=0; i < 100; i++){			//create 10 enemies at random positions on map
-	        	enemy.add(new Enemy(32 + (int)(Math.random() * (world.floorMap.getWidth() * 32) - 32), 
+	        	enemy.add(new Enemy(i, 32 + (int)(Math.random() * (world.floorMap.getWidth() * 32) - 32), 
 	        			32 + (int)(Math.random() * (world.floorMap.getHeight() * 32) - 32)));
 	        }
 	        
@@ -138,9 +135,6 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 				//draw entity
 				g2d.drawImage(entity.getImage(), entity.getX(), entity.getY(), this);
 				
-				//draw enemy for AI testing
-				g2d.drawImage(ene1.getImage(), ene1.getX(), ene1.getY(), this);
-				
 				//draw enemies
 				for(int i = 0; i < enemy.size(); i++){
 					g2d.drawImage(enemy.get(i).getImage(), enemy.get(i).getX(), enemy.get(i).getY(), this);
@@ -178,7 +172,6 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 		    public void actionPerformed(ActionEvent e) {
 		    	entity.move();
 		    	marker.move(shiftKey);
-		    	ene1.move(); //test entity move routine
 		    	for(int i = 0; i < enemy.size(); i++){
 		    		enemy.get(i).move();
 		    	}

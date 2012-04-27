@@ -90,7 +90,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 	        entity = new Entity();
 	        marker = new Marker();
 	        
-	        for (int i=0; i < 10; i++){			//create 10 enemies at random positions on map
+	        for (int i=0; i < 100; i++){			//create 10 enemies at random positions on map
 	        	enemy.add(new Enemy(32 + (int)(Math.random() * (world.floorMap.getWidth() * 32) - 32), 
 	        			32 + (int)(Math.random() * (world.floorMap.getHeight() * 32) - 32)));
 	        }
@@ -179,6 +179,9 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 		    	entity.move();
 		    	marker.move(shiftKey);
 		    	ene1.move(); //test entity move routine
+		    	for(int i = 0; i < enemy.size(); i++){
+		    		enemy.get(i).move();
+		    	}
 		        repaint();  
 		    }
 		    

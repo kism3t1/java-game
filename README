@@ -1,9 +1,11 @@
 Java game
 
 Controls:
+	KEYBOARD
+	=================================================================
 	Up, Down, Left, Right - Move Entity
 	
-	W, A, S, D - Move tile marker
+	W, A, S, D - Move tile marker (hold SHIFT for range selection)
 	Z, X - Change tile
 	DEL - Hide tile
 	PGUP - Edit wall map
@@ -13,3 +15,10 @@ Controls:
 	
 	F11 - Load previous save
 	F12 - Save current world
+	=================================================================
+	
+	
+	MOUSE
+	=================================================================
+	Left click and drag to select a range of tiles
+	=================================================================

@@ -37,7 +37,7 @@ public class Marker {
     }
 
 
-    public void move() {
+    public void move(boolean shiftKey) {
     	if (System.currentTimeMillis() - keyLastProcessed > Level1.KEY_DELAY){
     		//check marker is within bounds of tileset
     		if (firstTileX + dx >= 0 && lastTileX + dx < Level1.MAP_TILES_WIDE){			
@@ -47,9 +47,9 @@ public class Marker {
     					(firstTileX + dx < Level1.xOffset && Level1.xOffset > 0))
     				Level1.xOffset += dx;
     			
-    			firstTileX += dx;
+    			if(!shiftKey)
+    				firstTileX += dx;
     			lastTileX += dx;
-    			//lastTileX = firstTileX;
     		}
     		
     		//check marker is within bounds of tileset
@@ -60,9 +60,9 @@ public class Marker {
     					(firstTileY + dy < Level1.yOffset && Level1.yOffset > 0))
     				Level1.yOffset += dy;
     			
-    			firstTileY += dy;
+    			if(!shiftKey)
+    				firstTileY += dy;
     			lastTileY += dy;
-    			//lastTileY = firstTileY;
     		}
     		
     		keyLastProcessed= System.currentTimeMillis();

@@ -50,6 +50,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 	    
 	    //environment options
 	    private boolean exclusiveLayer = false;			//show only current editing layer
+	    private boolean shiftKey = false;				//shift key pressed?
 	    
 	    //level numbers for handling floor and wall editing (should make it easier to keep track)
 	    private static final int LEVEL_FLOOR = 0;
@@ -171,7 +172,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 
 		    public void actionPerformed(ActionEvent e) {
 		    	entity.move();
-		    	marker.move();
+		    	marker.move(shiftKey);
 		    	ene1.move(); //test entity move routine
 		        repaint();  
 		    }
@@ -287,6 +288,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener, Mou
 
 		        public void keyPressed(KeyEvent e) {
 		        	int key = e.getKeyCode();
+		        	shiftKey = e.isShiftDown();
 		        	
 		        	entity.keyPressed(e);
 		        	marker.keyPressed(e);

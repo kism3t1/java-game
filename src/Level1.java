@@ -89,25 +89,25 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 		//load resources in to memory
 		tileSkins = new BufferedImage[4];
 		try{
-			tileSkins[0] = optimizeImage(ImageIO.read(new File(this.getClass().getResource("Images/dirt.png").getPath())));
-			tileSkins[1] = optimizeImage(ImageIO.read(new File(this.getClass().getResource("Images/grass.png").getPath())));
-			tileSkins[2] = optimizeImage(ImageIO.read(new File(this.getClass().getResource("Images/stone.png").getPath())));
-			tileSkins[3] = optimizeImage(ImageIO.read(new File(this.getClass().getResource("Images/tree.png").getPath())));
+			tileSkins[0] = optimizedImage("Images/dirt.png");
+			tileSkins[1] = optimizedImage("Images/grass.png");
+			tileSkins[2] = optimizedImage("Images/stone.png");
+			tileSkins[3] = optimizedImage("Images/tree.png");
 		}catch(IOException e){
 			System.out.println("Error loading tileSkins");
 		}
 		
 		enemySkins = new BufferedImage[2];
 		try{
-			enemySkins[0] = optimizeImage(ImageIO.read(new File(this.getClass().getResource("Images/enemy.png").getPath())));
-			enemySkins[1] = optimizeImage(ImageIO.read(new File(this.getClass().getResource("Images/eye.png").getPath())));
+			enemySkins[0] = optimizedImage("Images/enemy.png");
+			enemySkins[1] = optimizedImage("Images/eye.png");
 		}catch(IOException e){
 			System.out.println("Error loading enemySkins");
 		}
 		
 		entitySkins = new BufferedImage[1];
 		try{
-			entitySkins[0] = optimizeImage(ImageIO.read(new File(this.getClass().getResource("Images/entity.png").getPath())));
+			entitySkins[0] = optimizedImage("Images/entity.png");
 		}catch(IOException e){
 			System.out.println("Error loading enemySkins");
 		}
@@ -536,8 +536,9 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 	
 	
 	//optimize graphics
-	public BufferedImage optimizeImage(BufferedImage image)
+	public BufferedImage optimizedImage(String resourceName) throws IOException
 	{
+		BufferedImage image = ImageIO.read(new File(this.getClass().getResource(resourceName).getPath()));
 	        // obtain the current system graphical settings
 	        GraphicsConfiguration gfx_config = GraphicsEnvironment.
 	                getLocalGraphicsEnvironment().getDefaultScreenDevice().

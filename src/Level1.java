@@ -1,7 +1,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,7 +25,7 @@ import java.util.ArrayList;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -32,9 +35,9 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 		MouseMotionListener, ComponentListener {
 
 	public static World world;
-	public static Image[] tileSkins;
-	public static Image[] enemySkins;
-	public static Image[] entitySkins;
+	public static BufferedImage[] tileSkins;
+	public static BufferedImage[] enemySkins;
+	public static BufferedImage[] entitySkins;
 
 	private Timer timer;
 	private Entity entity;
@@ -84,25 +87,32 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 		
 		
 		//load resources in to memory
-		tileSkins = new Image[4];
-		tileSkins[0] = new ImageIcon(this.getClass().getResource(
-				"Images/dirt.png")).getImage();
-		tileSkins[1] = new ImageIcon(this.getClass().getResource(
-				"Images/grass.png")).getImage();
-		tileSkins[2] = new ImageIcon(this.getClass().getResource(
-				"Images/stone.png")).getImage();
-		tileSkins[3] = new ImageIcon(this.getClass().getResource(
-				"Images/tree.png")).getImage();
+		tileSkins = new BufferedImage[4];
+		try{
+			tileSkins[0] = optimizedImage("Images/dirt.png");
+			tileSkins[1] = optimizedImage("Images/grass.png");
+			tileSkins[2] = optimizedImage("Images/stone.png");
+			tileSkins[3] = optimizedImage("Images/tree.png");
+		}catch(IOException e){
+			System.out.println("Error loading tileSkins");
+		}
 		
-		enemySkins = new Image[2];
-		enemySkins[0] = new ImageIcon(this.getClass().getResource(
-				"Images/enemy.png")).getImage();
-		enemySkins[1] = new ImageIcon(this.getClass().getResource(
-				"Images/eye.png")).getImage();
+		enemySkins = new BufferedImage[2];
+		try{
+			enemySkins[0] = optimizedImage("Images/enemy.png");
+			enemySkins[1] = optimizedImage("Images/eye.png");
+		}catch(IOException e){
+			System.out.println("Error loading enemySkins");
+		}
 		
-		entitySkins = new Image[1];
-		entitySkins[0] = new ImageIcon(this.getClass().getResource(
-				"Images/entity.png")).getImage();
+		entitySkins = new BufferedImage[1];
+		try{
+			entitySkins[0] = optimizedImage("Images/entity.png");
+		}catch(IOException e){
+			System.out.println("Error loading enemySkins");
+		}
+		//entitySkins[0] = new ImageIcon(this.getClass().getResource(
+		//		"Images/entity.png")).getImage();
 
 		
 		//initialize world
@@ -523,4 +533,37 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	//optimize graphics
+	public BufferedImage optimizedImage(String resourceName) throws IOException
+	{
+		BufferedImage image = ImageIO.read(new File(this.getClass().getResource(resourceName).getPath()));
+	        // obtain the current system graphical settings
+	        GraphicsConfiguration gfx_config = GraphicsEnvironment.
+	                getLocalGraphicsEnvironment().getDefaultScreenDevice().
+	                getDefaultConfiguration();
+
+	        /*
+	         * if image is already compatible and optimized for current system 
+	         * settings, simply return it
+	         */
+	        if (image.getColorModel().equals(gfx_config.getColorModel()))
+	                return image;
+
+	        // image is not optimized, so create a new image that is
+	        BufferedImage new_image = gfx_config.createCompatibleImage(
+	                        image.getWidth(), image.getHeight(), image.getTransparency());
+
+	        // get the graphics context of the new image to draw the old image on
+	        Graphics2D g2d = (Graphics2D) new_image.getGraphics();
+
+	        // actually draw the image and dispose of context no longer needed
+	        g2d.drawImage(image, 0, 0, null);
+	        g2d.dispose();
+
+	        // return the new optimized image
+	        return new_image; 
+	}
+
 }

@@ -6,8 +6,10 @@ public class Enemy extends CollisionDetection {
 	private int id;
 	private int speed;
 	private long dLast;
+	private AI ai;
 
 	public Enemy(int id, int skin) {
+		ai = new AI();
 		this.skin = skin;
 		x = 80;
 		y = 120;
@@ -20,6 +22,7 @@ public class Enemy extends CollisionDetection {
 	}
 
 	public Enemy(int id, int skin, int x, int y) {
+		ai = new AI();
 		this.skin = skin;
 		this.x = x;
 		this.y = y;
@@ -34,39 +37,19 @@ public class Enemy extends CollisionDetection {
 		x += dx;
 		y += dy;
 		if (System.currentTimeMillis() - dLast > 2000) {	//Wait 2 seconds 
-			randomDirection();								
+			ai.randomAIDirection();	//Run random AI Direction method
+			dx = ai.returnx();		//Get x value from AI Class
+			dy = ai.returny();		//Get y value from AI Class
 			dLast = System.currentTimeMillis();
 		}
 
 		if (checkCollisions(getBounds(), true, true, true, id)) {	//Check Collision
-			randomDirection();
+			ai.randomAIDirection();	//Run random AI Direction method
+			dx = ai.returnx();		//Get x value from AI Class
+			dy = ai.returny();		//Get y value from AI Class
 			dLast = System.currentTimeMillis() - 2000;
 		}
 	}
-// AI ROUTINE!
-	
-	public void randomDirection() {					//Random Direction for AI
-		int Direction = (int) (Math.random() * 4); // Either return 0,1,2,3 for Right,left,down,up
-		switch (Direction) {
-		case 0:	//RIGHT
-			dx = speed; 
-			dy = 0;
-			break;
-		case 1: // LEFT
-			dx = -speed;
-			dy = 0;
-			break;
-		case 2: // DOWN
-			dx = 0;
-			dy = speed;
-			break;
-		case 3: // UP
-			dx = 0;
-			dy = -speed;
-			break;
-		}
-	}
-
 
 	public int getSpeed() {
 		return speed;

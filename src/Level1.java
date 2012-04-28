@@ -40,7 +40,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 	public static BufferedImage[] entitySkins;
 
 	private Timer timer;
-	private Entity entity;
+	static public Entity entity;
 	static public ArrayList<Enemy> enemy = new ArrayList<Enemy>();
 	private Marker marker;
 

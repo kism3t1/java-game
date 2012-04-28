@@ -36,15 +36,17 @@ public class Enemy extends CollisionDetection {
 	public void move() {
 		x += dx;
 		y += dy;
-		if (System.currentTimeMillis() - dLast > 2000) {	//Wait 2 seconds 
+		if (System.currentTimeMillis() - dLast > 1000) {	//Wait 2 seconds 
 			ai.randomAIDirection();	//Run random AI Direction method
 			dx = ai.returnx();		//Get x value from AI Class
 			dy = ai.returny();		//Get y value from AI Class
+			//ai.attack();
 			dLast = System.currentTimeMillis();
 		}
 
 		if (checkCollisions(getBounds(), true, true, true, id)) {	//Check Collision
 			ai.randomAIDirection();	//Run random AI Direction method
+			//ai.attack();
 			dx = ai.returnx();		//Get x value from AI Class
 			dy = ai.returny();		//Get y value from AI Class
 			dLast = System.currentTimeMillis() - 2000;

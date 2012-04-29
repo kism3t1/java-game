@@ -17,7 +17,7 @@ public class Enemy extends CollisionDetection {
 		this.id = id;
 		setSpeed(2);
 		speed = 1;	//Speed of Enemy
-		dLast = System.currentTimeMillis() - 2000; //Do not set delay at start of game
+		dLast = System.currentTimeMillis() - 500; //Do not set delay at start of game
 	}
 
 	public Enemy(int id, int skin, int x, int y) {
@@ -29,13 +29,13 @@ public class Enemy extends CollisionDetection {
 		height = Level1.enemySkins[skin].getHeight(null);
 		this.id = id;
 		speed = 1;
-		dLast = System.currentTimeMillis() - 2000;
+		dLast = System.currentTimeMillis() - 500;
 	}
 
 	public void move() {
 		x += dx;
 		y += dy;
-		if (System.currentTimeMillis() - dLast > 2000) {	//Wait 2 seconds 
+		if (System.currentTimeMillis() - dLast > 500) {	//Wait .5 seconds //Changed for speed AI attack change
 			//ai.randomAIDirection();	//Run random AI Direction method
 			ai.checklocation();			//Check for enemies in proximity
 			dx = ai.returnx();		//Get x value from AI Class
@@ -49,7 +49,7 @@ public class Enemy extends CollisionDetection {
 			//ai.checklocation();
 			dx = ai.returnx();		//Get x value from AI Class
 			dy = ai.returny();		//Get y value from AI Class
-			dLast = System.currentTimeMillis() - 2000;
+			dLast = System.currentTimeMillis() - 500;
 		}
 	}
 

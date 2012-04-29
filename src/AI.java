@@ -1,5 +1,7 @@
 //This is the AI class for Enemies & other NPC entities to use
 
+//	29/04/2012 - BUG: Attack method moves every NPC instead of individually
+
 public class AI extends CollisionDetection {
 	
 	private int dx;
@@ -57,6 +59,7 @@ public class AI extends CollisionDetection {
 			//System.out.println("Distance away from enemy: X=" + distanceX +" Y= " + distanceY);
 		if (distanceX <= 200 && distanceY <= 200){ 	//If enemy is less that 200 tiles away from entity
 			System.out.println("Enemy is in proximity - ATTACK!!!");
+			speed = 2;	//Speed up enemy they get angry
 			attack();		//Run attack Method
 			//randomAIDirection();
 		}else{

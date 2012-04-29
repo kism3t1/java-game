@@ -12,8 +12,8 @@ public class Enemy extends CollisionDetection {
 		this.skin = skin;
 		x = 80;
 		y = 120;
-		width = Level1.enemySkins[skin].getWidth(null);
-		height = Level1.enemySkins[skin].getHeight(null);
+		width = JavaGame.enemySkins[skin].getWidth(null);
+		height = JavaGame.enemySkins[skin].getHeight(null);
 		this.id = id;
 		setSpeed(2);
 		speed = 1;	//Speed of Enemy
@@ -25,8 +25,8 @@ public class Enemy extends CollisionDetection {
 		this.skin = skin;
 		this.x = x;
 		this.y = y;
-		width = Level1.enemySkins[skin].getWidth(null);
-		height = Level1.enemySkins[skin].getHeight(null);
+		width = JavaGame.enemySkins[skin].getWidth(null);
+		height = JavaGame.enemySkins[skin].getHeight(null);
 		this.id = id;
 		speed = 1;
 		dLast = System.currentTimeMillis() - 500;

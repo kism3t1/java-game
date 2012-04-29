@@ -45,11 +45,11 @@ public class AI extends CollisionDetection {
 	//VERY MUCH WORK IN PROGRESS!!!!!!!
 	
 	public void checklocation(){
-		for (int i = 0; i < Level1.enemy.size(); i++) {
-			enemyX = Level1.enemy.get(i).getX();
-			enemyY = Level1.enemy.get(i).getY();
-			entityX = Level1.entity.getX();
-			entityY = Level1.entity.getY();
+		for (int i = 0; i < JavaGame.enemy.size(); i++) {
+			enemyX = JavaGame.enemy.get(i).getX();
+			enemyY = JavaGame.enemy.get(i).getY();
+			entityX = JavaGame.entity.getX();
+			entityY = JavaGame.entity.getY();
 			//System.out.println("Entity X = " + entityX);
 			//System.out.println("Entity Y = " + entityY);
 			System.out.println("Enemy X = " + enemyX);

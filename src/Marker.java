@@ -37,14 +37,14 @@ public class Marker {
 	}
 
 	public void move(boolean shiftKey) {
-		if (System.currentTimeMillis() - keyLastProcessed > Level1.KEY_DELAY) {
+		if (System.currentTimeMillis() - keyLastProcessed > JavaGame.KEY_DELAY) {
 			// check marker is within bounds of tileset
-			if (firstTileX + dx >= 0 && lastTileX + dx < Level1.MAP_TILES_WIDE) {
+			if (firstTileX + dx >= 0 && lastTileX + dx < JavaGame.MAP_TILES_WIDE) {
 
 				// calculate scrolling offset
-				if (lastTileX + dx >= Level1.screenTilesWide + Level1.xOffset
-						|| (firstTileX + dx < Level1.xOffset && Level1.xOffset > 0))
-					Level1.xOffset += dx;
+				if (lastTileX + dx >= JavaGame.screenTilesWide + JavaGame.xOffset
+						|| (firstTileX + dx < JavaGame.xOffset && JavaGame.xOffset > 0))
+					JavaGame.xOffset += dx;
 
 				if (!shiftKey)
 					firstTileX += dx;
@@ -52,12 +52,12 @@ public class Marker {
 			}
 
 			// check marker is within bounds of tileset
-			if (firstTileY + dy >= 0 && lastTileY + dy < Level1.MAP_TILES_HIGH) {
+			if (firstTileY + dy >= 0 && lastTileY + dy < JavaGame.MAP_TILES_HIGH) {
 
 				// calculate scrolling offset
-				if (lastTileY + dy >= Level1.screenTilesHigh + Level1.yOffset
-						|| (firstTileY + dy < Level1.yOffset && Level1.yOffset > 0))
-					Level1.yOffset += dy;
+				if (lastTileY + dy >= JavaGame.screenTilesHigh + JavaGame.yOffset
+						|| (firstTileY + dy < JavaGame.yOffset && JavaGame.yOffset > 0))
+					JavaGame.yOffset += dy;
 
 				if (!shiftKey)
 					firstTileY += dy;
@@ -173,14 +173,14 @@ public class Marker {
 		this.level = level;
 
 		switch (level) {
-		case Level1.LEVEL_FLOOR: // floor
+		case JavaGame.LEVEL_FLOOR: // floor
 			color = Color.GREEN;
 			break;
-		case Level1.LEVEL_WALL: // wall
+		case JavaGame.LEVEL_WALL: // wall
 			color = Color.RED;
 			break;
 		default: // default to floor if other value set
-			this.level = Level1.LEVEL_FLOOR;
+			this.level = JavaGame.LEVEL_FLOOR;
 			color = Color.GREEN;
 			break;
 		}
@@ -188,15 +188,15 @@ public class Marker {
 
 	private void calculateScreenPos() {
 		if (firstTileX < lastTileX) {
-			screenX = (firstTileX - Level1.xOffset) * 32;
+			screenX = (firstTileX - JavaGame.xOffset) * 32;
 		} else {
-			screenX = (lastTileX - Level1.xOffset) * 32;
+			screenX = (lastTileX - JavaGame.xOffset) * 32;
 		}
 
 		if (firstTileY < lastTileY) {
-			screenY = (firstTileY - Level1.yOffset) * 32;
+			screenY = (firstTileY - JavaGame.yOffset) * 32;
 		} else {
-			screenY = (lastTileY - Level1.yOffset) * 32;
+			screenY = (lastTileY - JavaGame.yOffset) * 32;
 		}
 	}
 
@@ -241,6 +241,6 @@ public class Marker {
 			break;
 		}
 
-		keyLastProcessed = System.currentTimeMillis() - Level1.KEY_DELAY;
+		keyLastProcessed = System.currentTimeMillis() - JavaGame.KEY_DELAY;
 	}
 }

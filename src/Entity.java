@@ -10,8 +10,8 @@ public class Entity extends CollisionDetection {
 		skin = 0;
 		x = 350;
 		y = 350;
-		width = Level1.entitySkins[skin].getWidth(null);
-		height = Level1.entitySkins[skin].getHeight(null);
+		width = JavaGame.entitySkins[skin].getWidth(null);
+		height = JavaGame.entitySkins[skin].getHeight(null);
 		speed = 5;
 	}
 
@@ -19,8 +19,8 @@ public class Entity extends CollisionDetection {
 		this.skin = skin;
 		this.x = x;
 		this.y = y;
-		width = Level1.entitySkins[skin].getWidth(null);
-		height = Level1.entitySkins[skin].getHeight(null);
+		width = JavaGame.entitySkins[skin].getWidth(null);
+		height = JavaGame.entitySkins[skin].getHeight(null);
 		speed = 5;
 	}
 

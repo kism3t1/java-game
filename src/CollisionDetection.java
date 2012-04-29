@@ -13,9 +13,9 @@ public class CollisionDetection {
 
 		// check collision with enemies
 		if (checkEnemy) {
-			for (int i = 0; i < Level1.enemy.size(); i++) {
+			for (int i = 0; i < JavaGame.enemy.size(); i++) {
 				if (i != enemyID) {
-					r2 = Level1.enemy.get(i).getBounds(); // Get bounds of enemy
+					r2 = JavaGame.enemy.get(i).getBounds(); // Get bounds of enemy
 
 					if (r1.intersects(r2)) { // Checks if entity collides with
 												// an enemy
@@ -27,12 +27,12 @@ public class CollisionDetection {
 
 		// check for tile collision
 		if (checkTile) {
-			for (int x = Level1.xOffset; x < Level1.screenTilesWide
-					+ Level1.xOffset; x++) {
-				for (int y = Level1.yOffset; y < Level1.screenTilesHigh
-						+ Level1.yOffset; y++) {
-					if (Level1.world.wallMap.TileSet[x][y].isWall()
-							&& Level1.world.wallMap.TileSet[x][y].isVisible()) { // no
+			for (int x = JavaGame.xOffset; x < JavaGame.screenTilesWide
+					+ JavaGame.xOffset; x++) {
+				for (int y = JavaGame.yOffset; y < JavaGame.screenTilesHigh
+						+ JavaGame.yOffset; y++) {
+					if (JavaGame.world.wallMap.TileSet[x][y].isWall()
+							&& JavaGame.world.wallMap.TileSet[x][y].isVisible()) { // no
 																					// need
 																					// to
 																					// check
@@ -43,7 +43,7 @@ public class CollisionDetection {
 																					// isn't
 																					// a
 																					// wall
-						r2 = Level1.world.wallMap.TileSet[x][y].getBounds();
+						r2 = JavaGame.world.wallMap.TileSet[x][y].getBounds();
 
 						if (r1.intersects(r2)) { // Checks if entity collides
 													// with a tile

@@ -8,8 +8,8 @@ public class Entity extends CollisionDetection {
 
 	public Entity() {
 		skin = 0;
-		x = 40;
-		y = 60;
+		x = 350;
+		y = 350;
 		width = Level1.entitySkins[skin].getWidth(null);
 		height = Level1.entitySkins[skin].getHeight(null);
 		speed = 5;

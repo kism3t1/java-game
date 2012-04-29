@@ -36,16 +36,17 @@ public class Enemy extends CollisionDetection {
 		x += dx;
 		y += dy;
 		if (System.currentTimeMillis() - dLast > 2000) {	//Wait 2 seconds 
-			ai.randomAIDirection();	//Run random AI Direction method
+			//ai.randomAIDirection();	//Run random AI Direction method
+			ai.checklocation();			//Check for enemies in proximity
 			dx = ai.returnx();		//Get x value from AI Class
 			dy = ai.returny();		//Get y value from AI Class
-			//ai.attack();
 			dLast = System.currentTimeMillis();
 		}
 
 		if (checkCollisions(getBounds(), true, true, true, id)) {	//Check Collision
 			ai.randomAIDirection();	//Run random AI Direction method
-			//ai.attack();
+			//System.out.println("YOU DIED!!!");
+			//ai.checklocation();
 			dx = ai.returnx();		//Get x value from AI Class
 			dy = ai.returny();		//Get y value from AI Class
 			dLast = System.currentTimeMillis() - 2000;

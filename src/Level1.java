@@ -138,7 +138,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 		
 
 		//initialize enemies
-		for (int i = 0; i < 100; i++) { // create 100 enemies at random positions
+		for (int i = 0; i < 1; i++) { // create 1 enemies at random positions
 										// on map
 			int im = (int)(Math.random() * enemySkins.length);		//randomize enemySkin, just for fun
 			enemy.add(new Enemy(i, im, 32 + (int) (Math.random()

@@ -97,10 +97,11 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 			System.out.println("Error loading tileSkins");
 		}
 		
-		enemySkins = new BufferedImage[2];
+		enemySkins = new BufferedImage[3];
 		try{
 			enemySkins[0] = optimizedImage("Images/enemy.png");
 			enemySkins[1] = optimizedImage("Images/eye.png");
+			enemySkins[2] = optimizedImage("Images/snake.png");
 		}catch(IOException e){
 			System.out.println("Error loading enemySkins");
 		}
@@ -138,7 +139,7 @@ public class Level1 extends JPanel implements ActionListener, MouseListener,
 		
 
 		//initialize enemies
-		for (int i = 0; i < 2; i++) { // create 2 enemies at random positions
+		for (int i = 0; i < 20; i++) { // create 2 enemies at random positions
 										// on map
 			int im = (int)(Math.random() * enemySkins.length);		//randomize enemySkin, just for fun
 			enemy.add(new Enemy(i, im, 32 + (int) (Math.random()

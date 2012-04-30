@@ -20,7 +20,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -120,25 +119,25 @@ public class JavaGame {
 			//load resources in to memory
 			tileSkins = new BufferedImage[4];
 			try{
-				tileSkins[0] = optimizedImage("Images/dirt.png");
-				tileSkins[1] = optimizedImage("Images/grass.png");
-				tileSkins[2] = optimizedImage("Images/stone.png");
-				tileSkins[3] = optimizedImage("Images/tree.png");
+				tileSkins[0] = optimizedImage("/Images/dirt.png");
+				tileSkins[1] = optimizedImage("/Images/grass.png");
+				tileSkins[2] = optimizedImage("/Images/stone.png");
+				tileSkins[3] = optimizedImage("/Images/tree.png");
 			}catch(IOException e){
 				System.out.println("Error loading tileSkins");
 			}
 			
 			enemySkins = new BufferedImage[2];
 			try{
-				enemySkins[0] = optimizedImage("Images/enemy.png");
-				enemySkins[1] = optimizedImage("Images/eye.png");
+				enemySkins[0] = optimizedImage("/Images/enemy.png");
+				enemySkins[1] = optimizedImage("/Images/eye.png");
 			}catch(IOException e){
 				System.out.println("Error loading enemySkins");
 			}
 			
 			entitySkins = new BufferedImage[1];
 			try{
-				entitySkins[0] = optimizedImage("Images/entity.png");
+				entitySkins[0] = optimizedImage("/Images/entity.png");
 			}catch(IOException e){
 				System.out.println("Error loading entitySkins");
 			}
@@ -459,7 +458,7 @@ public class JavaGame {
 		//optimize images for current system
 		public BufferedImage optimizedImage(String resourceName) throws IOException
 		{
-			BufferedImage image = ImageIO.read(new File(this.getClass().getResource(resourceName).getPath()));
+			BufferedImage image = ImageIO.read(this.getClass().getResourceAsStream(resourceName));
 		        // obtain the current system graphical settings
 		        GraphicsConfiguration gfx_config = GraphicsEnvironment.
 		                getLocalGraphicsEnvironment().getDefaultScreenDevice().

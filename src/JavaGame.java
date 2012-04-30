@@ -14,10 +14,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentEvent;
@@ -121,13 +124,30 @@ public class JavaGame {
 			screenTilesHigh = gui.getHeight() / tileHeight;
 			
 			//load resources in to memory
-			tileSkins = new BufferedImage[5];
+			tileSkins = new BufferedImage[21];
 			try{
 				tileSkins[0] = optimizedImage("/Images/dirt.png");
 				tileSkins[1] = optimizedImage("/Images/grass.png");
 				tileSkins[2] = optimizedImage("/Images/stone.png");
 				tileSkins[3] = optimizedImage("/Images/tree.png");
 				tileSkins[4] = optimizedImage("/Images/water.png");
+				
+				tileSkins[5] = optimizedImage("/Images/water.png");
+				tileSkins[6] = optimizedImage("/Images/water.png");
+				tileSkins[7] = optimizedImage("/Images/water.png");
+				tileSkins[8] = optimizedImage("/Images/water.png");
+				tileSkins[9] = optimizedImage("/Images/water.png");
+				tileSkins[10] = optimizedImage("/Images/water.png");
+				tileSkins[11] = optimizedImage("/Images/water.png");
+				tileSkins[12] = optimizedImage("/Images/water.png");
+				tileSkins[13] = optimizedImage("/Images/water.png");
+				tileSkins[14] = optimizedImage("/Images/water.png");
+				tileSkins[15] = optimizedImage("/Images/water.png");
+				tileSkins[16] = optimizedImage("/Images/water.png");
+				tileSkins[17] = optimizedImage("/Images/water.png");
+				tileSkins[18] = optimizedImage("/Images/water.png");
+				tileSkins[19] = optimizedImage("/Images/water.png");
+				tileSkins[20] = optimizedImage("/Images/water.png");
 			}catch(IOException e){
 				System.out.println("Error loading tileSkins");
 			}
@@ -690,8 +710,14 @@ public class JavaGame {
 		@SuppressWarnings("serial")
 		private class TilePopupMenu extends JPopupMenu implements ActionListener{
 			JMenuItem menuItem = null;
+			JScrollPane scrollPane = null;
 
 			public TilePopupMenu(){
+				setLayout(new GridLayout(0, 5));
+				//scrollPane = new JScrollPane(this);
+				//scrollPane.setPreferredSize(new Dimension(tileWidth * 4, tileHeight * 4));
+				//add(scrollPane);
+				
 				for(int i = 0; i < tileSkins.length; i++){
 					menuItem = new JMenuItem(new ImageIcon(tileSkins[i]));
 					menuItem.addActionListener(this);

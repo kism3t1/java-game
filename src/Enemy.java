@@ -8,7 +8,6 @@ public class Enemy extends CollisionDetection {
 	private AI ai;
 
 	public Enemy(int id, int skin) {
-		ai = new AI();
 		this.skin = skin;
 		x = 80;
 		y = 120;
@@ -18,10 +17,10 @@ public class Enemy extends CollisionDetection {
 		setSpeed(2);
 		speed = 1;	//Speed of Enemy
 		dLast = System.currentTimeMillis() - 500; //Do not set delay at start of game
+		ai = new AI(id);
 	}
 
 	public Enemy(int id, int skin, int x, int y) {
-		ai = new AI();
 		this.skin = skin;
 		this.x = x;
 		this.y = y;
@@ -30,6 +29,7 @@ public class Enemy extends CollisionDetection {
 		this.id = id;
 		speed = 1;
 		dLast = System.currentTimeMillis() - 500;
+		ai = new AI(id);
 	}
 
 	public void move() {

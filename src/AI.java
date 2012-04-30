@@ -13,8 +13,11 @@ public class AI extends CollisionDetection {
 	private int entityY;
 	private int distanceX;
 	private int distanceY;
+	private int id;
 	
-	
+	public AI(int id){
+		this.id = id;
+	}
 	
 	//The random direction algorithm
 	
@@ -45,9 +48,8 @@ public class AI extends CollisionDetection {
 	//VERY MUCH WORK IN PROGRESS!!!!!!!
 	
 	public void checklocation(){
-		for (int i = 0; i < JavaGame.enemy.size(); i++) {
-			enemyX = JavaGame.enemy.get(i).getX();
-			enemyY = JavaGame.enemy.get(i).getY();
+			enemyX = JavaGame.enemy.get(id).getX();
+			enemyY = JavaGame.enemy.get(id).getY();
 			entityX = JavaGame.entity.getX();
 			entityY = JavaGame.entity.getY();
 			//System.out.println("Entity X = " + entityX);
@@ -65,7 +67,6 @@ public class AI extends CollisionDetection {
 		}else{
 			randomAIDirection();
 			System.out.println("Enemy is too far away");
-		}
 		}
 	}
 	

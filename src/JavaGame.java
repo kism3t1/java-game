@@ -10,7 +10,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
@@ -374,7 +378,21 @@ public class JavaGame {
 				keyLastProcessed = System.currentTimeMillis();
 			}
 		}
+		
+		public void setTile(int skin) {
+			Map m = readCurrentMap();
 
+			for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
+				for (int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++) {
+					if (!m.TileSet[x][y].isVisible())
+						m.TileSet[x][y].setVisible(true);
+					m.TileSet[x][y].setSkin(skin);
+				}
+			}
+
+			writeCurrentMap(m);
+		}
+		
 		private void hideTile() {
 			if (System.currentTimeMillis() - keyLastProcessed > KEY_DELAY) {
 				Map m = readCurrentMap();
@@ -490,13 +508,13 @@ public class JavaGame {
 		
 		// mouse control
 		@Override
-		public void mouseClicked(MouseEvent m) {
-			switch (m.getButton()) {
+		public void mouseClicked(MouseEvent e) {
+			switch (e.getButton()) {
 			case MouseEvent.BUTTON1:
 				for (int x = xOffset; x < xOffset + screenTilesWide; x++) {
 					for (int y = yOffset; y < yOffset + screenTilesHigh; y++) {
 						if (world.floorMap.TileSet[x][y].getBounds().contains(
-								m.getPoint())) {
+								e.getPoint())) {
 							marker.selectRange(new Point(x, y), new Point(x, y));
 							return;
 						}
@@ -506,38 +524,51 @@ public class JavaGame {
 			}
 		}
 
+		private void showTileMenu(MouseEvent e) {
+			TilePopupMenu menu = new TilePopupMenu();
+			menu.show(e.getComponent(), e.getXOnScreen(), e.getYOnScreen());
+		}
+
 		@Override
-		public void mousePressed(MouseEvent m) {
-			mouseButtonDown = m.getButton();
+		public void mousePressed(MouseEvent e) {
+			mouseButtonDown = e.getButton();
 			switch (mouseButtonDown) {
 			case MouseEvent.BUTTON1:
 				for (int x = xOffset; x < xOffset + screenTilesWide; x++) {
 					for (int y = yOffset; y < yOffset + screenTilesHigh; y++) {
 						if (world.floorMap.TileSet[x][y].getBounds().contains(
-								m.getPoint())) {
+								e.getPoint())) {
 							marker.selectRange(new Point(x, y), new Point(x, y));
 							return;
 						}
 					}
 				}
 				break;
+			case MouseEvent.BUTTON3:
+				if(e.isPopupTrigger())
+					showTileMenu(e);
+				break;
 			}
 		}
 
 		@Override
-		public void mouseReleased(MouseEvent m) {
+		public void mouseReleased(MouseEvent e) {
 			switch (mouseButtonDown) {
 			case MouseEvent.BUTTON1:
 				for (int x = xOffset; x < xOffset + screenTilesWide; x++) {
 					for (int y = yOffset; y < yOffset + screenTilesHigh; y++) {
 						if (world.floorMap.TileSet[x][y].getBounds().contains(
-								m.getPoint())) {
+								e.getPoint())) {
 							marker.setSelectionEnd(new Point(x, y));
 							mouseDragging = false;
 							return;
 						}
 					}
 				}
+				break;
+			case MouseEvent.BUTTON3:
+				if(e.isPopupTrigger())
+					showTileMenu(e);
 				break;
 			}
 			mouseButtonDown = 0;
@@ -652,6 +683,25 @@ public class JavaGame {
 					}
 					break;
 				}
+			}
+		}
+		
+		
+		@SuppressWarnings("serial")
+		private class TilePopupMenu extends JPopupMenu implements ActionListener{
+			JMenuItem menuItem = null;
+
+			public TilePopupMenu(){
+				for(int i = 0; i < tileSkins.length; i++){
+					menuItem = new JMenuItem(new ImageIcon(tileSkins[i]));
+					menuItem.addActionListener(this);
+					menuItem.setActionCommand(Integer.toString(i));
+					add(menuItem);
+				}
+			}
+			
+			public void actionPerformed(ActionEvent e) {
+				setTile(Integer.parseInt(e.getActionCommand()));
 			}
 		}
 

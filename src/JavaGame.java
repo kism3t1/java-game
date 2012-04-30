@@ -117,12 +117,13 @@ public class JavaGame {
 			screenTilesHigh = gui.getHeight() / tileHeight;
 			
 			//load resources in to memory
-			tileSkins = new BufferedImage[4];
+			tileSkins = new BufferedImage[5];
 			try{
 				tileSkins[0] = optimizedImage("/Images/dirt.png");
 				tileSkins[1] = optimizedImage("/Images/grass.png");
 				tileSkins[2] = optimizedImage("/Images/stone.png");
 				tileSkins[3] = optimizedImage("/Images/tree.png");
+				tileSkins[4] = optimizedImage("/Images/water.png");
 			}catch(IOException e){
 				System.out.println("Error loading tileSkins");
 			}

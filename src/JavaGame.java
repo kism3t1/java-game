@@ -127,10 +127,11 @@ public class JavaGame {
 				System.out.println("Error loading tileSkins");
 			}
 			
-			enemySkins = new BufferedImage[2];
+			enemySkins = new BufferedImage[3];
 			try{
 				enemySkins[0] = optimizedImage("/Images/enemy.png");
 				enemySkins[1] = optimizedImage("/Images/eye.png");
+				enemySkins[2] = optimizedImage("/Images/snake.png");
 			}catch(IOException e){
 				System.out.println("Error loading enemySkins");
 			}

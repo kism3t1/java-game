@@ -69,9 +69,12 @@ public class JavaGame {
 	public static int screenTilesHigh = 0;
 	public static int tileWidth = 32;
 	public static int tileHeight = 32;
+	
+	public static StartScreen start;
 
 	
 	public static void main(String[] args) {
+	//	/*
 		JFrame frame = new JFrame();
 		Canvas gui = new Canvas();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,6 +86,26 @@ public class JavaGame {
 		Thread gameThread = new Thread(new GameLoop(gui));
 		gameThread.setPriority(Thread.MAX_PRIORITY);
 		gameThread.start(); // start Game processing.
+	//*/
+		
+		//start = new StartScreen();	// TO RUN START SCREEN FIRST
+		//start.init();
+	}
+	
+		//METHOD TO CALL GAME FROM START SCREEN!!!
+	
+	public static void init(){
+		JFrame frame = new JFrame();
+		Canvas gui = new Canvas();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().add(gui);
+		frame.setSize(710, 730);
+		frame.setTitle("Java-Game V0.1 - Map Editor");
+		frame.setResizable(true);
+		frame.setVisible(true); // start AWT painting.
+		Thread gameThread = new Thread(new GameLoop(gui));
+		gameThread.setPriority(Thread.MAX_PRIORITY);
+		gameThread.start(); // start Game processing
 	}
 	
 	

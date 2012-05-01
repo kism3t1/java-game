@@ -14,10 +14,10 @@ public class Map implements Serializable {
 
 	Tile[][] TileSet; // array to hold tiles and form level map
 
-	public Map(int setWidth, int setHeight,
-			boolean isVisible, boolean isWall) { // Map constructor
-		width = setWidth;
-		height = setHeight;
+	public Map(int width, int height,
+			boolean isVisible, int borderSkin) { // Map constructor
+		this.width = width;
+		this.height = height;
 
 		TileSet = new Tile[width][height]; // initialize TileSet to suit Map
 											// size
@@ -25,7 +25,12 @@ public class Map implements Serializable {
 			for (int y = 0; y < height; y++) {
 				TileSet[x][y] = new Tile();
 				TileSet[x][y].setVisible(isVisible);
-				TileSet[x][y].setWall(isWall);
+				
+				if(x == 0 || y == 0 || x == width-1 || y == height-1){
+					TileSet[x][y].setSkin(borderSkin);
+					TileSet[x][y].setVisible(true);
+					TileSet[x][y].setDestructible(false);
+				}
 			}
 		}
 	}
@@ -39,11 +44,10 @@ public class Map implements Serializable {
 	}
 
 	public void changeTile(int tileX, int tileY, byte bSkin, byte bHealth,
-			boolean isDestructible, boolean isWall, boolean isVisible) {
+			boolean isDestructible, boolean isVisible) {
 		TileSet[tileX][tileY].setSkin(bSkin);
 		TileSet[tileX][tileY].setHealth(bHealth);
 		TileSet[tileX][tileY].setDestructible(isDestructible);
-		TileSet[tileX][tileY].setWall(isWall);
 		TileSet[tileX][tileY].setVisible(isVisible);
 	}
 

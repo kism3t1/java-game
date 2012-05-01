@@ -19,7 +19,6 @@ public class Tile implements Serializable {
 	private static final long serialVersionUID = 6973028747019539127L;
 	// initialize Tile fields
 	private boolean destructible;
-	private boolean wall;
 	private boolean visible;
 
 	private int skin;
@@ -32,7 +31,6 @@ public class Tile implements Serializable {
 		skin = 0;
 		health = 3;
 		destructible = false;
-		wall = false;
 		visible = true;
 	}
 
@@ -41,7 +39,6 @@ public class Tile implements Serializable {
 		skin = bSkin;
 		health = bHealth;
 		destructible = isDestructible;
-		wall = isWall;
 		visible = isVisible;
 	}
 
@@ -51,18 +48,6 @@ public class Tile implements Serializable {
 
 	public void setDestructible(boolean isDestructible) {
 		destructible = isDestructible;
-	}
-
-	public boolean isWall() { // returns wall field
-		return wall;
-	}
-
-	public void setWall(boolean isWall) {
-		wall = isWall;
-	}
-
-	public void toggleWall() {
-		wall = !wall;
 	}
 
 	public boolean isVisible() { // returns visible field

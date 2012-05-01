@@ -13,14 +13,16 @@ public class World implements Serializable {
 	private String title = "Default World";
 	private int width;
 	private int height;
+	private int borderSkin;
 
-	public World(String title, int width, int height) {
-		this.setTitle(title);
-		this.setWidth(width);
-		this.setHeight(height);
+	public World(String title, int width, int height, int borderSkin) {
+		this.title = title;
+		this.width = width;
+		this.height = height;
+		this.borderSkin = borderSkin;
 
-		floorMap = new Map(width, height, true, false);
-		wallMap = new Map(width, height, false, true);
+		floorMap = new Map(width, height, true, borderSkin);
+		wallMap = new Map(width, height, false, borderSkin);
 	}
 
 	public String getTitle() {

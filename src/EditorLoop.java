@@ -17,6 +17,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -139,7 +140,10 @@ MouseMotionListener, ComponentListener{
 
 		//game loop
 		while(isRunning){
-
+			
+			//DayCycle.runCycledown();	//POC DAY/NIGHT Cycle
+			//DayCycle.runCycleup();
+		
 			updateGameState();			//calculates any necessary changes to game play objects
 
 			updateGUI(strategy);		//redraws GUI

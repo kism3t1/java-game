@@ -13,9 +13,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 
-//Need to add KeyListener to select Start Game or Map Editor
-//Add stroke to image when Up || Down is selected
-
 
 @SuppressWarnings("serial")
 public class StartScreen extends JPanel implements Runnable{
@@ -34,13 +31,12 @@ public class StartScreen extends JPanel implements Runnable{
 			this.gui = gui;
 			isRunning = true;
 			
-			menuChoice =1;		//Default to Play Game
+			menuChoice =1;		//Default selection to Play Game
 			
 			kl = new TAdapter();
 			gui.addKeyListener(kl);
 			gui.setFocusable(true);
 			gui.requestFocusInWindow();
-			//do{}while(!gui.requestFocusInWindow());
 			
 	        start = new ImageIcon(this.getClass().getResource("/Images/start.png")).getImage();
 			map = new ImageIcon(this.getClass().getResource("/Images/map.png")).getImage();

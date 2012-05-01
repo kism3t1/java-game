@@ -84,21 +84,26 @@ public class JavaGame {
 		frame.setResizable(true);
 		frame.setVisible(true); // start AWT painting.
 		
-		Thread menuThread = new Thread(new StartScreen(gui));
-		Thread gameThread = new Thread(new GameLoop(gui));
+		//Thread menuThread = new Thread(new StartScreen(gui));
+		//Thread gameThread = new Thread(new GameLoop(gui));
+		Thread gThread = new Thread(new StartScreen(gui));
+		//menuThread.setPriority(Thread.MAX_PRIORITY);
+		//gameThread.setPriority(Thread.MAX_PRIORITY);
 		
-		menuThread.setPriority(Thread.MAX_PRIORITY);
-		gameThread.setPriority(Thread.MAX_PRIORITY);
+		gThread.start();
 		
-		menuThread.start();
-		
+		Boolean isMenu = true;
 		Boolean isRunning = true;
 		do{
-			if(!menuThread.isAlive())
-				gameThread.start();
-			
-			if(!gameThread.isAlive())
-				menuThread.start();
+			if(!gThread.isAlive()){
+				if(isMenu){
+					gThread = new Thread(new GameLoop(gui));
+				}else{
+					gThread = new Thread(new StartScreen(gui));
+				}
+				isMenu = !isMenu;
+				gThread.start();
+			}
 		}while(isRunning);
 
 	//*/
@@ -152,7 +157,7 @@ public class JavaGame {
 			gui.addComponentListener(this);
 			gui.setFocusable(true);
 			gui.requestFocusInWindow();
-			do{}while(!gui.requestFocusInWindow());
+			//do{}while(!gui.requestFocusInWindow());
 			
 			//initial calculation of screen -> tile size
 			screenTilesWide = gui.getWidth() / tileWidth;

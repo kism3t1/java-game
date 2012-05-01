@@ -6,10 +6,10 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
@@ -28,12 +28,14 @@ public class StartScreen extends JPanel implements Runnable{
 	private Canvas gui;
 	private boolean isRunning;
 	private long cycleTime;
+	private KeyListener kl;
 	
 		public StartScreen (Canvas gui){
 			this.gui = gui;
 			isRunning = true;
 			
-			gui.addKeyListener(new TAdapter());
+			kl = new TAdapter();
+			gui.addKeyListener(kl);
 			gui.setFocusable(true);
 			gui.requestFocusInWindow();
 			//do{}while(!gui.requestFocusInWindow());
@@ -54,6 +56,7 @@ public class StartScreen extends JPanel implements Runnable{
 				syncFPS();
 			}
 			
+			gui.removeKeyListener(kl);
 		}
 
 	    public void updateGUI(BufferStrategy strategy) {
@@ -101,16 +104,12 @@ public class StartScreen extends JPanel implements Runnable{
 	*/
 	
 	private class TAdapter extends KeyAdapter {
-		public void keyPressed(KeyEvent e) {
-
+		public void keyPressed(KeyEvent e) {}
+		
+		public void keyReleased(KeyEvent e) {
+			
 			int key = e.getKeyCode();
-
-			//if (key == KeyEvent.VK_LEFT) {
-			//}
-
-			//if (key == KeyEvent.VK_RIGHT) {
-			//}
-
+			
 			if (key == KeyEvent.VK_UP) {
 				//Highlight picture --
 				//choice -=1;
@@ -125,12 +124,10 @@ public class StartScreen extends JPanel implements Runnable{
 			
 			if ((key == KeyEvent.VK_SPACE) ||
 					(key == KeyEvent.VK_ENTER)) {
-				StartScreen.this.setVisible(false);
+				//StartScreen.this.setVisible(false);
 				isRunning = false;
 			}
 		}
-		
-		public void keyReleased(KeyEvent e) {}
 		
 		
 	}

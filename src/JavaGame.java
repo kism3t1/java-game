@@ -84,11 +84,7 @@ public class JavaGame {
 		frame.setResizable(true);
 		frame.setVisible(true); // start AWT painting.
 		
-		//Thread menuThread = new Thread(new StartScreen(gui));
-		//Thread gameThread = new Thread(new GameLoop(gui));
 		Thread gThread = new Thread(new StartScreen(gui));
-		//menuThread.setPriority(Thread.MAX_PRIORITY);
-		//gameThread.setPriority(Thread.MAX_PRIORITY);
 		
 		gThread.start();
 		
@@ -105,31 +101,10 @@ public class JavaGame {
 				gThread.start();
 			}
 		}while(isRunning);
+	}
+	
 
-	//*/
-		
-		//start = new StartScreen();	// TO RUN START SCREEN FIRST
-		//start.init();
-	}
-	
-		//METHOD TO CALL GAME FROM START SCREEN!!!
-	/*
-	public static void init(){
-		JFrame frame = new JFrame();
-		Canvas gui = new Canvas();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().add(gui);
-		frame.setSize(710, 730);
-		frame.setTitle("Java-Game V0.1 - Map Editor");
-		frame.setResizable(true);
-		frame.setVisible(true); // start AWT painting.
-		Thread gameThread = new Thread(new GameLoop(gui));
-		gameThread.setPriority(Thread.MAX_PRIORITY);
-		gameThread.start(); // start Game processing
-	}
-	
-	*/
-	private static class GameLoop implements Runnable, ActionListener, MouseListener,
+	private static class GameLoop implements Runnable, MouseListener,
 	MouseMotionListener, ComponentListener{
 		
 		private boolean isRunning;
@@ -157,7 +132,6 @@ public class JavaGame {
 			gui.addComponentListener(this);
 			gui.setFocusable(true);
 			gui.requestFocusInWindow();
-			//do{}while(!gui.requestFocusInWindow());
 			
 			//initial calculation of screen -> tile size
 			screenTilesWide = gui.getWidth() / tileWidth;
@@ -725,6 +699,9 @@ public class JavaGame {
 						e1.printStackTrace();
 					}
 					break;
+				case KeyEvent.VK_ESCAPE:	//kill thread and exit to menu
+					isRunning = false;
+					break;
 				}
 			}
 		}
@@ -752,12 +729,6 @@ public class JavaGame {
 			public void actionPerformed(ActionEvent e) {
 				setTile(Integer.parseInt(e.getActionCommand()));
 			}
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			//entity.move();
-			//marker.move(shiftKey);
 		}
 	}
 

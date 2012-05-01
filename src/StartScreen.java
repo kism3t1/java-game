@@ -70,9 +70,11 @@ public class StartScreen extends JPanel implements Runnable{
 	        g.drawImage(start, 200, 200, null);
 	        g.drawImage(map, 200, 350, null);
 	        if (menuChoice == 1){
-	        	selectGame(g);
+	        	selection(g, 200, 200, 280, 50); //Location of Play game image
+	        }else if (menuChoice ==2){
+	        	selection(g, 200, 350, 280, 50); //Location of Map editor image
 	        }else{
-	        	selectEditor(g);
+	        	menuChoice =1;
 	        }
 	        g.dispose();
 			strategy.show();
@@ -88,20 +90,14 @@ public class StartScreen extends JPanel implements Runnable{
 			}
 		}
 	    
-	    public void selectGame(Graphics g){
-	    	Graphics2D g2d = (Graphics2D) g;
-	    	BasicStroke bs1 = new BasicStroke(5, BasicStroke.CAP_ROUND,BasicStroke.JOIN_BEVEL);
-	        g2d.setStroke(bs1);
-	        g2d.setPaint(Color.yellow);
-	        g2d.drawRect(200, 200, 280, 50);
-	    }
+	    //Method to draw the yellow rectangle
 	    
-	    public void selectEditor(Graphics g){
+	    public void selection(Graphics g, int x, int y, int width, int height){
 	    	Graphics2D g2d = (Graphics2D) g;
 	    	BasicStroke bs1 = new BasicStroke(5, BasicStroke.CAP_ROUND,BasicStroke.JOIN_BEVEL);
 	        g2d.setStroke(bs1);
 	        g2d.setPaint(Color.yellow);
-	        g2d.drawRect(200, 350, 280, 50);
+	        g2d.drawRect(x, y, width, height);
 	    }
 		
 	    //Highlight menu items
@@ -114,13 +110,11 @@ public class StartScreen extends JPanel implements Runnable{
 			int key = e.getKeyCode();
 			
 			if (key == KeyEvent.VK_UP) {
-				menuChoice =1;
-				//System.out.println("up");
+				menuChoice -=1;
 			}
 
 			if (key == KeyEvent.VK_DOWN) {
-				menuChoice =2;
-				//System.out.println("down");
+				menuChoice +=1;
 			}
 			
 			if ((key == KeyEvent.VK_SPACE) ||
@@ -131,12 +125,13 @@ public class StartScreen extends JPanel implements Runnable{
 				}
 				else if(menuChoice == 2){
 					isRunning = false;
+				}else{
+					System.out.println("Error");
 				}
 				
 			}
 		}
-		
-		
+			
 	}
 
 }

@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class StartScreen extends JPanel implements Runnable{
 	
-	private int choice;
+	private int menuChoice;
 	Image start;
 	Image map;
 	Image bg;
@@ -33,6 +33,8 @@ public class StartScreen extends JPanel implements Runnable{
 		public StartScreen (Canvas gui){
 			this.gui = gui;
 			isRunning = true;
+			
+			menuChoice =1;		//Default to Play Game
 			
 			kl = new TAdapter();
 			gui.addKeyListener(kl);
@@ -59,16 +61,19 @@ public class StartScreen extends JPanel implements Runnable{
 			gui.removeKeyListener(kl);
 		}
 
+		//Draw routine & check menuChoice
+		
 	    public void updateGUI(BufferStrategy strategy) {
 	    	Graphics g = strategy.getDrawGraphics();
 
-	        //Graphics2D g2d = (Graphics2D) g;
 	        g.drawImage(bg, 0,0,710,730,null);
-	        //g2d.drawString("Go on then....Choose", 200, 30);
 	        g.drawImage(start, 200, 200, null);
 	        g.drawImage(map, 200, 350, null);
-	        select(g);
-	        
+	        if (menuChoice == 1){
+	        	selectGame(g);
+	        }else{
+	        	selectEditor(g);
+	        }
 	        g.dispose();
 			strategy.show();
 	    }
@@ -83,25 +88,23 @@ public class StartScreen extends JPanel implements Runnable{
 			}
 		}
 	    
-	    public void select(Graphics g){
+	    public void selectGame(Graphics g){
 	    	Graphics2D g2d = (Graphics2D) g;
-	    	BasicStroke bs1 = new BasicStroke(8, BasicStroke.CAP_ROUND,BasicStroke.JOIN_BEVEL);
+	    	BasicStroke bs1 = new BasicStroke(5, BasicStroke.CAP_ROUND,BasicStroke.JOIN_BEVEL);
+	        g2d.setStroke(bs1);
+	        g2d.setPaint(Color.yellow);
+	        g2d.drawRect(200, 200, 280, 50);
+	    }
+	    
+	    public void selectEditor(Graphics g){
+	    	Graphics2D g2d = (Graphics2D) g;
+	    	BasicStroke bs1 = new BasicStroke(5, BasicStroke.CAP_ROUND,BasicStroke.JOIN_BEVEL);
 	        g2d.setStroke(bs1);
 	        g2d.setPaint(Color.yellow);
 	        g2d.drawRect(200, 350, 280, 50);
 	    }
 		
-	/*
-	public void init(){
-		  JFrame frame = new JFrame("Java-Game V0.1 - StartScreen");
-	        frame.add(new StartScreen());
-	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        frame.setSize(710, 730);
-	        frame.setLocationRelativeTo(null);
-	        frame.setVisible(true);
-		
-	}
-	*/
+	    //Highlight menu items
 	
 	private class TAdapter extends KeyAdapter {
 		public void keyPressed(KeyEvent e) {}
@@ -111,21 +114,25 @@ public class StartScreen extends JPanel implements Runnable{
 			int key = e.getKeyCode();
 			
 			if (key == KeyEvent.VK_UP) {
-				//Highlight picture --
-				//choice -=1;
-				System.out.println("up");
+				menuChoice =1;
+				//System.out.println("up");
 			}
 
 			if (key == KeyEvent.VK_DOWN) {
-				//Highlight picture ++
-				//choice +=1;
-				System.out.println("down");
+				menuChoice =2;
+				//System.out.println("down");
 			}
 			
 			if ((key == KeyEvent.VK_SPACE) ||
 					(key == KeyEvent.VK_ENTER)) {
-				//StartScreen.this.setVisible(false);
-				isRunning = false;
+				if (menuChoice == 1){
+				//isRunning = false;
+					System.out.println("Sorry no game yet...");
+				}
+				else if(menuChoice == 2){
+					isRunning = false;
+				}
+				
 			}
 		}
 		

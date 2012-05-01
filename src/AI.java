@@ -54,19 +54,19 @@ public class AI extends CollisionDetection {
 			entityY = JavaGame.entity.getY();
 			//System.out.println("Entity X = " + entityX);
 			//System.out.println("Entity Y = " + entityY);
-			System.out.println("Enemy X = " + enemyX);
-			System.out.println("Enemy Y = " + enemyY);
+			//System.out.println("Enemy X = " + enemyX);
+			//System.out.println("Enemy Y = " + enemyY);
 			distanceX = enemyX - entityX;	//Calculate distance away from entity
 			distanceY = enemyY - entityY;
 			//System.out.println("Distance away from enemy: X=" + distanceX +" Y= " + distanceY);
 		if (distanceX <= 200 && distanceY <= 200){ 	//If enemy is less that 200 tiles away from entity
-			System.out.println("Enemy is in proximity - ATTACK!!!");
+			//System.out.println("Enemy is in proximity - ATTACK!!!");
 			speed = 2;	//Speed up enemy they get angry
 			attack();		//Run attack Method
 			//randomAIDirection();
 		}else{
 			randomAIDirection();
-			System.out.println("Enemy is too far away");
+			//System.out.println("Enemy is too far away");
 		}
 	}
 	
@@ -78,22 +78,22 @@ public class AI extends CollisionDetection {
 			if (enemyX < entityX && enemyY < entityY){	//If enemy is to the left of entity - go right
 				dx = speed;
 				dy = 0;		
-				System.out.println("ATTACKING RIGHT");
+				//System.out.println("ATTACKING RIGHT");
 			}
 			else if (enemyX > entityX && enemyY > entityY){	//If enemy is to the right of entity - go left
 				dx = -speed;
 				dy = 0;
-				System.out.println("ATTACKING LEFT");
+				//System.out.println("ATTACKING LEFT");
 			}
 			else if (enemyY < entityY){	//If enemy is above the entity - go down
 				dx = 0; 
 				dy = speed;
-				System.out.println("ATTACKING DOWN");
+				//System.out.println("ATTACKING DOWN");
 			}
 			else if (enemyY > entityY){	//If enemy is below the entity - go up
 				dx = 0;
 				dy = -speed;				
-				System.out.println("ATTACKING UP");
+				//System.out.println("ATTACKING UP");
 			}
 			else{
 				randomAIDirection();

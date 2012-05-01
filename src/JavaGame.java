@@ -37,7 +37,7 @@ import javax.swing.JOptionPane;
 
 public class JavaGame {
 	
-	private static final int FRAME_DELAY = 20;	// frame delay in milliseconds (i.e. 1000/20 = 50 FPS)
+	public static final int FRAME_DELAY = 20;	// frame delay in milliseconds (i.e. 1000/20 = 50 FPS)
 	public static final int KEY_DELAY = 75; 	// set delay in milliseconds between key strokes
 	
 	// tile level identifiers
@@ -83,9 +83,24 @@ public class JavaGame {
 		frame.setTitle("Java-Game V0.1 - Map Editor");
 		frame.setResizable(true);
 		frame.setVisible(true); // start AWT painting.
+		
+		Thread menuThread = new Thread(new StartScreen(gui));
 		Thread gameThread = new Thread(new GameLoop(gui));
+		
+		menuThread.setPriority(Thread.MAX_PRIORITY);
 		gameThread.setPriority(Thread.MAX_PRIORITY);
-		gameThread.start(); // start Game processing.
+		
+		menuThread.start();
+		
+		Boolean isRunning = true;
+		do{
+			if(!menuThread.isAlive())
+				gameThread.start();
+			
+			if(!gameThread.isAlive())
+				menuThread.start();
+		}while(isRunning);
+
 	//*/
 		
 		//start = new StartScreen();	// TO RUN START SCREEN FIRST
@@ -93,7 +108,7 @@ public class JavaGame {
 	}
 	
 		//METHOD TO CALL GAME FROM START SCREEN!!!
-	
+	/*
 	public static void init(){
 		JFrame frame = new JFrame();
 		Canvas gui = new Canvas();
@@ -108,7 +123,7 @@ public class JavaGame {
 		gameThread.start(); // start Game processing
 	}
 	
-	
+	*/
 	private static class GameLoop implements Runnable, ActionListener, MouseListener,
 	MouseMotionListener, ComponentListener{
 		

@@ -39,7 +39,7 @@ public class Marker {
 	public void move(boolean shiftKey) {
 		if (System.currentTimeMillis() - keyLastProcessed > JavaGame.KEY_DELAY) {
 			// check marker is within bounds of tileset
-			if (firstTileX + dx >= 1 && lastTileX + dx <= JavaGame.MAP_TILES_WIDE) {
+			if (firstTileX + dx >= 1 && lastTileX + dx <= JavaGame.world.getWidth()) {
 
 				// calculate scrolling offset
 				if (lastTileX + dx >= JavaGame.screenTilesWide + JavaGame.xOffset
@@ -52,7 +52,7 @@ public class Marker {
 			}
 
 			// check marker is within bounds of tileset
-			if (firstTileY + dy >= 1 && lastTileY + dy <= JavaGame.MAP_TILES_HIGH) {
+			if (firstTileY + dy >= 1 && lastTileY + dy <= JavaGame.world.getHeight()) {
 
 				// calculate scrolling offset
 				if (lastTileY + dy >= JavaGame.screenTilesHigh + JavaGame.yOffset

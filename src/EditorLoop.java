@@ -348,7 +348,7 @@ MouseMotionListener{
 		writeCurrentMap(m);
 	}
 
-	private void hideTile() {
+	private void toggleTileVisible() {
 		if(marker.getLevel() == JavaGame.LEVEL_WALL){
 			if (System.currentTimeMillis() - keyLastProcessed > JavaGame.KEY_DELAY) {
 				Map m = readCurrentMap();
@@ -364,7 +364,7 @@ MouseMotionListener{
 		}
 	}
 	
-	private void destructTile() {
+	private void toggleTileDestructible() {
 		if(marker.getLevel() == JavaGame.LEVEL_WALL){
 			if (System.currentTimeMillis() - keyLastProcessed > JavaGame.KEY_DELAY) {
 				Map m = readCurrentMap();
@@ -601,7 +601,7 @@ MouseMotionListener{
 				previousTile();
 				break;
 			case KeyEvent.VK_DELETE: // toggle tile visibility
-				hideTile();
+				toggleTileVisible();
 				break;
 			case KeyEvent.VK_PAGE_UP: // edit wall map
 				marker.changeLevel(JavaGame.LEVEL_WALL);
@@ -761,10 +761,10 @@ MouseMotionListener{
 				marker.changeLevel(Integer.parseInt(command[1]));
 				break;
 			case "DESTRUCT":
-				destructTile();
+				toggleTileDestructible();
 				break;
 			case "VISIBLE":
-				hideTile();
+				toggleTileVisible();
 				break;
 			}
 		}

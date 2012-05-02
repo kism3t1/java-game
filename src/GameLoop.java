@@ -306,6 +306,22 @@ MouseMotionListener{
 				JavaGame.nextThread = "MENU";
 				isRunning = false;
 				break;
+			case KeyEvent.VK_W:
+				if(JavaGame.yOffset > 0)
+					JavaGame.yOffset -= 1;
+				break;
+			case KeyEvent.VK_S:
+				if(JavaGame.yOffset < JavaGame.world.getHeight() - JavaGame.screenTilesHigh)
+					JavaGame.yOffset += 1;
+				break;
+			case KeyEvent.VK_A:
+				if(JavaGame.xOffset > 0)
+					JavaGame.xOffset -= 1;
+				break;
+			case KeyEvent.VK_D:
+				if(JavaGame.xOffset < JavaGame.world.getWidth() - JavaGame.screenTilesWide)
+					JavaGame.xOffset += 1;
+				break;
 			}
 		}
 	}

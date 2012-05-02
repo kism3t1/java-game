@@ -152,7 +152,7 @@ MouseMotionListener{
 	private void updateGameState(){
 		//TODO add movement and scrolling logic 
 		
-		//DayCycle.runCycledown();	//POC DAY/NIGHT Cycle
+		//DayCycle.runSunset();	//POC DAY/NIGHT Cycle
 		//DayCycle.runCycleup();
 
 		JavaGame.entity.move();

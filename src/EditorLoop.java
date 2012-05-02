@@ -8,8 +8,6 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -17,7 +15,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -34,7 +31,7 @@ import javax.swing.JPopupMenu;
 
 
 public class EditorLoop implements Runnable, MouseListener,
-MouseMotionListener, ComponentListener{
+MouseMotionListener{
 
 	// default map info
 	public static final int MAP_TILES_HIGH = 100;
@@ -61,7 +58,6 @@ MouseMotionListener, ComponentListener{
 		gui.addKeyListener(new TAdapter());
 		gui.addMouseListener(this);
 		gui.addMouseMotionListener(this);
-		gui.addComponentListener(this);
 		gui.setFocusable(true);
 		gui.requestFocusInWindow();
 
@@ -533,7 +529,7 @@ MouseMotionListener, ComponentListener{
 			for (int x = JavaGame.xOffset; x < JavaGame.xOffset + JavaGame.screenTilesWide; x++) {
 				for (int y = JavaGame.yOffset; y < JavaGame.yOffset + JavaGame.screenTilesHigh; y++) {
 					if (JavaGame.world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())
-							&& x > 0 && y > 0 && x < MAP_TILES_WIDE && y < MAP_TILES_HIGH) {
+							&& x > 0 && y > 0 && x < JavaGame.world.getWidth() && y < JavaGame.world.getHeight()) {
 						marker.setSelectionEnd(new Point(x, y));
 						mouseDragging = true;
 						return;
@@ -554,30 +550,6 @@ MouseMotionListener, ComponentListener{
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-	}
-
-	@Override
-	public void componentHidden(ComponentEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void componentMoved(ComponentEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void componentResized(ComponentEvent arg0) {
-		JavaGame.screenTilesWide = gui.getWidth() / JavaGame.tileWidth;
-		JavaGame.screenTilesHigh = gui.getHeight() / JavaGame.tileHeight;
-	}
-
-	@Override
-	public void componentShown(ComponentEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	private class TAdapter extends KeyAdapter {

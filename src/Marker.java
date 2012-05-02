@@ -39,11 +39,11 @@ public class Marker {
 	public void move(boolean shiftKey) {
 		if (System.currentTimeMillis() - keyLastProcessed > JavaGame.KEY_DELAY) {
 			// check marker is within bounds of tileset
-			if (firstTileX + dx >= 1 && lastTileX + dx <= JavaGame.world.getWidth()) {
+			if (firstTileX + dx >= 1 && lastTileX + dx <= JavaGame.world.getWidth() - 2) {
 
 				// calculate scrolling offset
 				if (lastTileX + dx >= JavaGame.screenTilesWide + JavaGame.xOffset
-						|| (firstTileX + dx < JavaGame.xOffset && JavaGame.xOffset > 0))
+						|| (firstTileX + dx <= JavaGame.xOffset && JavaGame.xOffset > 0))
 					JavaGame.xOffset += dx;
 
 				if (!shiftKey)
@@ -52,11 +52,11 @@ public class Marker {
 			}
 
 			// check marker is within bounds of tileset
-			if (firstTileY + dy >= 1 && lastTileY + dy <= JavaGame.world.getHeight()) {
+			if (firstTileY + dy >= 1 && lastTileY + dy <= JavaGame.world.getHeight() - 2) {
 
 				// calculate scrolling offset
 				if (lastTileY + dy >= JavaGame.screenTilesHigh + JavaGame.yOffset
-						|| (firstTileY + dy < JavaGame.yOffset && JavaGame.yOffset > 0))
+						|| (firstTileY + dy <= JavaGame.yOffset && JavaGame.yOffset > 0))
 					JavaGame.yOffset += dy;
 
 				if (!shiftKey)
@@ -206,15 +206,14 @@ public class Marker {
 
 		switch (key) {
 		case KeyEvent.VK_A:
-			if (firstTileX > 0)
-				dx = -1;
+			dx = -1;
 			break;
 		case KeyEvent.VK_D:
 			dx = 1;
 			break;
 		case KeyEvent.VK_W:
-			if (firstTileY > 0)
-				dy = -1;
+
+			dy = -1;
 			break;
 		case KeyEvent.VK_S:
 			dy = 1;

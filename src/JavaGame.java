@@ -42,10 +42,11 @@ public class JavaGame {
 		Canvas gui = new Canvas();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(gui);
-		frame.setSize(710, 730);
+		
 		frame.setTitle("Java-Game V0.1 - Map Editor");
-		frame.setResizable(true);
+		frame.setResizable(false);
 		frame.setVisible(true); // start AWT painting.
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
 		Thread gThread = new Thread(new StartScreen(gui));
 		

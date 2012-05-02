@@ -27,12 +27,12 @@ public class CollisionDetection {
 
 		// check for tile collision
 		if (checkTile) {
-			for (int x = JavaGame.xOffset; x < JavaGame.screenTilesWide
-					+ JavaGame.xOffset; x++) {
-				for (int y = JavaGame.yOffset; y < JavaGame.screenTilesHigh
-						+ JavaGame.yOffset; y++) {
-					if (JavaGame.world.wallMap.TileSet[x][y].isVisible()) {
-						r2 = JavaGame.world.wallMap.TileSet[x][y].getBounds();
+			for (int tx = JavaGame.xOffset; tx < JavaGame.screenTilesWide
+					+ JavaGame.xOffset; tx++) {
+				for (int ty = JavaGame.yOffset; ty < JavaGame.screenTilesHigh
+						+ JavaGame.yOffset; ty++) {
+					if (JavaGame.world.wallMap.TileSet[tx][ty].isVisible()) {
+						r2 = JavaGame.world.wallMap.TileSet[tx][ty].getBounds();
 
 						if (r1.intersects(r2)) { // Checks if entity collides
 													// with a tile

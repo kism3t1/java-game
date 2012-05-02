@@ -17,6 +17,7 @@ public class JavaGame {
 	public static final int LEVEL_WALL = 1;
 
 	public static World world;
+	private static GameTime gametime;
 	public static BufferedImage[] tileSkins;
 	public static BufferedImage[] enemySkins;
 	public static BufferedImage[] entitySkins;
@@ -52,7 +53,13 @@ public class JavaGame {
 		
 		Thread gThread = new Thread(new StartScreen(gui));
 		
+		//Start of GameTime Thread
+		//For the time being getting it to run as soon as the program starts just to test
+		gametime = new GameTime(0);
+		Thread pThread = new Thread(new GameTimeUpdater(gametime));
+				
 		gThread.start();
+		pThread.start();	//Start The GameTimeUpdater
 		
 		Boolean isRunning = true;
 		do{

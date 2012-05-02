@@ -632,6 +632,7 @@ MouseMotionListener{
 				}
 				break;
 			case KeyEvent.VK_ESCAPE:	//kill thread and exit to menu
+				JavaGame.nextThread = "MENU";
 				isRunning = false;
 				break;
 			}

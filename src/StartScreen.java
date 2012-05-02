@@ -116,10 +116,11 @@ public class StartScreen extends JPanel implements Runnable{
 			if ((key == KeyEvent.VK_SPACE) ||
 					(key == KeyEvent.VK_ENTER)) {
 				if (menuChoice == 1){
-				//isRunning = false;
-					System.out.println("Sorry no game yet...");
+					JavaGame.nextThread = "GAME";
+					isRunning = false;
 				}
 				else if(menuChoice == 2){
+					JavaGame.nextThread = "EDIT";
 					isRunning = false;
 				}else{
 					System.out.println("Error");

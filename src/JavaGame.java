@@ -10,6 +10,8 @@ public class JavaGame {
 	public static final int FRAME_DELAY = 20;	// frame delay in milliseconds (i.e. 1000/20 = 50 FPS)
 	public static final int KEY_DELAY = 75; 	// set delay in milliseconds between key strokes
 	
+	public static String nextThread;
+	
 	// tile level identifiers
 	public static final int LEVEL_FLOOR = 0;
 	public static final int LEVEL_WALL = 1;
@@ -52,16 +54,21 @@ public class JavaGame {
 		
 		gThread.start();
 		
-		Boolean isMenu = true;
 		Boolean isRunning = true;
 		do{
 			if(!gThread.isAlive()){
-				if(isMenu){
-					gThread = new Thread(new EditorLoop(gui));
-				}else{
+				String[] command = nextThread.split("[:]");
+				switch(command[0]){
+				case "MENU":
 					gThread = new Thread(new StartScreen(gui));
+					break;
+				case "EDIT":
+					gThread = new Thread(new EditorLoop(gui));
+					break;
+				case "GAME":
+					gThread = new Thread(new GameLoop(gui));
+					break;
 				}
-				isMenu = !isMenu;
 				gThread.start();
 			}
 		}while(isRunning);

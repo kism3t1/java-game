@@ -49,6 +49,10 @@ public class Tile implements Serializable {
 	public void setDestructible(boolean isDestructible) {
 		destructible = isDestructible;
 	}
+	
+	public void toggleDestructible() {
+		destructible = !destructible;
+	}
 
 	public boolean isVisible() { // returns visible field
 		return visible;

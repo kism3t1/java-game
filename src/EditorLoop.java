@@ -24,10 +24,14 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import javax.imageio.ImageIO;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.JRadioButtonMenuItem;
 
 
 public class EditorLoop implements Runnable, MouseListener,
@@ -345,16 +349,34 @@ MouseMotionListener{
 	}
 
 	private void hideTile() {
-		if (System.currentTimeMillis() - keyLastProcessed > JavaGame.KEY_DELAY) {
-			Map m = readCurrentMap();
+		if(marker.getLevel() == JavaGame.LEVEL_WALL){
+			if (System.currentTimeMillis() - keyLastProcessed > JavaGame.KEY_DELAY) {
+				Map m = readCurrentMap();
 
-			for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
-				for (int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++) {
-					m.TileSet[x][y].toggleVisibility();
+				for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
+					for (int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++) {
+						m.TileSet[x][y].toggleVisibility();
+					}
 				}
+				writeCurrentMap(m);
+				keyLastProcessed = System.currentTimeMillis();
 			}
-			writeCurrentMap(m);
-			keyLastProcessed = System.currentTimeMillis();
+		}
+	}
+	
+	private void destructTile() {
+		if(marker.getLevel() == JavaGame.LEVEL_WALL){
+			if (System.currentTimeMillis() - keyLastProcessed > JavaGame.KEY_DELAY) {
+				Map m = readCurrentMap();
+
+				for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
+					for (int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++) {
+						m.TileSet[x][y].toggleDestructible();
+					}
+				}
+				writeCurrentMap(m);
+				keyLastProcessed = System.currentTimeMillis();
+			}
 		}
 	}
 
@@ -392,7 +414,7 @@ MouseMotionListener{
 	}
 
 	// file handling
-	public void saveWorld() throws IOException {
+	public static void saveWorld() throws IOException {
 		int n = JOptionPane.showConfirmDialog(null, "Save current world?",
 				"Save Dialog", JOptionPane.YES_NO_OPTION);
 		if (n == JOptionPane.YES_OPTION) {
@@ -619,25 +641,132 @@ MouseMotionListener{
 
 	@SuppressWarnings("serial")
 	private class TilePopupMenu extends JPopupMenu implements ActionListener{
-		JMenuItem menuItem = null;
-		GridLayout grid = null;
+		JMenu menu = null;
+		JMenu subMenu = null;
+		JMenuItem menuItem = null;	
+		JCheckBoxMenuItem cbMenuItem = null;
+		JRadioButtonMenuItem rbMenuItem = null;
 
 		public TilePopupMenu(){
-			grid = new GridLayout(0,5);
-			grid.setHgap(0);
-			grid.setVgap(0);
-			setLayout(grid);
-
-			for(int i = 0; i < JavaGame.tileSkins.length; i++){
-				menuItem = new JMenuItem(new ImageIcon(JavaGame.tileSkins[i]));
+			menu = new JMenu("File");
+				menuItem = new JMenuItem("Save");
+				menuItem.setActionCommand("SAVE");
 				menuItem.addActionListener(this);
-				menuItem.setActionCommand(Integer.toString(i));
-				add(menuItem);
-			}
+				menu.add(menuItem);
+				
+				menuItem = new JMenuItem("Load");
+				menuItem.setActionCommand("LOAD");
+				menuItem.addActionListener(this);
+				menu.add(menuItem);
+			add(menu);
+			
+			menu = new JMenu("Tile");
+				switch(marker.getLevel()){
+				case JavaGame.LEVEL_FLOOR:
+					break;
+				case JavaGame.LEVEL_WALL:
+					cbMenuItem = new JCheckBoxMenuItem("Visible");
+					cbMenuItem.setSelected(readCurrentMap().TileSet
+							[marker.getFirstTileX()][marker.getFirstTileY()]
+									.isVisible());
+					cbMenuItem.setActionCommand("VISIBLE");
+					cbMenuItem.addActionListener(this);
+					menu.add(cbMenuItem);
+					
+					cbMenuItem = new JCheckBoxMenuItem("Destructible");
+					cbMenuItem.setSelected(readCurrentMap().TileSet
+							[marker.getFirstTileX()][marker.getFirstTileY()]
+									.isDestructible());
+					cbMenuItem.setActionCommand("DESTRUCT");
+					cbMenuItem.addActionListener(this);
+					menu.add(cbMenuItem);
+					break;
+				}
+				
+				subMenu = new JMenu("Skin");
+				subMenu.setLayout(new GridLayout(0,5));
+				for(int i = 0; i < JavaGame.tileSkins.length; i++){
+					menuItem = new JMenuItem(new ImageIcon(JavaGame.tileSkins[i]));
+					menuItem.addActionListener(this);
+					menuItem.setActionCommand("TILE:" + Integer.toString(i));
+					subMenu.add(menuItem);
+				}
+				menu.add(subMenu);
+			add(menu);
+			
+			menu = new JMenu("Add Enemy");
+			add(menu);
+				
+			menu = new JMenu("Options");
+				cbMenuItem = new JCheckBoxMenuItem("Hide Inactive Layers");
+				cbMenuItem.setSelected(exclusiveLayer);
+				cbMenuItem.setActionCommand("EXCL");
+				cbMenuItem.addActionListener(this);
+				menu.add(cbMenuItem);
+				
+				menu.addSeparator();
+				
+				menuItem = new JMenuItem("Edit Layer:");
+				menuItem.setEnabled(false);
+				menu.add(menuItem);
+				
+				ButtonGroup group = new ButtonGroup();
+				rbMenuItem = new JRadioButtonMenuItem("Floor");
+				group.add(rbMenuItem);
+				if(marker.getLevel() == JavaGame.LEVEL_FLOOR)
+					rbMenuItem.setSelected(true);
+				rbMenuItem.setActionCommand("LEVEL:" + JavaGame.LEVEL_FLOOR);
+				rbMenuItem.addActionListener(this);
+				menu.add(rbMenuItem);
+				
+				rbMenuItem = new JRadioButtonMenuItem("Wall");
+				group.add(rbMenuItem);
+				if(marker.getLevel() == JavaGame.LEVEL_WALL)
+					rbMenuItem.setSelected(true);
+				rbMenuItem.setActionCommand("LEVEL:" + JavaGame.LEVEL_WALL);
+				rbMenuItem.addActionListener(this);
+				menu.add(rbMenuItem);
+			add(menu);
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			setTile(Integer.parseInt(e.getActionCommand()));
+			String[] command = e.getActionCommand().split("[:]");
+			switch(command[0]){
+			case "SAVE":
+				try {
+					EditorLoop.saveWorld();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				break;
+			case "LOAD":
+				try {
+					loadWorld(true);
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				break;
+			case "TILE":
+				setTile(Integer.parseInt(command[1]));
+				break;
+			case "EXCL":
+				toggleExclusiveLayer();
+				break;
+			case "LEVEL":
+				marker.changeLevel(Integer.parseInt(command[1]));
+				break;
+			case "DESTRUCT":
+				destructTile();
+				break;
+			case "VISIBLE":
+				hideTile();
+				break;
+			}
 		}
 	}
 }

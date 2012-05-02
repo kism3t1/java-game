@@ -140,9 +140,6 @@ MouseMotionListener, ComponentListener{
 
 		//game loop
 		while(isRunning){
-			
-			//DayCycle.runCycledown();	//POC DAY/NIGHT Cycle
-			//DayCycle.runCycleup();
 		
 			updateGameState();			//calculates any necessary changes to game play objects
 
@@ -155,6 +152,9 @@ MouseMotionListener, ComponentListener{
 
 	private void updateGameState(){
 		//TODO add movement and scrolling logic 
+		
+		//DayCycle.runCycledown();	//POC DAY/NIGHT Cycle
+		//DayCycle.runCycleup();
 
 		JavaGame.entity.move();
 		marker.move(shiftKey);

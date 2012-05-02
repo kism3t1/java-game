@@ -124,6 +124,8 @@ MouseMotionListener{
 
 
 		//initialize enemies
+		if(JavaGame.enemy.size() > 0)
+			JavaGame.enemy.clear();
 		for (int i = 0; i < 100; i++) { // create 100 enemies at random positions
 			// on map
 			int im = (int)(Math.random() * JavaGame.enemySkins.length);		//randomize enemySkin, just for fun

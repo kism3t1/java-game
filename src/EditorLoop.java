@@ -66,29 +66,32 @@ MouseMotionListener{
 		JavaGame.screenTilesHigh = gui.getHeight() / JavaGame.tileHeight;
 
 		//load resources in to memory
-		JavaGame.tileSkins = new BufferedImage[5];
 		try{
-			JavaGame.tileSkins[0] = optimizedImage("/Images/dirt.png");
-			JavaGame.tileSkins[1] = optimizedImage("/Images/grass.png");
-			JavaGame.tileSkins[2] = optimizedImage("/Images/stone.png");
-			JavaGame.tileSkins[3] = optimizedImage("/Images/tree.png");
-			JavaGame.tileSkins[4] = optimizedImage("/Images/water.png");
+			JavaGame.tileSkins = new BufferedImage[]{
+					optimizedImage("/Images/dirt.png"),
+					optimizedImage("/Images/grass.png"),
+					optimizedImage("/Images/stone.png"),
+					optimizedImage("/Images/tree.png"),
+					optimizedImage("/Images/water.png")
+			};
 		}catch(IOException e){
 			System.out.println("Error loading tileSkins");
 		}
-
-		JavaGame.enemySkins = new BufferedImage[3];
 		try{
-			JavaGame.enemySkins[0] = optimizedImage("/Images/enemy.png");
-			JavaGame.enemySkins[1] = optimizedImage("/Images/eye.png");
-			JavaGame.enemySkins[2] = optimizedImage("/Images/snake.png");
+			JavaGame.enemySkins = new BufferedImage[]{		
+					optimizedImage("/Images/enemy.png"),
+					optimizedImage("/Images/eye.png"),
+					optimizedImage("/Images/snake.png"),
+			};
 		}catch(IOException e){
 			System.out.println("Error loading enemySkins");
 		}
 
-		JavaGame.entitySkins = new BufferedImage[1];
+		
 		try{
-			JavaGame.entitySkins[0] = optimizedImage("/Images/entity.png");
+			JavaGame.entitySkins = new BufferedImage[]{
+					optimizedImage("/Images/entity.png")
+			};
 		}catch(IOException e){
 			System.out.println("Error loading entitySkins");
 		}

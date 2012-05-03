@@ -143,11 +143,7 @@ MouseMotionListener{
 		//DayCycle.runSunset();	//POC DAY/NIGHT Cycle
 		//DayCycle.runCycleup();
 
-		world.entity.move();
 		marker.move(shiftKey);
-
-		//move enemies
-		world.moveEnemies();
 
 		//update marker position
 		if (marker.getFirstTileX() > marker.getLastTileX()
@@ -678,6 +674,15 @@ MouseMotionListener{
 			add(menu);
 			
 			menu = new JMenu("Add Enemy");
+				subMenu = new JMenu("Type");
+				subMenu.setLayout(new GridLayout(0,5));
+				for(int i = 0; i < enemySkins.length; i++){
+					menuItem = new JMenuItem(new ImageIcon(enemySkins[i]));
+					menuItem.addActionListener(this);
+					menuItem.setActionCommand("ENEMY:" + Integer.toString(i));
+					subMenu.add(menuItem);
+				}
+				menu.add(subMenu);
 			add(menu);
 				
 			menu = new JMenu("Options");
@@ -748,6 +753,9 @@ MouseMotionListener{
 				break;
 			case "VISIBLE":
 				toggleTileVisible();
+				break;
+			case "ENEMY":
+				world.addEnemy(Integer.parseInt(command[1]), marker.getFirstTileX() * tileWidth, marker.getFirstTileY() * tileHeight);
 				break;
 			}
 		}

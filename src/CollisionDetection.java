@@ -2,10 +2,7 @@ import java.awt.Rectangle;
 
 public class CollisionDetection extends JavaGame{
 
-	public int x, y, width, height;
-	public int skin;
-
-	public boolean checkCollisions(Rectangle r1, boolean checkEntity,
+	public boolean check(Rectangle r1, boolean checkEntity,
 			boolean checkEnemy, boolean checkTile, int enemyID) { // Collision
 																	// Detection
 		boolean collision = false;
@@ -13,13 +10,15 @@ public class CollisionDetection extends JavaGame{
 
 		// check collision with enemies
 		if (checkEnemy) {
-			for (int i = 0; i < world.enemy.size(); i++) {
-				if (i != enemyID) {
-					r2 = world.enemy.get(i).getBounds(); // Get bounds of enemy
+			if(world.enemy.size() > 0){
+				for (int i = 0; i < world.enemy.size(); i++) {
+					if (world.enemy.get(i).getID() != enemyID) {
+						r2 = world.enemy.get(i).getBounds(); // Get bounds of enemy
 
-					if (r1.intersects(r2)) { // Checks if entity collides with
-												// an enemy
-						collision = true;
+						if (r1.intersects(r2)) { // Checks if entity collides with
+							// an enemy
+							collision = true;
+						}
 					}
 				}
 			}
@@ -43,54 +42,5 @@ public class CollisionDetection extends JavaGame{
 			}
 		}
 		return collision;
-	}
-
-	public Rectangle getBounds() { // Get bounds for collision detection
-		return new Rectangle(x, y, width, height);
-	}
-	
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
-	public int getSkin() {
-		return skin;
-	}
-
-	public void setSkin(int skin) {
-		this.skin = skin;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
-	public void setPos(int x, int y) {
-		this.x = x;
-		this.y = y;
 	}
 }

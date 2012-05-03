@@ -1,6 +1,7 @@
+import java.awt.Rectangle;
 import java.io.Serializable;
 
-public class Enemy extends CollisionDetection implements Serializable {
+public class Enemy extends JavaGame implements Serializable {
 
 	/**
 	 * 
@@ -11,14 +12,17 @@ public class Enemy extends CollisionDetection implements Serializable {
 	private int id;
 	private int speed;
 	private long dLast;
+	public int x, y, width, height;
+	public int skin;
+	
 	private AI ai;
 
 	public Enemy(int id, int skin, int x, int y) {
 		this.skin = skin;
 		this.x = x;
 		this.y = y;
-		width = JavaGame.enemySkins[skin].getWidth(null);
-		height = JavaGame.enemySkins[skin].getHeight(null);
+		width = enemySkins[skin].getWidth(null);
+		height = enemySkins[skin].getHeight(null);
 		this.id = id;
 		speed = 1;
 		dLast = System.currentTimeMillis() - 500;
@@ -36,7 +40,7 @@ public class Enemy extends CollisionDetection implements Serializable {
 			dLast = System.currentTimeMillis();
 		}
 
-		if (checkCollisions(getBounds(), true, true, true, id)) {	//Check Collision
+		if (collisionDetection.check(getBounds(), true, true, true, id)) {	//Check Collision
 			ai.randomAIDirection();	//Run random AI Direction method
 			//System.out.println("YOU DIED!!!");
 			//ai.checklocation();
@@ -57,6 +61,55 @@ public class Enemy extends CollisionDetection implements Serializable {
 	public int getID()
 	{
 		return id;
+	}
+	
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getSkin() {
+		return skin;
+	}
+
+	public void setSkin(int skin) {
+		this.skin = skin;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public void setPos(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	public Rectangle getBounds() { // Get bounds for collision detection
+		return new Rectangle(x, y, width, height);
 	}
 
 }

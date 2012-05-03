@@ -19,7 +19,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 
-public class GameLoop implements Runnable, MouseListener,
+public class GameLoop extends JavaGame implements Runnable, MouseListener,
 MouseMotionListener{
 	private boolean isRunning;
 	private Canvas gui;
@@ -38,12 +38,12 @@ MouseMotionListener{
 		gui.requestFocusInWindow();
 
 		//initial calculation of screen -> tile size
-		JavaGame.screenTilesWide = gui.getWidth() / JavaGame.tileWidth;
-		JavaGame.screenTilesHigh = gui.getHeight() / JavaGame.tileHeight;
+		screenTilesWide = gui.getWidth() / tileWidth;
+		screenTilesHigh = gui.getHeight() / tileHeight;
 
 		//load resources in to memory
 		try{
-			JavaGame.tileSkins = new BufferedImage[]{
+			tileSkins = new BufferedImage[]{
 					optimizedImage("/Images/dirt.png"),
 					optimizedImage("/Images/grass.png"),
 					optimizedImage("/Images/stone.png"),
@@ -54,7 +54,7 @@ MouseMotionListener{
 			System.out.println("Error loading tileSkins");
 		}
 		try{
-			JavaGame.enemySkins = new BufferedImage[]{		
+			enemySkins = new BufferedImage[]{		
 					optimizedImage("/Images/enemy.png"),
 					optimizedImage("/Images/eye.png"),
 					optimizedImage("/Images/snake.png"),
@@ -65,7 +65,7 @@ MouseMotionListener{
 
 		
 		try{
-			JavaGame.entitySkins = new BufferedImage[]{
+			entitySkins = new BufferedImage[]{
 					optimizedImage("/Images/entity.png")
 			};
 		}catch(IOException e){
@@ -81,24 +81,6 @@ MouseMotionListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
-		//initialize players
-		JavaGame.entity = new Entity();
-
-
-		//initialize enemies
-		if(JavaGame.enemy.size() > 0)
-			JavaGame.enemy.clear();
-		for (int i = 0; i < 100; i++) { // create 100 enemies at random positions
-			// on map
-			int im = (int)(Math.random() * JavaGame.enemySkins.length);		//randomize enemySkin, just for fun
-			JavaGame.enemy.add(new Enemy(i, im, 32 + (int) (Math.random()
-					* (JavaGame.world.floorMap.getWidth() * 32) - 32), 32 + (int) (Math
-							.random() * (JavaGame.world.floorMap.getHeight() * 32) - 32)));
-		}
-
-
 	}
 
 	@Override
@@ -122,53 +104,51 @@ MouseMotionListener{
 	private void updateGameState(){
 		//TODO add movement and scrolling logic 
 
-		JavaGame.entity.move();
+		world.entity.move();
 
 		//move enemies
-		for (int i = 0; i < JavaGame.enemy.size(); i++) {
-			JavaGame.enemy.get(i).move();
-		}
+		world.moveEnemies();
 
 		// move enemies and entity for scrolling effect		
-		if(JavaGame.entity.getX() > gui.getWidth() * 0.6
-				&& (int)(cameraX / JavaGame.tileWidth) < JavaGame.world.floorMap.TileSet.length - JavaGame.screenTilesWide)
+		if(world.entity.getX() > gui.getWidth() * 0.6
+				&& (int)(cameraX / tileWidth) < world.floorMap.TileSet.length - screenTilesWide)
 		{
-			int dif = (int) (JavaGame.entity.getX() - gui.getWidth() * 0.6);
+			int dif = (int) (world.entity.getX() - gui.getWidth() * 0.6);
 			cameraX += dif;
-			JavaGame.entity.setX(JavaGame.entity.getX() - dif);
-			for (int i = 0; i < JavaGame.enemy.size(); i++) {
-				JavaGame.enemy.get(i).setX(JavaGame.enemy.get(i).getX() - dif);
+			world.entity.setX(world.entity.getX() - dif);
+			for (int i = 0; i < world.enemy.size(); i++) {
+				world.enemy.get(i).setX(world.enemy.get(i).getX() - dif);
 			}
 		}
 		
-		if(JavaGame.entity.getX() < gui.getWidth() * 0.4 && cameraX > 0)
+		if(world.entity.getX() < gui.getWidth() * 0.4 && cameraX > 0)
 		{
-			int dif = (int) (gui.getWidth() * 0.4 - JavaGame.entity.getX());
+			int dif = (int) (gui.getWidth() * 0.4 - world.entity.getX());
 			cameraX -= dif;
-			JavaGame.entity.setX(JavaGame.entity.getX() + dif);
-			for (int i = 0; i < JavaGame.enemy.size(); i++) {
-				JavaGame.enemy.get(i).setX(JavaGame.enemy.get(i).getX() + dif);
+			world.entity.setX(world.entity.getX() + dif);
+			for (int i = 0; i < world.enemy.size(); i++) {
+				world.enemy.get(i).setX(world.enemy.get(i).getX() + dif);
 			}
 		}
 		
-		if(JavaGame.entity.getY() > gui.getHeight() * 0.6
-				&& (int)(cameraY / JavaGame.tileHeight) < JavaGame.world.floorMap.TileSet[0].length - JavaGame.screenTilesHigh)
+		if(world.entity.getY() > gui.getHeight() * 0.6
+				&& (int)(cameraY / tileHeight) < world.floorMap.TileSet[0].length - screenTilesHigh)
 		{
-			int dif = (int) (JavaGame.entity.getY() - gui.getHeight() * 0.6);
+			int dif = (int) (world.entity.getY() - gui.getHeight() * 0.6);
 			cameraY += dif;
-			JavaGame.entity.setY(JavaGame.entity.getY() - dif);
-			for (int i = 0; i < JavaGame.enemy.size(); i++) {
-				JavaGame.enemy.get(i).setY(JavaGame.enemy.get(i).getY() - dif);
+			world.entity.setY(world.entity.getY() - dif);
+			for (int i = 0; i < world.enemy.size(); i++) {
+				world.enemy.get(i).setY(world.enemy.get(i).getY() - dif);
 			}
 		}
 		
-		if(JavaGame.entity.getY() < gui.getHeight() * 0.4 && cameraY > 0)
+		if(world.entity.getY() < gui.getHeight() * 0.4 && cameraY > 0)
 		{
-			int dif = (int) (gui.getHeight() * 0.4 - JavaGame.entity.getY());
+			int dif = (int) (gui.getHeight() * 0.4 - world.entity.getY());
 			cameraY -= dif;
-			JavaGame.entity.setY(JavaGame.entity.getY() + dif);
-			for (int i = 0; i < JavaGame.enemy.size(); i++) {
-				JavaGame.enemy.get(i).setY(JavaGame.enemy.get(i).getY() + dif);
+			world.entity.setY(world.entity.getY() + dif);
+			for (int i = 0; i < world.enemy.size(); i++) {
+				world.enemy.get(i).setY(world.enemy.get(i).getY() + dif);
 			}
 		}
 	
@@ -181,16 +161,16 @@ MouseMotionListener{
 		g.fillRect(0, 0, gui.getWidth(), gui.getHeight());
 		
 		// draw maps
-		JavaGame.world.floorMap.draw(g, cameraX, cameraY);
-		JavaGame.world.wallMap.draw(g, cameraX, cameraY);
+		world.floorMap.draw(g, cameraX, cameraY);
+		world.wallMap.draw(g, cameraX, cameraY);
 
 		// draw entity
-		g.drawImage(JavaGame.entitySkins[JavaGame.entity.getSkin()], JavaGame.entity.getX(), JavaGame.entity.getY(), null);
+		g.drawImage(entitySkins[world.entity.getSkin()], world.entity.getX(), world.entity.getY(), null);
 		
 		
 		// draw enemies
-		for (int i = 0; i < JavaGame.enemy.size(); i++) {
-			g.drawImage(JavaGame.enemySkins[JavaGame.enemy.get(i).getSkin()], JavaGame.enemy.get(i).getX(), JavaGame.enemy.get(i).getY(), null);
+		for (int i = 0; i < world.enemy.size(); i++) {
+			g.drawImage(enemySkins[world.enemy.get(i).getSkin()], world.enemy.get(i).getX(), world.enemy.get(i).getY(), null);
 		}
 
 		g.dispose();
@@ -198,7 +178,7 @@ MouseMotionListener{
 	}
 
 	private void syncFPS(){
-		cycleTime = cycleTime + JavaGame.FRAME_DELAY;
+		cycleTime = cycleTime + FRAME_DELAY;
 		long difference = cycleTime - System.currentTimeMillis();
 		try {
 			Thread.sleep(Math.max(0, difference));
@@ -218,7 +198,7 @@ MouseMotionListener{
 			FileInputStream loadFile = new FileInputStream("world.wld");
 			GZIPInputStream gzipFile = new GZIPInputStream(loadFile);
 			ObjectInputStream loadObject = new ObjectInputStream(gzipFile);
-			JavaGame.world = (World) loadObject.readObject();
+			world = (World) loadObject.readObject();
 			gzipFile.close();
 			loadObject.close();
 			loadFile.close();
@@ -285,35 +265,19 @@ MouseMotionListener{
 
 		public void keyReleased(KeyEvent e) {
 
-			JavaGame.entity.keyReleased(e);
+			world.entity.keyReleased(e);
 
 		}
 
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
 
-			JavaGame.entity.keyPressed(e);
+			world.entity.keyPressed(e);
 
 			switch (key) {
 			case KeyEvent.VK_ESCAPE:	//kill thread and exit to menu
-				JavaGame.nextThread = "MENU";
+				nextThread = "MENU";
 				isRunning = false;
-				break;
-			case KeyEvent.VK_W:
-				if(JavaGame.yOffset > 0)
-					JavaGame.yOffset -= 1;
-				break;
-			case KeyEvent.VK_S:
-				if(JavaGame.yOffset < JavaGame.world.getHeight() - JavaGame.screenTilesHigh)
-					JavaGame.yOffset += 1;
-				break;
-			case KeyEvent.VK_A:
-				if(JavaGame.xOffset > 0)
-					JavaGame.xOffset -= 1;
-				break;
-			case KeyEvent.VK_D:
-				if(JavaGame.xOffset < JavaGame.world.getWidth() - JavaGame.screenTilesWide)
-					JavaGame.xOffset += 1;
 				break;
 			}
 		}

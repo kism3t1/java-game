@@ -1,9 +1,15 @@
+import java.io.Serializable;
+
 //This is the AI class for Enemies & other NPC entities to use
 
 //	29/04/2012 - BUG: Attack method moves every NPC instead of individually
 
-public class AI extends CollisionDetection {
+public class AI extends JavaGame implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -123998419983546979L;
 	private int dx;
 	private int dy;
 	private int speed;
@@ -48,10 +54,10 @@ public class AI extends CollisionDetection {
 	//VERY MUCH WORK IN PROGRESS!!!!!!!
 	
 	public void checklocation(){
-			enemyX = JavaGame.enemy.get(id).getX();
-			enemyY = JavaGame.enemy.get(id).getY();
-			entityX = JavaGame.entity.getX();
-			entityY = JavaGame.entity.getY();
+			enemyX = world.getEnemy(id).getX();
+			enemyY = world.getEnemy(id).getY();
+			entityX = world.entity.getX();
+			entityY = world.entity.getY();
 			//System.out.println("Entity X = " + entityX);
 			//System.out.println("Entity Y = " + entityY);
 			//System.out.println("Enemy X = " + enemyX);

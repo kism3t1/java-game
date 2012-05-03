@@ -1,7 +1,8 @@
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.io.Serializable;
 
-public class Entity extends CollisionDetection implements Serializable {
+public class Entity extends JavaGame implements Serializable {
 
 	/**
 	 * 
@@ -10,13 +11,15 @@ public class Entity extends CollisionDetection implements Serializable {
 	private int dx;
 	private int dy;
 	private int speed;
+	public int x, y, width, height;
+	public int skin;
 
 	public Entity() {
 		skin = 0;
-		width = JavaGame.entitySkins[skin].getWidth(null);
-		height = JavaGame.entitySkins[skin].getHeight(null);
-		x = JavaGame.tileWidth;		//default position
-		y = JavaGame.tileHeight;	//at tile 1,1
+		width = entitySkins[skin].getWidth(null);
+		height = entitySkins[skin].getHeight(null);
+		x = tileWidth * 2;		//default position
+		y = tileHeight * 2;	//at tile 1,1
 		speed = 5;
 	}
 
@@ -24,8 +27,8 @@ public class Entity extends CollisionDetection implements Serializable {
 		this.skin = skin;
 		this.x = x;
 		this.y = y;
-		width = JavaGame.entitySkins[skin].getWidth(null);
-		height = JavaGame.entitySkins[skin].getHeight(null);
+		width = entitySkins[skin].getWidth(null);
+		height = entitySkins[skin].getHeight(null);
 		speed = 5;
 	}
 
@@ -33,7 +36,7 @@ public class Entity extends CollisionDetection implements Serializable {
 		x += dx;
 		y += dy;
 
-		if (checkCollisions(getBounds(), false, true, true, -1)) {
+		if (collisionDetection.check(getBounds(), false, true, true, -1)) {
 			x -= dx;
 			y -= dy;
 		}
@@ -99,6 +102,42 @@ public class Entity extends CollisionDetection implements Serializable {
 		if (key == KeyEvent.VK_DOWN) {
 			dy = 0;
 		}
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getSkin() {
+		return skin;
+	}
+
+	public void setSkin(int skin) {
+		this.skin = skin;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+	
+	public Rectangle getBounds() { // Get bounds for collision detection
+		return new Rectangle(x, y, width, height);
 	}
 
 }

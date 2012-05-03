@@ -70,7 +70,7 @@ public class World implements Serializable {
 	
 	public void removeEnemy(int enemyID)
 	{
-		if(enemy.size() > 0)
+		if(!enemy.isEmpty())
 		{
 			for(int i = 0; i < enemy.size(); i++)
 			{
@@ -84,21 +84,29 @@ public class World implements Serializable {
 		int id = 1;
 		boolean searching = true;
 		boolean unique = true;
-		
-		if(enemy.size() > 0)
+
+		if(!enemy.isEmpty())
 		{
 			do
 			{
 				for(int i = 0; i < enemy.size(); i++)
 				{
 					if(enemy.get(i).getID() == id)
+					{
 						unique = false;
+						break;
+					}
 				}
 				
 				if(unique)
+				{
 					searching = false;
+				}
 				else
+				{
 					id++;
+					unique = true;
+				}
 				
 			}while(searching);
 		}

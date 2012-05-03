@@ -22,8 +22,10 @@ public class JavaGame {
 	public static BufferedImage[] enemySkins;
 	public static BufferedImage[] entitySkins;
 
-	public static Entity entity;
-	public static ArrayList<Enemy> enemy = new ArrayList<Enemy>();
+	//public static Entity entity;
+	//public static ArrayList<Enemy> enemy = new ArrayList<Enemy>();
+	
+	public static CollisionDetection collisionDetection = new CollisionDetection();
 
 	// tile offset for scrolling
 	public static int xOffset = 0;
@@ -50,6 +52,7 @@ public class JavaGame {
 		frame.setResizable(false);
 		frame.setVisible(true); // start AWT painting.
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setMinimumSize(frame.getSize());			//prevents window shrinking when moved
 		
 		Thread gThread = new Thread(new StartScreen(gui));
 		

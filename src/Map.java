@@ -64,7 +64,7 @@ public class Map extends JavaGame implements Serializable {
 			for(int y = 0; y <= screenTilesHigh+1; y++){
 				if(x + mapX >= 0 && x + mapX < TileSet.length && y + mapY >= 0 && y + mapY < TileSet[0].length)
 				{
-					if(TileSet[x][y].isVisible()){
+					if(TileSet[x + mapX][y + mapY].isVisible()){
 						TileSet[x + mapX][y + mapY].setPos((x * tileWidth) - mapXoff, (y * tileHeight) - mapYoff);
 						g.drawImage(tileSkins[TileSet[x + mapX][y + mapY].getSkin()], TileSet[x + mapX][y + mapY].getX(), TileSet[x + mapX][y + mapY].getY(), null);
 					}

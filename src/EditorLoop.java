@@ -6,6 +6,7 @@ import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -479,6 +480,11 @@ MouseMotionListener{
 		TilePopupMenu menu = new TilePopupMenu();
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
+	
+	private void showEnemyMenu(MouseEvent e, int id){
+		EnemyPopupMenu menu = new EnemyPopupMenu(id);
+		menu.show(e.getComponent(), e.getX(), e.getY());
+	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -496,8 +502,15 @@ MouseMotionListener{
 			}
 			break;
 		case MouseEvent.BUTTON3:
-			if(e.isPopupTrigger())
-				showTileMenu(e);
+			if(e.isPopupTrigger()){
+				int id = collisionDetection.getEnemyID(e.getPoint());
+				if(id > -1)
+				{
+					showEnemyMenu(e, id);
+				}else{
+					showTileMenu(e);
+				}
+			}
 			break;
 		}
 	}
@@ -518,8 +531,15 @@ MouseMotionListener{
 			}
 			break;
 		case MouseEvent.BUTTON3:
-			if(e.isPopupTrigger())
-				showTileMenu(e);
+			if(e.isPopupTrigger()){
+				int id = collisionDetection.getEnemyID(e.getPoint());
+				if(id > -1)
+				{
+					showEnemyMenu(e, id);
+				}else{
+					showTileMenu(e);
+				}
+			}
 			break;
 		}
 		mouseButtonDown = 0;
@@ -637,6 +657,13 @@ MouseMotionListener{
 				menuItem.setActionCommand("LOAD");
 				menuItem.addActionListener(this);
 				menu.add(menuItem);
+				
+				menu.addSeparator();
+				
+				menuItem = new JMenuItem("Play Level");
+				menuItem.setActionCommand("TEST");
+				menuItem.addActionListener(this);
+				menu.add(menuItem);
 			add(menu);
 			
 			menu = new JMenu("Tile");
@@ -739,6 +766,16 @@ MouseMotionListener{
 					e1.printStackTrace();
 				}
 				break;
+			case "TEST":
+				try {
+					saveWorld();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				nextThread = "GAME";
+				isRunning = false;
+				break;
 			case "TILE":
 				setTile(Integer.parseInt(command[1]));
 				break;
@@ -756,6 +793,35 @@ MouseMotionListener{
 				break;
 			case "ENEMY":
 				world.addEnemy(Integer.parseInt(command[1]), marker.getFirstTileX() * tileWidth, marker.getFirstTileY() * tileHeight);
+				break;
+			}
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	private class EnemyPopupMenu extends JPopupMenu implements ActionListener{
+		JMenu menu = null;
+		JMenu subMenu = null;
+		JMenuItem menuItem = null;	
+		JCheckBoxMenuItem cbMenuItem = null;
+		JRadioButtonMenuItem rbMenuItem = null;
+		
+		int enemyID;
+
+		public EnemyPopupMenu(int enemyID){
+			this.enemyID = enemyID;
+			
+			menuItem = new JMenuItem("Remove");
+			menuItem.setActionCommand("REM");
+			menuItem.addActionListener(this);
+			add(menuItem);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			String[] command = e.getActionCommand().split("[:]");
+			switch(command[0]){
+			case "REM":
+				world.removeEnemy(enemyID);
 				break;
 			}
 		}

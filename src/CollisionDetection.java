@@ -1,3 +1,5 @@
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 public class CollisionDetection extends JavaGame{
@@ -10,7 +12,7 @@ public class CollisionDetection extends JavaGame{
 
 		// check collision with enemies
 		if (checkEnemy) {
-			if(world.enemy.size() > 0){
+			if(!world.enemy.isEmpty()){
 				for (int i = 0; i < world.enemy.size(); i++) {
 					if (world.enemy.get(i).getID() != enemyID) {
 						r2 = world.enemy.get(i).getBounds(); // Get bounds of enemy
@@ -42,5 +44,26 @@ public class CollisionDetection extends JavaGame{
 			}
 		}
 		return collision;
+	}
+
+	public int getEnemyID(Point point)
+	{
+		int id;
+		Rectangle r2;
+		Rectangle r1 = new Rectangle(point, new Dimension(1,1));
+
+		if(!world.enemy.isEmpty()){
+			for (int i = 0; i < world.enemy.size(); i++) {
+				r2 = world.enemy.get(i).getBounds(); // Get bounds of enemy
+
+				if (r1.intersects(r2)) { 
+					id = world.enemy.get(i).getID();
+					return id;
+				}
+
+			}
+		}
+
+		return -1;
 	}
 }

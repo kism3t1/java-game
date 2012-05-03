@@ -1,6 +1,6 @@
 import java.awt.Rectangle;
 
-public class CollisionDetection {
+public class CollisionDetection extends JavaGame{
 
 	public int x, y, width, height;
 	public int skin;
@@ -13,9 +13,9 @@ public class CollisionDetection {
 
 		// check collision with enemies
 		if (checkEnemy) {
-			for (int i = 0; i < JavaGame.enemy.size(); i++) {
+			for (int i = 0; i < world.enemy.size(); i++) {
 				if (i != enemyID) {
-					r2 = JavaGame.enemy.get(i).getBounds(); // Get bounds of enemy
+					r2 = world.enemy.get(i).getBounds(); // Get bounds of enemy
 
 					if (r1.intersects(r2)) { // Checks if entity collides with
 												// an enemy
@@ -27,12 +27,12 @@ public class CollisionDetection {
 
 		// check for tile collision
 		if (checkTile) {
-			for (int tx = JavaGame.xOffset; tx < JavaGame.screenTilesWide
-					+ JavaGame.xOffset; tx++) {
-				for (int ty = JavaGame.yOffset; ty < JavaGame.screenTilesHigh
-						+ JavaGame.yOffset; ty++) {
-					if (JavaGame.world.wallMap.TileSet[tx][ty].isVisible()) {
-						r2 = JavaGame.world.wallMap.TileSet[tx][ty].getBounds();
+			for (int tx = xOffset; tx < screenTilesWide
+					+ xOffset; tx++) {
+				for (int ty = yOffset; ty < screenTilesHigh
+						+ yOffset; ty++) {
+					if (world.wallMap.TileSet[tx][ty].isVisible()) {
+						r2 = world.wallMap.TileSet[tx][ty].getBounds();
 
 						if (r1.intersects(r2)) { // Checks if entity collides
 													// with a tile

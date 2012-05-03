@@ -1,24 +1,17 @@
-public class Enemy extends CollisionDetection {
+import java.io.Serializable;
 
+public class Enemy extends CollisionDetection implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3429060072522433039L;
 	private int dx;
 	private int dy;
 	private int id;
 	private int speed;
 	private long dLast;
 	private AI ai;
-
-	public Enemy(int id, int skin) {
-		this.skin = skin;
-		x = 80;
-		y = 120;
-		width = JavaGame.enemySkins[skin].getWidth(null);
-		height = JavaGame.enemySkins[skin].getHeight(null);
-		this.id = id;
-		setSpeed(2);
-		speed = 1;	//Speed of Enemy
-		dLast = System.currentTimeMillis() - 500; //Do not set delay at start of game
-		ai = new AI(id);
-	}
 
 	public Enemy(int id, int skin, int x, int y) {
 		this.skin = skin;
@@ -59,6 +52,11 @@ public class Enemy extends CollisionDetection {
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
+	}
+	
+	public int getID()
+	{
+		return id;
 	}
 
 }

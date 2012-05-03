@@ -1,17 +1,22 @@
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 
-public class Entity extends CollisionDetection {
+public class Entity extends CollisionDetection implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7743962361732364015L;
 	private int dx;
 	private int dy;
 	private int speed;
 
 	public Entity() {
 		skin = 0;
-		x = 350;
-		y = 350;
 		width = JavaGame.entitySkins[skin].getWidth(null);
 		height = JavaGame.entitySkins[skin].getHeight(null);
+		x = JavaGame.tileWidth;		//default position
+		y = JavaGame.tileHeight;	//at tile 1,1
 		speed = 5;
 	}
 

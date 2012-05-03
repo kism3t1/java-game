@@ -34,7 +34,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 
 
-public class EditorLoop implements Runnable, MouseListener,
+public class EditorLoop extends JavaGame implements Runnable, MouseListener,
 MouseMotionListener{
 
 	// default map info
@@ -66,12 +66,12 @@ MouseMotionListener{
 		gui.requestFocusInWindow();
 
 		//initial calculation of screen -> tile size
-		JavaGame.screenTilesWide = gui.getWidth() / JavaGame.tileWidth;
-		JavaGame.screenTilesHigh = gui.getHeight() / JavaGame.tileHeight;
+		screenTilesWide = gui.getWidth() / JavaGame.tileWidth;
+		screenTilesHigh = gui.getHeight() / JavaGame.tileHeight;
 
 		//load resources in to memory
 		try{
-			JavaGame.tileSkins = new BufferedImage[]{
+			tileSkins = new BufferedImage[]{
 					optimizedImage("/Images/dirt.png"),
 					optimizedImage("/Images/grass.png"),
 					optimizedImage("/Images/stone.png"),
@@ -82,7 +82,7 @@ MouseMotionListener{
 			System.out.println("Error loading tileSkins");
 		}
 		try{
-			JavaGame.enemySkins = new BufferedImage[]{		
+			enemySkins = new BufferedImage[]{		
 					optimizedImage("/Images/enemy.png"),
 					optimizedImage("/Images/eye.png"),
 					optimizedImage("/Images/snake.png"),
@@ -93,7 +93,7 @@ MouseMotionListener{
 
 		
 		try{
-			JavaGame.entitySkins = new BufferedImage[]{
+			entitySkins = new BufferedImage[]{
 					optimizedImage("/Images/entity.png")
 			};
 		}catch(IOException e){
@@ -102,7 +102,7 @@ MouseMotionListener{
 
 
 		//initialize world
-		JavaGame.world = new World("Default World", MAP_TILES_WIDE + 2, MAP_TILES_HIGH + 2, 2);
+		world = new World("Default World", MAP_TILES_WIDE, MAP_TILES_HIGH, 2);
 
 		try {
 			loadWorld(false);
@@ -117,24 +117,6 @@ MouseMotionListener{
 
 		//initialize tile marker
 		marker = new Marker();
-
-
-		//initialize players
-		JavaGame.entity = new Entity();
-
-
-		//initialize enemies
-		if(JavaGame.enemy.size() > 0)
-			JavaGame.enemy.clear();
-		for (int i = 0; i < 100; i++) { // create 100 enemies at random positions
-			// on map
-			int im = (int)(Math.random() * JavaGame.enemySkins.length);		//randomize enemySkin, just for fun
-			JavaGame.enemy.add(new Enemy(i, im, 32 + (int) (Math.random()
-					* (JavaGame.world.floorMap.getWidth() * 32) - 32), 32 + (int) (Math
-							.random() * (JavaGame.world.floorMap.getHeight() * 32) - 32)));
-		}
-
-
 	}
 
 	@Override
@@ -161,13 +143,11 @@ MouseMotionListener{
 		//DayCycle.runSunset();	//POC DAY/NIGHT Cycle
 		//DayCycle.runCycleup();
 
-		JavaGame.entity.move();
+		world.entity.move();
 		marker.move(shiftKey);
 
 		//move enemies
-		for (int i = 0; i < JavaGame.enemy.size(); i++) {
-			JavaGame.enemy.get(i).move();
-		}
+		world.moveEnemies();
 
 		//update marker position
 		if (marker.getFirstTileX() > marker.getLastTileX()
@@ -184,18 +164,18 @@ MouseMotionListener{
 		}
 
 		// move enemies and entity for scrolling effect
-		if (JavaGame.xOffset != JavaGame.prevXOffset || JavaGame.yOffset != JavaGame.prevYOffset) {
-			JavaGame.entity.setPos(JavaGame.entity.getX() - ((JavaGame.xOffset - JavaGame.prevXOffset) * 32),
-					JavaGame.entity.getY() - ((JavaGame.yOffset - JavaGame.prevYOffset) * 32));
+		if (xOffset != prevXOffset || yOffset != prevYOffset) {
+			world.entity.setPos(world.entity.getX() - ((xOffset - prevXOffset) * tileWidth),
+					world.entity.getY() - ((yOffset - prevYOffset) * tileHeight));
 
-			for (int i = 0; i < JavaGame.enemy.size(); i++) {
-				JavaGame.enemy.get(i).setPos(
-						JavaGame.enemy.get(i).getX() - ((JavaGame.xOffset - JavaGame.prevXOffset) * 32),
-						JavaGame.enemy.get(i).getY() - ((JavaGame.yOffset - JavaGame.prevYOffset) * 32));
+			for (int i = 0; i < world.enemy.size(); i++) {
+				world.enemy.get(i).setPos(
+						world.enemy.get(i).getX() - ((xOffset - prevXOffset) * tileWidth),
+						world.enemy.get(i).getY() - ((yOffset - prevYOffset) * tileHeight));
 			}
 		}
-		JavaGame.prevXOffset = JavaGame.xOffset;
-		JavaGame.prevYOffset = JavaGame.yOffset;
+		prevXOffset = xOffset;
+		prevYOffset = yOffset;
 	}
 
 	private void updateGUI(BufferStrategy strategy){
@@ -207,38 +187,38 @@ MouseMotionListener{
 		g.setColor(Color.BLACK);
 
 		// draw maps
-		if(JavaGame.screenTilesWide + JavaGame.xOffset + 1 > JavaGame.world.floorMap.TileSet.length){
-			tileToX = JavaGame.screenTilesWide + JavaGame.xOffset;
+		if(screenTilesWide + xOffset + 1 > world.floorMap.TileSet.length){
+			tileToX = screenTilesWide + xOffset;
 		}else{
-			tileToX = JavaGame.screenTilesWide + JavaGame.xOffset + 1;
+			tileToX = screenTilesWide + xOffset + 1;
 		}
 
-		if(JavaGame.screenTilesHigh + JavaGame.yOffset + 1 > JavaGame.world.floorMap.TileSet[0].length){
-			tileToY = JavaGame.screenTilesHigh + JavaGame.yOffset;
+		if(screenTilesHigh + yOffset + 1 > world.floorMap.TileSet[0].length){
+			tileToY = screenTilesHigh + yOffset;
 		}else{
-			tileToY = JavaGame.screenTilesHigh + JavaGame.yOffset + 1;
+			tileToY = screenTilesHigh + yOffset + 1;
 		}
 
-		if(!exclusiveLayer || marker.getLevel() == JavaGame.LEVEL_FLOOR){
-			for (int x = JavaGame.xOffset; x < tileToX; x++) {
-				for (int y = JavaGame.yOffset; y < tileToY; y++) {
-					if (JavaGame.world.floorMap.TileSet[x][y].isVisible()) {
-						JavaGame.world.floorMap.TileSet[x][y].setPos((x - JavaGame.xOffset) * JavaGame.tileWidth, (y - JavaGame.yOffset) * JavaGame.tileHeight);
-						g.drawImage(JavaGame.tileSkins[JavaGame.world.floorMap.TileSet[x][y].getSkin()],
-								JavaGame.world.floorMap.TileSet[x][y].getX(), JavaGame.world.floorMap.TileSet[x][y].getY(),
+		if(!exclusiveLayer || marker.getLevel() == LEVEL_FLOOR){
+			for (int x = xOffset; x < tileToX; x++) {
+				for (int y = yOffset; y < tileToY; y++) {
+					if (world.floorMap.TileSet[x][y].isVisible()) {
+						world.floorMap.TileSet[x][y].setPos((x - xOffset) * tileWidth, (y - yOffset) * tileHeight);
+						g.drawImage(tileSkins[world.floorMap.TileSet[x][y].getSkin()],
+								world.floorMap.TileSet[x][y].getX(), world.floorMap.TileSet[x][y].getY(),
 								null);
 					}
 				}
 			}
 		}
 
-		if(!exclusiveLayer || marker.getLevel() == JavaGame.LEVEL_WALL){
-			for (int x = JavaGame.xOffset; x < tileToX; x++) {
-				for (int y = JavaGame.yOffset; y < tileToY; y++) {
-					if (JavaGame.world.wallMap.TileSet[x][y].isVisible()) {
-						JavaGame.world.wallMap.TileSet[x][y].setPos((x - JavaGame.xOffset) * JavaGame.tileWidth, (y - JavaGame.yOffset) * JavaGame.tileHeight);
-						g.drawImage(JavaGame.tileSkins[JavaGame.world.wallMap.TileSet[x][y].getSkin()],
-								JavaGame.world.wallMap.TileSet[x][y].getX(), JavaGame.world.wallMap.TileSet[x][y].getY(),
+		if(!exclusiveLayer || marker.getLevel() == LEVEL_WALL){
+			for (int x = xOffset; x < tileToX; x++) {
+				for (int y = yOffset; y < tileToY; y++) {
+					if (world.wallMap.TileSet[x][y].isVisible()) {
+						world.wallMap.TileSet[x][y].setPos((x - xOffset) * tileWidth, (y - yOffset) * tileHeight);
+						g.drawImage(tileSkins[world.wallMap.TileSet[x][y].getSkin()],
+								world.wallMap.TileSet[x][y].getX(), world.wallMap.TileSet[x][y].getY(),
 								null);
 					}
 				}
@@ -246,23 +226,23 @@ MouseMotionListener{
 		}
 
 		// draw entity
-		g.drawImage(JavaGame.entitySkins[JavaGame.entity.getSkin()], JavaGame.entity.getX(), JavaGame.entity.getY(), null);
+		g.drawImage(entitySkins[world.entity.getSkin()], world.entity.getX(), world.entity.getY(), null);
 
 		// draw enemies
-		for (int i = 0; i < JavaGame.enemy.size(); i++) {
-			g.drawImage(JavaGame.enemySkins[JavaGame.enemy.get(i).getSkin()], JavaGame.enemy.get(i).getX(), JavaGame.enemy.get(i).getY(), null);
+		for (int i = 0; i < world.enemy.size(); i++) {
+			g.drawImage(enemySkins[world.enemy.get(i).getSkin()], world.enemy.get(i).getX(), world.enemy.get(i).getY(), null);
 		}
 
 		// draw tile marker
 		g.setColor(marker.getColor());
 		g.drawRect(marker.getScreenX(), marker
-				.getScreenY(), 32 * (Math.abs(marker.getFirstTileX()
-						- marker.getLastTileX()) + 1), 32 * (Math.abs(marker
+				.getScreenY(), tileWidth * (Math.abs(marker.getFirstTileX()
+						- marker.getLastTileX()) + 1), tileHeight * (Math.abs(marker
 								.getFirstTileY() - marker.getLastTileY()) + 1));
 
 		// write debug info
 		g.setColor(Color.BLACK);
-		g.drawString("X = " + JavaGame.entity.getX() + "Y = " + JavaGame.entity.getY(), 20, 20);
+		g.drawString("X = " + world.entity.getX() + "Y = " + world.entity.getY(), 20, 20);
 		g.drawString(
 				"Tile X,Y:X,Y = " + marker.getFirstTileX() + ","
 						+ marker.getFirstTileY() + ":" + marker.getLastTileX()
@@ -286,13 +266,13 @@ MouseMotionListener{
 		int currentSkin;
 		int nextSkin;
 
-		if (System.currentTimeMillis() - keyLastProcessed > JavaGame.KEY_DELAY) {
+		if (System.currentTimeMillis() - keyLastProcessed > KEY_DELAY) {
 			Map m = readCurrentMap();
 
 			currentSkin = m.TileSet[marker.getFirstTileX()][marker
 			                                                .getFirstTileY()].getSkin();
 			nextSkin = currentSkin + 1;
-			if (nextSkin == JavaGame.tileSkins.length)
+			if (nextSkin == tileSkins.length)
 				nextSkin = 0;
 
 			for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
@@ -313,14 +293,14 @@ MouseMotionListener{
 		int currentSkin;
 		int nextSkin;
 
-		if (System.currentTimeMillis() - keyLastProcessed > JavaGame.KEY_DELAY) {
+		if (System.currentTimeMillis() - keyLastProcessed > KEY_DELAY) {
 			Map m = readCurrentMap();
 
 			currentSkin = m.TileSet[marker.getFirstTileX()][marker
 			                                                .getFirstTileY()].getSkin();
 			nextSkin = currentSkin - 1;
 			if (nextSkin < 0)
-				nextSkin = JavaGame.tileSkins.length - 1;
+				nextSkin = tileSkins.length - 1;
 
 			for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
 				for (int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++) {
@@ -351,8 +331,8 @@ MouseMotionListener{
 	}
 
 	private void toggleTileVisible() {
-		if(marker.getLevel() == JavaGame.LEVEL_WALL){
-			if (System.currentTimeMillis() - keyLastProcessed > JavaGame.KEY_DELAY) {
+		if(marker.getLevel() == LEVEL_WALL){
+			if (System.currentTimeMillis() - keyLastProcessed > KEY_DELAY) {
 				Map m = readCurrentMap();
 
 				for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
@@ -367,8 +347,8 @@ MouseMotionListener{
 	}
 	
 	private void toggleTileDestructible() {
-		if(marker.getLevel() == JavaGame.LEVEL_WALL){
-			if (System.currentTimeMillis() - keyLastProcessed > JavaGame.KEY_DELAY) {
+		if(marker.getLevel() == LEVEL_WALL){
+			if (System.currentTimeMillis() - keyLastProcessed > KEY_DELAY) {
 				Map m = readCurrentMap();
 
 				for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
@@ -383,7 +363,7 @@ MouseMotionListener{
 	}
 
 	private void toggleExclusiveLayer() {
-		if (System.currentTimeMillis() - keyLastProcessed > JavaGame.KEY_DELAY) {
+		if (System.currentTimeMillis() - keyLastProcessed > KEY_DELAY) {
 			exclusiveLayer = !exclusiveLayer;
 			keyLastProcessed = System.currentTimeMillis();
 		}
@@ -393,11 +373,11 @@ MouseMotionListener{
 		Map m = null;
 
 		switch (marker.getLevel()) {
-		case JavaGame.LEVEL_FLOOR:
-			m = JavaGame.world.floorMap;
+		case LEVEL_FLOOR:
+			m = world.floorMap;
 			break;
-		case JavaGame.LEVEL_WALL:
-			m = JavaGame.world.wallMap;
+		case LEVEL_WALL:
+			m = world.wallMap;
 			break;
 		}
 
@@ -406,11 +386,11 @@ MouseMotionListener{
 
 	private void writeCurrentMap(Map m) {
 		switch (marker.getLevel()) {
-		case JavaGame.LEVEL_FLOOR:
-			JavaGame.world.floorMap = m;
+		case LEVEL_FLOOR:
+			world.floorMap = m;
 			break;
-		case JavaGame.LEVEL_WALL:
-			JavaGame.world.wallMap = m;
+		case LEVEL_WALL:
+			world.wallMap = m;
 			break;
 		}
 	}
@@ -423,7 +403,7 @@ MouseMotionListener{
 			FileOutputStream saveFile = new FileOutputStream("world.wld");
 			GZIPOutputStream gzipFile = new GZIPOutputStream(saveFile);
 			ObjectOutputStream saveObject = new ObjectOutputStream(gzipFile);
-			saveObject.writeObject(JavaGame.world);
+			saveObject.writeObject(world);
 			saveObject.flush();
 			saveObject.close();
 			gzipFile.close();
@@ -443,7 +423,7 @@ MouseMotionListener{
 			FileInputStream loadFile = new FileInputStream("world.wld");
 			GZIPInputStream gzipFile = new GZIPInputStream(loadFile);
 			ObjectInputStream loadObject = new ObjectInputStream(gzipFile);
-			JavaGame.world = (World) loadObject.readObject();
+			world = (World) loadObject.readObject();
 			gzipFile.close();
 			loadObject.close();
 			loadFile.close();
@@ -486,10 +466,10 @@ MouseMotionListener{
 	public void mouseClicked(MouseEvent e) {
 		switch (e.getButton()) {
 		case MouseEvent.BUTTON1:
-			for (int x = JavaGame.xOffset; x < JavaGame.xOffset + JavaGame.screenTilesWide; x++) {
-				for (int y = JavaGame.yOffset; y < JavaGame.yOffset + JavaGame.screenTilesHigh; y++) {
-					if (JavaGame.world.floorMap.TileSet[x][y].getBounds().contains(e.getPoint())
-							&& x > 0 && y > 0 && x < MAP_TILES_WIDE && y < MAP_TILES_HIGH) {
+			for (int x = xOffset; x < xOffset + screenTilesWide; x++) {
+				for (int y = yOffset; y < yOffset + screenTilesHigh; y++) {
+					if (world.floorMap.TileSet[x][y].getBounds().contains(e.getPoint())
+							&& x > 0 && y > 0 && x < world.getWidth() && y < world.getHeight()) {
 						marker.selectRange(new Point(x, y), new Point(x, y));
 						return;
 					}
@@ -509,10 +489,10 @@ MouseMotionListener{
 		mouseButtonDown = e.getButton();
 		switch (mouseButtonDown) {
 		case MouseEvent.BUTTON1:
-			for (int x = JavaGame.xOffset; x < JavaGame.xOffset + JavaGame.screenTilesWide; x++) {
-				for (int y = JavaGame.yOffset; y < JavaGame.yOffset + JavaGame.screenTilesHigh; y++) {
-					if (JavaGame.world.floorMap.TileSet[x][y].getBounds().contains(e.getPoint())
-							&& x > 0 && y > 0 && x < MAP_TILES_WIDE && y < MAP_TILES_HIGH) {
+			for (int x = xOffset; x < xOffset + screenTilesWide; x++) {
+				for (int y = yOffset; y < yOffset + screenTilesHigh; y++) {
+					if (world.floorMap.TileSet[x][y].getBounds().contains(e.getPoint())
+							&& x > 0 && y > 0 && x < world.getWidth() && y < world.getHeight()) {
 						marker.selectRange(new Point(x, y), new Point(x, y));
 						return;
 					}
@@ -530,10 +510,10 @@ MouseMotionListener{
 	public void mouseReleased(MouseEvent e) {
 		switch (mouseButtonDown) {
 		case MouseEvent.BUTTON1:
-			for (int x = JavaGame.xOffset; x < JavaGame.xOffset + JavaGame.screenTilesWide; x++) {
-				for (int y = JavaGame.yOffset; y < JavaGame.yOffset + JavaGame.screenTilesHigh; y++) {
-					if (JavaGame.world.floorMap.TileSet[x][y].getBounds().contains(e.getPoint())
-							&& x > 0 && y > 0 && x < MAP_TILES_WIDE && y < MAP_TILES_HIGH) {
+			for (int x = xOffset; x < xOffset + screenTilesWide; x++) {
+				for (int y = yOffset; y < yOffset + screenTilesHigh; y++) {
+					if (world.floorMap.TileSet[x][y].getBounds().contains(e.getPoint())
+							&& x > 0 && y > 0 && x < world.getWidth() && y < world.getHeight()) {
 						marker.setSelectionEnd(new Point(x, y));
 						mouseDragging = false;
 						return;
@@ -553,10 +533,10 @@ MouseMotionListener{
 	public void mouseDragged(MouseEvent m) {
 		switch (mouseButtonDown) {
 		case MouseEvent.BUTTON1:
-			for (int x = JavaGame.xOffset; x < JavaGame.xOffset + JavaGame.screenTilesWide; x++) {
-				for (int y = JavaGame.yOffset; y < JavaGame.yOffset + JavaGame.screenTilesHigh; y++) {
-					if (JavaGame.world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())
-							&& x > 0 && y > 0 && x < JavaGame.world.getWidth() && y < JavaGame.world.getHeight()) {
+			for (int x = xOffset; x < xOffset + screenTilesWide; x++) {
+				for (int y = yOffset; y < yOffset + screenTilesHigh; y++) {
+					if (world.floorMap.TileSet[x][y].getBounds().contains(m.getPoint())
+							&& x > 0 && y > 0 && x < world.getWidth() && y < world.getHeight()) {
 						marker.setSelectionEnd(new Point(x, y));
 						mouseDragging = true;
 						return;
@@ -583,7 +563,7 @@ MouseMotionListener{
 
 		public void keyReleased(KeyEvent e) {
 
-			JavaGame.entity.keyReleased(e);
+			world.entity.keyReleased(e);
 			marker.keyReleased(e);
 
 		}
@@ -592,7 +572,7 @@ MouseMotionListener{
 			int key = e.getKeyCode();
 			shiftKey = e.isShiftDown();
 
-			JavaGame.entity.keyPressed(e);
+			world.entity.keyPressed(e);
 			marker.keyPressed(e);
 
 			switch (key) {
@@ -634,7 +614,7 @@ MouseMotionListener{
 				}
 				break;
 			case KeyEvent.VK_ESCAPE:	//kill thread and exit to menu
-				JavaGame.nextThread = "MENU";
+				nextThread = "MENU";
 				isRunning = false;
 				break;
 			}
@@ -665,9 +645,9 @@ MouseMotionListener{
 			
 			menu = new JMenu("Tile");
 				switch(marker.getLevel()){
-				case JavaGame.LEVEL_FLOOR:
+				case LEVEL_FLOOR:
 					break;
-				case JavaGame.LEVEL_WALL:
+				case LEVEL_WALL:
 					cbMenuItem = new JCheckBoxMenuItem("Visible");
 					cbMenuItem.setSelected(readCurrentMap().TileSet
 							[marker.getFirstTileX()][marker.getFirstTileY()]
@@ -688,8 +668,8 @@ MouseMotionListener{
 				
 				subMenu = new JMenu("Skin");
 				subMenu.setLayout(new GridLayout(0,5));
-				for(int i = 0; i < JavaGame.tileSkins.length; i++){
-					menuItem = new JMenuItem(new ImageIcon(JavaGame.tileSkins[i]));
+				for(int i = 0; i < tileSkins.length; i++){
+					menuItem = new JMenuItem(new ImageIcon(tileSkins[i]));
 					menuItem.addActionListener(this);
 					menuItem.setActionCommand("TILE:" + Integer.toString(i));
 					subMenu.add(menuItem);
@@ -716,17 +696,17 @@ MouseMotionListener{
 				ButtonGroup group = new ButtonGroup();
 				rbMenuItem = new JRadioButtonMenuItem("Floor");
 				group.add(rbMenuItem);
-				if(marker.getLevel() == JavaGame.LEVEL_FLOOR)
+				if(marker.getLevel() == LEVEL_FLOOR)
 					rbMenuItem.setSelected(true);
-				rbMenuItem.setActionCommand("LEVEL:" + JavaGame.LEVEL_FLOOR);
+				rbMenuItem.setActionCommand("LEVEL:" + LEVEL_FLOOR);
 				rbMenuItem.addActionListener(this);
 				menu.add(rbMenuItem);
 				
 				rbMenuItem = new JRadioButtonMenuItem("Wall");
 				group.add(rbMenuItem);
-				if(marker.getLevel() == JavaGame.LEVEL_WALL)
+				if(marker.getLevel() == LEVEL_WALL)
 					rbMenuItem.setSelected(true);
-				rbMenuItem.setActionCommand("LEVEL:" + JavaGame.LEVEL_WALL);
+				rbMenuItem.setActionCommand("LEVEL:" + LEVEL_WALL);
 				rbMenuItem.addActionListener(this);
 				menu.add(rbMenuItem);
 			add(menu);
@@ -737,7 +717,7 @@ MouseMotionListener{
 			switch(command[0]){
 			case "SAVE":
 				try {
-					EditorLoop.saveWorld();
+					saveWorld();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

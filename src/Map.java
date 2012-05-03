@@ -52,6 +52,19 @@ public class Map extends JavaGame implements Serializable {
 		TileSet[tileX][tileY].setVisible(isVisible);
 	}
 	
+	public void changeBorder(int borderSkin)
+	{
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				if(x == 0 || y == 0 || x == width - 1 || y == height - 1){
+					TileSet[x][y].setSkin(borderSkin);
+					TileSet[x][y].setVisible(true);
+					TileSet[x][y].setDestructible(false);
+				}
+			}
+		}
+	}
+	
 	public void draw(Graphics g, int cameraX, int cameraY)
 	{
 		int mapX = cameraX / tileWidth;

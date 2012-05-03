@@ -74,14 +74,15 @@ public class JavaGame {
 					break;
 				case "EDIT":
 					gThread = new Thread(new EditorLoop(gui));
-					pThread = new Thread(new GameTimeUpdater(gametime)); // Start the Game Time when editor selected
+					
 					break;
 				case "GAME":
 					gThread = new Thread(new GameLoop(gui));
+					pThread = new Thread(new GameTimeUpdater(gametime)); // Start the Game Time when game selected
+					pThread.start();	//Starts the game Time thread
 					break;
 				}
 				gThread.start();
-				pThread.start();	//Starts the game Time thread
 			}
 		}while(isRunning);
 	}

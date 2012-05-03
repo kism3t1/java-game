@@ -53,13 +53,16 @@ public class JavaGame {
 		
 		Thread gThread = new Thread(new StartScreen(gui));
 		
+		/* GameTime Section */
 		//Start of GameTime Thread
-		//For the time being getting it to run as soon as the program starts just to test
+		//For the time being just getting it to run as soon as the program starts up just to test
 		gametime = new GameTime(0);
-		Thread pThread = new Thread(new GameTimeUpdater(gametime));
-				
+		Thread pThread = new Thread(new GameTimeUpdater(gametime));		
+		//pThread.start();	//Start The GameTimeUpdater as soon as the program starts
+		
+		
 		gThread.start();
-		pThread.start();	//Start The GameTimeUpdater
+		
 		
 		Boolean isRunning = true;
 		do{
@@ -71,12 +74,14 @@ public class JavaGame {
 					break;
 				case "EDIT":
 					gThread = new Thread(new EditorLoop(gui));
+					pThread = new Thread(new GameTimeUpdater(gametime)); // Start the Game Time when editor selected
 					break;
 				case "GAME":
 					gThread = new Thread(new GameLoop(gui));
 					break;
 				}
 				gThread.start();
+				pThread.start();	//Starts the game Time thread
 			}
 		}while(isRunning);
 	}

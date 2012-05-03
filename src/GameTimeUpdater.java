@@ -1,7 +1,8 @@
 
 public class GameTimeUpdater implements Runnable{
 	
-	private GameTime time;
+	private GameTime time; //New GameTime object --- time
+	private DayCycle cycle;
 	
 	//Updates GameTime
 	
@@ -23,8 +24,19 @@ public class GameTimeUpdater implements Runnable{
 					e.printStackTrace();
 				}
 		time.increase();
-		System.out.println("The time is: " + time.getTime() + " Seconds");
+		//System.out.println("The time is: " + time.getTime() + " Seconds");
 		//System.out.println(GameTime.this);
+		//System.out.println ("Time of Day is : " + time.checkDateTime());
+		
+		if (time.checkDateTime() == TimeOfDay.NIGHT){
+			System.out.println("Oh no is it very dark - NIGHT");
+		}else if (time.checkDateTime() == TimeOfDay.DAYTIME){
+			System.out.println("FEW it is DAYTIME");
+		}else if (time.checkDateTime() == TimeOfDay.SUNRISE){
+			System.out.println("The sun is coming up - SUNRISE");
+		}else if (time.checkDateTime() == TimeOfDay.SUNSET){
+			System.out.println("Its getting dark! - SUNSET");
+		}else{}
 	}
 	}
 	

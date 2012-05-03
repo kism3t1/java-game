@@ -33,7 +33,7 @@ public class GameTime {
 		++gameTime;
 	}
 
-	private void checkDateTime() {
+	public TimeOfDay checkDateTime() {
 		// TODO Auto-generated method stub
 		TimeOfDay newDateTime = null;
 		int hour = getHour();
@@ -46,11 +46,20 @@ public class GameTime {
 		else
 			newDateTime = TimeOfDay.SUNRISE;
 		
-        if (gameTime > 1) {
-            System.out.println("It is " + newDateTime);
+        //if (gameTime > 1) {
+        	//return newDateTime;
+            //System.out.println("It is " + newDateTime);
+        //}
+		return newDateTime;
         }
-    }
 
+	public TimeOfDay returnTime(){
+		TimeOfDay theTime = null;
+		theTime = checkDateTime();
+		return theTime;
+		
+	}
+	
 	//Gets the hour in game 0-23
 	private int getHour() {
 		// TODO Auto-generated method stub

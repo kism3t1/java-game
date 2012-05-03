@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.zip.GZIPInputStream;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 
@@ -119,9 +121,6 @@ MouseMotionListener{
 
 	private void updateGameState(){
 		//TODO add movement and scrolling logic 
-		
-		//DayCycle.runSunset();	//POC DAY/NIGHT Cycle
-		//DayCycle.runCycleup();
 
 		JavaGame.entity.move();
 
@@ -190,11 +189,10 @@ MouseMotionListener{
 				}
 			}
 		}
-
-
 		// draw entity
 		g.drawImage(JavaGame.entitySkins[JavaGame.entity.getSkin()], JavaGame.entity.getX(), JavaGame.entity.getY(), null);
-
+		
+		
 		// draw enemies
 		for (int i = 0; i < JavaGame.enemy.size(); i++) {
 			g.drawImage(JavaGame.enemySkins[JavaGame.enemy.get(i).getSkin()], JavaGame.enemy.get(i).getX(), JavaGame.enemy.get(i).getY(), null);

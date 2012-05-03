@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -17,7 +16,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.zip.GZIPInputStream;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 
@@ -26,6 +24,8 @@ MouseMotionListener{
 	private boolean isRunning;
 	private Canvas gui;
 	private long cycleTime;
+	
+	private int cameraX, cameraY = 0;
 
 	public GameLoop(Canvas gui){
 		this.gui = gui;
@@ -129,66 +129,61 @@ MouseMotionListener{
 			JavaGame.enemy.get(i).move();
 		}
 
-		// move enemies and entity for scrolling effect
-		if (JavaGame.xOffset != JavaGame.prevXOffset || JavaGame.yOffset != JavaGame.prevYOffset) {
-			JavaGame.entity.setPos(JavaGame.entity.getX() - ((JavaGame.xOffset - JavaGame.prevXOffset) * 32),
-					JavaGame.entity.getY() - ((JavaGame.yOffset - JavaGame.prevYOffset) * 32));
-
+		// move enemies and entity for scrolling effect		
+		if(JavaGame.entity.getX() > gui.getWidth() * 0.6
+				&& (int)(cameraX / JavaGame.tileWidth) < JavaGame.world.floorMap.TileSet.length - JavaGame.screenTilesWide)
+		{
+			int dif = (int) (JavaGame.entity.getX() - gui.getWidth() * 0.6);
+			cameraX += dif;
+			JavaGame.entity.setX(JavaGame.entity.getX() - dif);
 			for (int i = 0; i < JavaGame.enemy.size(); i++) {
-				JavaGame.enemy.get(i).setPos(
-						JavaGame.enemy.get(i).getX() - ((JavaGame.xOffset - JavaGame.prevXOffset) * 32),
-						JavaGame.enemy.get(i).getY() - ((JavaGame.yOffset - JavaGame.prevYOffset) * 32));
+				JavaGame.enemy.get(i).setX(JavaGame.enemy.get(i).getX() - dif);
 			}
 		}
-		JavaGame.prevXOffset = JavaGame.xOffset;
-		JavaGame.prevYOffset = JavaGame.yOffset;
+		
+		if(JavaGame.entity.getX() < gui.getWidth() * 0.4 && cameraX > 0)
+		{
+			int dif = (int) (gui.getWidth() * 0.4 - JavaGame.entity.getX());
+			cameraX -= dif;
+			JavaGame.entity.setX(JavaGame.entity.getX() + dif);
+			for (int i = 0; i < JavaGame.enemy.size(); i++) {
+				JavaGame.enemy.get(i).setX(JavaGame.enemy.get(i).getX() + dif);
+			}
+		}
+		
+		if(JavaGame.entity.getY() > gui.getHeight() * 0.6
+				&& (int)(cameraY / JavaGame.tileHeight) < JavaGame.world.floorMap.TileSet[0].length - JavaGame.screenTilesHigh)
+		{
+			int dif = (int) (JavaGame.entity.getY() - gui.getHeight() * 0.6);
+			cameraY += dif;
+			JavaGame.entity.setY(JavaGame.entity.getY() - dif);
+			for (int i = 0; i < JavaGame.enemy.size(); i++) {
+				JavaGame.enemy.get(i).setY(JavaGame.enemy.get(i).getY() - dif);
+			}
+		}
+		
+		if(JavaGame.entity.getY() < gui.getHeight() * 0.4 && cameraY > 0)
+		{
+			int dif = (int) (gui.getHeight() * 0.4 - JavaGame.entity.getY());
+			cameraY -= dif;
+			JavaGame.entity.setY(JavaGame.entity.getY() + dif);
+			for (int i = 0; i < JavaGame.enemy.size(); i++) {
+				JavaGame.enemy.get(i).setY(JavaGame.enemy.get(i).getY() + dif);
+			}
+		}
+	
 	}
 
 	private void updateGUI(BufferStrategy strategy){
-		int tileToX, tileToY;
 		Graphics g = strategy.getDrawGraphics();
 
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, gui.getWidth(), gui.getHeight());
 		g.setColor(Color.BLACK);
-
+		g.fillRect(0, 0, gui.getWidth(), gui.getHeight());
+		
 		// draw maps
-		if(JavaGame.screenTilesWide + JavaGame.xOffset + 1 > JavaGame.world.floorMap.TileSet.length){
-			tileToX = JavaGame.screenTilesWide + JavaGame.xOffset;
-		}else{
-			tileToX = JavaGame.screenTilesWide + JavaGame.xOffset + 1;
-		}
+		JavaGame.world.floorMap.draw(g, cameraX, cameraY);
+		JavaGame.world.wallMap.draw(g, cameraX, cameraY);
 
-		if(JavaGame.screenTilesHigh + JavaGame.yOffset + 1 > JavaGame.world.floorMap.TileSet[0].length){
-			tileToY = JavaGame.screenTilesHigh + JavaGame.yOffset;
-		}else{
-			tileToY = JavaGame.screenTilesHigh + JavaGame.yOffset + 1;
-		}
-
-
-		for (int x = JavaGame.xOffset; x < tileToX; x++) {
-			for (int y = JavaGame.yOffset; y < tileToY; y++) {
-				if (JavaGame.world.floorMap.TileSet[x][y].isVisible()) {
-					JavaGame.world.floorMap.TileSet[x][y].setPos((x - JavaGame.xOffset) * JavaGame.tileWidth, (y - JavaGame.yOffset) * JavaGame.tileHeight);
-					g.drawImage(JavaGame.tileSkins[JavaGame.world.floorMap.TileSet[x][y].getSkin()],
-							JavaGame.world.floorMap.TileSet[x][y].getX(), JavaGame.world.floorMap.TileSet[x][y].getY(),
-							null);
-				}
-			}
-		}
-
-
-
-		for (int x = JavaGame.xOffset; x < tileToX; x++) {
-			for (int y = JavaGame.yOffset; y < tileToY; y++) {
-				if (JavaGame.world.wallMap.TileSet[x][y].isVisible()) {
-					JavaGame.world.wallMap.TileSet[x][y].setPos((x - JavaGame.xOffset) * JavaGame.tileWidth, (y - JavaGame.yOffset) * JavaGame.tileHeight);
-					g.drawImage(JavaGame.tileSkins[JavaGame.world.wallMap.TileSet[x][y].getSkin()],
-							JavaGame.world.wallMap.TileSet[x][y].getX(), JavaGame.world.wallMap.TileSet[x][y].getY(),
-							null);
-				}
-			}
-		}
 		// draw entity
 		g.drawImage(JavaGame.entitySkins[JavaGame.entity.getSkin()], JavaGame.entity.getX(), JavaGame.entity.getY(), null);
 		

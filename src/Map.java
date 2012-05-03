@@ -1,7 +1,8 @@
+import java.awt.Graphics;
 import java.io.Serializable;
 
 
-public class Map implements Serializable {
+public class Map extends JavaGame implements Serializable {
 
 	/**
 	 * 
@@ -49,6 +50,27 @@ public class Map implements Serializable {
 		TileSet[tileX][tileY].setHealth(bHealth);
 		TileSet[tileX][tileY].setDestructible(isDestructible);
 		TileSet[tileX][tileY].setVisible(isVisible);
+	}
+	
+	public void draw(Graphics g, int cameraX, int cameraY)
+	{
+		int mapX = cameraX / tileWidth;
+		int mapY = cameraY / tileHeight;
+		
+		int mapXoff = cameraX % tileWidth;
+		int mapYoff = cameraY % tileHeight;
+		
+		for(int x = 0; x <= screenTilesWide+1; x++){
+			for(int y = 0; y <= screenTilesHigh+1; y++){
+				if(x + mapX >= 0 && x + mapX < TileSet.length && y + mapY >= 0 && y + mapY < TileSet[0].length)
+				{
+					if(TileSet[x][y].isVisible()){
+						TileSet[x + mapX][y + mapY].setPos((x * tileWidth) - mapXoff, (y * tileHeight) - mapYoff);
+						g.drawImage(tileSkins[TileSet[x + mapX][y + mapY].getSkin()], TileSet[x + mapX][y + mapY].getX(), TileSet[x + mapX][y + mapY].getY(), null);
+					}
+				}
+			}
+		}
 	}
 
 }

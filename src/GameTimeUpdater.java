@@ -30,12 +30,16 @@ public class GameTimeUpdater implements Runnable{
 		
 		if (time.checkDateTime() == TimeOfDay.NIGHT){
 			System.out.println("Oh no is it very dark - NIGHT");
+			//Set overlay black
 		}else if (time.checkDateTime() == TimeOfDay.DAYTIME){
 			System.out.println("FEW it is DAYTIME");
+			//Set overlay to light
 		}else if (time.checkDateTime() == TimeOfDay.SUNRISE){
 			System.out.println("The sun is coming up - SUNRISE");
+			//Set overlay to orange - light
 		}else if (time.checkDateTime() == TimeOfDay.SUNSET){
 			System.out.println("Its getting dark! - SUNSET");
+			//Set overlay to orange - dark
 		}else{}
 	}
 	}

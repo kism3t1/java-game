@@ -53,12 +53,14 @@ public class GameTime {
 		return newDateTime;
         }
 
+	/*
 	public TimeOfDay returnTime(){
 		TimeOfDay theTime = null;
 		theTime = checkDateTime();
 		return theTime;
 		
 	}
+	*/
 	
 	//Gets the hour in game 0-23
 	private int getHour() {

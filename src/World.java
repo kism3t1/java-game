@@ -14,7 +14,6 @@ public class World implements Serializable {
 	private String title = "Default World";
 	private int width;
 	private int height;
-	private int borderSkin;
 	
 	public ArrayList<Enemy> enemy;
 	public Entity entity;
@@ -23,7 +22,6 @@ public class World implements Serializable {
 		this.title = title;
 		this.width = width + 2;			//we add 2 to width and height
 		this.height = height + 2;		//to allow for the border
-		this.borderSkin = borderSkin;
 		
 		enemy = new ArrayList<Enemy>();
 		entity = (new Entity());
@@ -58,7 +56,6 @@ public class World implements Serializable {
 	
 	public void setBorderSkin(int borderSkin)
 	{
-		this.borderSkin = borderSkin;
 		wallMap.changeBorder(borderSkin);
 	}
 	

@@ -12,8 +12,9 @@ public class Enemy extends JavaGame implements Serializable {
 	private int id;
 	private int speed;
 	private long dLast;
-	public int x, y, width, height;
-	public int skin;
+	private int x, y, width, height;
+	private int skin;
+	private int health;
 	
 	private AI ai;
 
@@ -25,6 +26,7 @@ public class Enemy extends JavaGame implements Serializable {
 		height = enemySkins[skin].getHeight(null);
 		this.id = id;
 		speed = 1;
+		health = 3;
 		dLast = System.currentTimeMillis() - 500;
 		ai = new AI(id);
 	}
@@ -110,6 +112,14 @@ public class Enemy extends JavaGame implements Serializable {
 	
 	public Rectangle getBounds() { // Get bounds for collision detection
 		return new Rectangle(x, y, width, height);
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
 	}
 
 }

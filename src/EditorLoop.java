@@ -6,7 +6,6 @@ import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -741,7 +740,20 @@ MouseMotionListener{
 				rbMenuItem.setActionCommand("LEVEL:" + LEVEL_WALL);
 				rbMenuItem.addActionListener(this);
 				menu.add(rbMenuItem);
-			add(menu);
+				
+				menu.addSeparator();
+				
+				subMenu = new JMenu("Change Border Skin");
+				subMenu.setLayout(new GridLayout(0,5));
+					for(int i = 0; i < tileSkins.length; i++){
+						menuItem = new JMenuItem(new ImageIcon(tileSkins[i]));
+						menuItem.addActionListener(this);
+						menuItem.setActionCommand("BORDER:" + Integer.toString(i));
+						subMenu.add(menuItem);
+					}
+				menu.add(subMenu);
+			add(menu);					
+			
 		}
 
 		public void actionPerformed(ActionEvent e) {
@@ -792,7 +804,16 @@ MouseMotionListener{
 				toggleTileVisible();
 				break;
 			case "ENEMY":
-				world.addEnemy(Integer.parseInt(command[1]), marker.getFirstTileX() * tileWidth, marker.getFirstTileY() * tileHeight);
+				for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
+					for (int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++) {
+				world.addEnemy(Integer.parseInt(command[1]), 
+						(world.floorMap.TileSet[x][y].getX()), 
+						(world.floorMap.TileSet[x][y].getY()));
+					}
+				}
+				break;
+			case "BORDER":
+				world.setBorderSkin(Integer.parseInt(command[1]));
 				break;
 			}
 		}
@@ -811,6 +832,11 @@ MouseMotionListener{
 		public EnemyPopupMenu(int enemyID){
 			this.enemyID = enemyID;
 			
+			menuItem = new JMenuItem("Set Health (" + world.getEnemy(enemyID).getHealth() + ")");
+			menuItem.setActionCommand("HEALTH");
+			menuItem.addActionListener(this);
+			add(menuItem);
+			
 			menuItem = new JMenuItem("Remove");
 			menuItem.setActionCommand("REM");
 			menuItem.addActionListener(this);
@@ -822,6 +848,16 @@ MouseMotionListener{
 			switch(command[0]){
 			case "REM":
 				world.removeEnemy(enemyID);
+				break;
+			case "HEALTH":
+				int i = Integer.parseInt(JOptionPane.showInputDialog(null, 
+						"Enter new enemy health value (whole number only)", 
+						"Enemy Health", 
+						JOptionPane.PLAIN_MESSAGE, 
+						new ImageIcon(enemySkins[world.getEnemy(enemyID).getSkin()]),
+						null,
+						world.getEnemy(enemyID).getHealth()).toString());
+				world.getEnemy(enemyID).setHealth(i);
 				break;
 			}
 		}

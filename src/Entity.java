@@ -36,7 +36,7 @@ public class Entity extends JavaGame implements Serializable {
 		x += dx;
 		y += dy;
 
-		if (collisionDetection.check(getBounds(), false, true, true, -1)) {
+		if (collisionDetection.check(getBounds(), false, true, true, -1) != CollisionDetection.CD_NULL) {
 			x -= dx;
 			y -= dy;
 		}

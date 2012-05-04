@@ -3,11 +3,15 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 public class CollisionDetection extends JavaGame{
+	
+	public static final int CD_ENEMY = 1;		//allow us to identify collision type
+	public static final int CD_ENTITY = 2;
+	public static final int CD_TILE = 3;
+	public static final int CD_NULL = -1;		//no collision
 
-	public boolean check(Rectangle r1, boolean checkEntity,
+	public int check(Rectangle r1, boolean checkEntity,
 			boolean checkEnemy, boolean checkTile, int enemyID) { // Collision
 																	// Detection
-		boolean collision = false;
 		Rectangle r2;
 
 		// check collision with enemies
@@ -19,7 +23,7 @@ public class CollisionDetection extends JavaGame{
 
 						if (r1.intersects(r2)) { // Checks if entity collides with
 							// an enemy
-							collision = true;
+							return CD_ENEMY;
 						}
 					}
 				}
@@ -37,13 +41,13 @@ public class CollisionDetection extends JavaGame{
 
 						if (r1.intersects(r2)) { // Checks if entity collides
 													// with a tile
-							collision = true;
+							return CD_TILE;
 						}
 					}
 				}
 			}
 		}
-		return collision;
+		return CD_NULL;
 	}
 
 	public int getEnemyID(Point point)
@@ -64,6 +68,6 @@ public class CollisionDetection extends JavaGame{
 			}
 		}
 
-		return -1;
+		return CD_NULL;
 	}
 }

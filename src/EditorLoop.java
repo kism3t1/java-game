@@ -712,6 +712,11 @@ MouseMotionListener{
 			add(menu);
 				
 			menu = new JMenu("Options");
+				menuItem = new JMenuItem("Set Entity Start Point");
+				menuItem.setActionCommand("START");
+				menuItem.addActionListener(this);
+				menu.add(menuItem);
+			
 				cbMenuItem = new JCheckBoxMenuItem("Hide Inactive Layers");
 				cbMenuItem.setSelected(exclusiveLayer);
 				cbMenuItem.setActionCommand("EXCL");
@@ -814,6 +819,9 @@ MouseMotionListener{
 				break;
 			case "BORDER":
 				world.setBorderSkin(Integer.parseInt(command[1]));
+				break;
+			case "START":
+				world.entity.setPos(marker.getFirstTileX() * tileWidth, marker.getFirstTileY() * tileHeight);
 				break;
 			}
 		}

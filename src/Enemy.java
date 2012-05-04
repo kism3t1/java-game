@@ -42,7 +42,7 @@ public class Enemy extends JavaGame implements Serializable {
 			dLast = System.currentTimeMillis();
 		}
 
-		if (collisionDetection.check(getBounds(), true, true, true, id)) {	//Check Collision
+		if (collisionDetection.check(getBounds(), true, true, true, id) != CollisionDetection.CD_NULL) {	//Check Collision
 			ai.randomAIDirection();	//Run random AI Direction method
 			//System.out.println("YOU DIED!!!");
 			//ai.checklocation();

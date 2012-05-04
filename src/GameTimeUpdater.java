@@ -1,3 +1,11 @@
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferStrategy;
+
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
 
 public class GameTimeUpdater implements Runnable{
 	
@@ -24,22 +32,15 @@ public class GameTimeUpdater implements Runnable{
 					e.printStackTrace();
 				}
 		time.increase();
-		//System.out.println("The time is: " + time.getTime() + " Seconds");
-		//System.out.println(GameTime.this);
-		//System.out.println ("Time of Day is : " + time.checkDateTime());
 		
 		if (time.checkDateTime() == TimeOfDay.NIGHT){
-			System.out.println("Oh no is it very dark - NIGHT");
-			//Set overlay black
+			//cycle.runNight();
 		}else if (time.checkDateTime() == TimeOfDay.DAYTIME){
-			System.out.println("FEW it is DAYTIME");
-			//Set overlay to light
+
 		}else if (time.checkDateTime() == TimeOfDay.SUNRISE){
-			System.out.println("The sun is coming up - SUNRISE");
-			//Set overlay to orange - light
+			//cycle.runSunrise();
 		}else if (time.checkDateTime() == TimeOfDay.SUNSET){
-			System.out.println("Its getting dark! - SUNSET");
-			//Set overlay to orange - dark
+			//cycle.runSunset();
 		}else{}
 	}
 	}

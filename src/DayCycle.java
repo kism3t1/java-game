@@ -1,4 +1,10 @@
+import java.awt.BasicStroke;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.RescaleOp;
+
+import javax.swing.ImageIcon;
 
 //PROOF OF CONCEPT
 
@@ -7,13 +13,33 @@ import java.awt.image.RescaleOp;
 public class DayCycle {
 	
 	private static long dLast;
-	private static int x;
+	
+	Image sun;
+	Image moon;
 	
 	static float scaledown = 0.9f;
 	static float offsetdown = 0.1f;
 	
 	static float scaleup = 1.3f;
 	static float offsetup = 0.9f;
+	
+	public void showSun(Graphics g, int x, int y){
+		sun = new ImageIcon(this.getClass().getResource("/Images/sun.png")).getImage();
+		Graphics2D g2d = (Graphics2D) g;
+        g2d.drawImage(sun, x, y, null);
+        x += x; // Move the sun across and up
+        y += y; // Move the sun across and up
+		//System.out.println("SUN!!!!!");
+	}
+	
+	public void showMoon(Graphics g, int x, int y){
+		moon = new ImageIcon(this.getClass().getResource("/Images/moon.png")).getImage();
+		Graphics2D g2d = (Graphics2D) g;
+        g2d.drawImage(moon, x, y, null);
+        x += x; // Move the moon across and up
+        y += y; // Move the moon across and up
+		//System.out.println("Moon!!!!!");
+	}
 	
 	public static void runSunset(){
 			if (System.currentTimeMillis() - dLast > 500) {

@@ -26,17 +26,18 @@ public class GameTimeUpdater implements Runnable{
 		 while (true) {
 	            //System.out.println("Started thread");
 	            try {
-					Thread.sleep(1000);	//1000 is 1 second
+					Thread.sleep(100);	//1000 is 1 second // 100 for testing to speed things up a little
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		time.increase();
+
 		
 		if (time.checkDateTime() == TimeOfDay.NIGHT){
 			//cycle.runNight();
 		}else if (time.checkDateTime() == TimeOfDay.DAYTIME){
-
+			//cycle.showSun(g, 200, 200);
 		}else if (time.checkDateTime() == TimeOfDay.SUNRISE){
 			//cycle.runSunrise();
 		}else if (time.checkDateTime() == TimeOfDay.SUNSET){

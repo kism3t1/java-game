@@ -41,16 +41,22 @@ public class JavaGame {
 
 	public static void main(String[] args) {
 	//	/*
+		
+		if(System.getProperty("os.name").startsWith("Win"))
+            System.setProperty("sun.java2d.d3d","true");
+		else
+            System.setProperty("sun.java2d.opengl", "true");
+		
 		JFrame frame = new JFrame();
 		Canvas gui = new Canvas();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(gui);
 		
 		frame.setTitle("Java-Game V0.1 - Map Editor");
-		frame.setResizable(false);
 		frame.setVisible(true); // start AWT painting.
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setMinimumSize(frame.getSize());			//prevents window shrinking when moved
+		frame.setResizable(true);
 		
 		Thread gThread = new Thread(new StartScreen(gui));
 		

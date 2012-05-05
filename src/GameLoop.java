@@ -63,10 +63,16 @@ MouseMotionListener{
 			System.out.println("Error loading enemySkins");
 		}
 
+		//Temporarily added to entitySkins
+		//Will need a new array for misc objects
 		
 		try{
 			entitySkins = new BufferedImage[]{
-					optimizedImage("/Images/entity.png")
+					optimizedImage("/Images/entity.png"),
+					optimizedImage("/Images/sun.png"),	//Sun Image
+					optimizedImage("/Images/moon.png"),	//Moon Image
+					optimizedImage("/Images/sunset.png"),	//sunset
+					optimizedImage("/Images/sunrise.png")	//sunrise
 			};
 		}catch(IOException e){
 			System.out.println("Error loading entitySkins");
@@ -172,9 +178,27 @@ MouseMotionListener{
 		for (int i = 0; i < world.enemy.size(); i++) {
 			g.drawImage(enemySkins[world.enemy.get(i).getSkin()], world.enemy.get(i).getX(), world.enemy.get(i).getY(), null);
 		}
+		
+		//Day night Cycle routine
+		//Just displaying images at the moment
+		//I will bring the routine out into its own class eventually
+		//This was just to get it working
 
+		if (ReturnTime.returnNight() == true){
+			g.drawImage(entitySkins[2], 30, 30, 100, 100, null);	//Moon
+			//System.out.println(ReturnTime.returnTime());
+		}else if (ReturnTime.returnDay() == true){
+			g.drawImage(entitySkins[1], 30, 30, 100, 100, null);	//Sun
+		}else if (ReturnTime.returnSunrise() == true){
+			g.drawImage(entitySkins[4], 30, 30, 100, 100, null);	//Half Sun
+		}else if (ReturnTime.returnSunset() == true){
+			g.drawImage(entitySkins[3], 30, 30, 100, 100, null);	//Half sun with moon
+		}else{}
+		
 		g.dispose();
 		strategy.show();
+		
+		
 	}
 
 	private void syncFPS(){

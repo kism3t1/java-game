@@ -2,8 +2,6 @@ import java.io.Serializable;
 
 //This is the AI class for Enemies & other NPC entities to use
 
-//	29/04/2012 - BUG: Attack method moves every NPC instead of individually
-
 public class AI extends JavaGame implements Serializable {
 	
 	/**

@@ -15,7 +15,7 @@ public class JavaGame {
 	public static final int LEVEL_WALL = 1;
 
 	public static World world;
-	private static GameTime gametime;
+	public static GameTime gametime;
 	public static BufferedImage[] tileSkins;
 	public static BufferedImage[] enemySkins;
 	public static BufferedImage[] entitySkins;
@@ -94,4 +94,9 @@ public class JavaGame {
 		}while(isRunning);
 	}
 
+	//Used to return the objects (Games) Time
+	
+	public static GameTime returnTime(){ 
+		return gametime;
+	}
 }

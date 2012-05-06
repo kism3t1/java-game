@@ -21,6 +21,7 @@ public class StartScreen extends JPanel implements Runnable{
 	Image start;
 	Image map;
 	Image bg;
+	Image bgbig;
 	
 	private Canvas gui;
 	private boolean isRunning;
@@ -41,6 +42,7 @@ public class StartScreen extends JPanel implements Runnable{
 	        start = new ImageIcon(this.getClass().getResource("/Images/start.png")).getImage();
 			map = new ImageIcon(this.getClass().getResource("/Images/map.png")).getImage();
 			bg = new ImageIcon(this.getClass().getResource("/Images/background.png")).getImage();
+			bgbig = new ImageIcon(this.getClass().getResource("/Images/backgroundbig.png")).getImage();
 		}
 		
 		@Override
@@ -62,13 +64,14 @@ public class StartScreen extends JPanel implements Runnable{
 	    public void updateGUI(BufferStrategy strategy) {
 	    	Graphics g = strategy.getDrawGraphics();
 
-	        g.drawImage(bg, 0,0,710,730,null);
-	        g.drawImage(start, 200, 200, null);
-	        g.drawImage(map, 200, 350, null);
+	        //g.drawImage(bg, 0,0,710,730,null);
+	    	g.drawImage(bgbig, 0, 0, 1400, 750, null);
+	        g.drawImage(start, 500, 200, null);
+	        g.drawImage(map, 500, 350, null);
 	        if (menuChoice == 1){
-	        	selection(g, 200, 200, 280, 50); //Location of Play game image
+	        	selection(g, 500, 200, 280, 50); //Location of Play game image
 	        }else if (menuChoice ==2){
-	        	selection(g, 200, 350, 280, 50); //Location of Map editor image
+	        	selection(g, 500, 350, 280, 50); //Location of Map editor image
 	        }else{
 	        	menuChoice =1;
 	        }

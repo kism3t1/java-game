@@ -49,6 +49,43 @@ public class CollisionDetection extends JavaGame{
 		}
 		return CD_NULL;
 	}
+	
+	public boolean checkEnemies(Rectangle r1, int enemyID){
+		Rectangle r2;
+		if(!world.enemy.isEmpty()){
+			for (int i = 0; i < world.enemy.size(); i++) {
+				if (world.enemy.get(i).getID() != enemyID) {
+					r2 = world.enemy.get(i).getBounds(); // Get bounds of enemy
+
+					if (r1.intersects(r2)) { // Checks if entity collides with
+						// an enemy
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	public boolean checkTiles(Rectangle r1)
+	{
+		Rectangle r2;
+		for (int tx = xOffset; tx < screenTilesWide
+				+ xOffset; tx++) {
+			for (int ty = yOffset; ty < screenTilesHigh
+					+ yOffset; ty++) {
+				if (world.wallMap.TileSet[tx][ty].isVisible()) {
+					r2 = world.wallMap.TileSet[tx][ty].getBounds();
+
+					if (r1.intersects(r2)) { // Checks if entity collides
+												// with a tile
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 
 	public int getEnemyID(Point point)
 	{
@@ -66,6 +103,7 @@ public class CollisionDetection extends JavaGame{
 				}
 
 			}
+			
 		}
 
 		return CD_NULL;

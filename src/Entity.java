@@ -47,17 +47,17 @@ public class Entity extends JavaGame implements Serializable {
 	public void move() {
 		x += dx;
 		y += dy;
-		
-		switch(collisionDetection.check(getBounds(), false, true, true, -1))
+
+		if(collisionDetection.checkTiles(getBounds()))
 		{
-		case CollisionDetection.CD_TILE:
 			x -= dx;
 			y -= dy;
-			break;
-		case CollisionDetection.CD_ENEMY:
+		}
+
+		if(collisionDetection.checkEnemies(getBounds(), -1))
+		{
 			if(state != STATE_INJURED)
 				damage(1);
-			break;
 		}
 	}
 

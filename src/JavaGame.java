@@ -13,6 +13,10 @@ public class JavaGame {
 	// tile level identifiers
 	public static final int LEVEL_FLOOR = 0;
 	public static final int LEVEL_WALL = 1;
+	
+	//animation state identifiers
+	public static final int STATE_NORMAL = 0;
+	public static final int STATE_INJURED = 1;
 
 	public static World world;
 	public static GameTime gametime;

@@ -171,7 +171,8 @@ MouseMotionListener{
 		world.wallMap.draw(g, cameraX, cameraY);
 
 		// draw entity
-		g.drawImage(entitySkins[world.entity.getSkin()], world.entity.getX(), world.entity.getY(), null);
+		world.entity.draw(g);
+		//g.drawImage(entitySkins[world.entity.getSkin()], world.entity.getX(), world.entity.getY(), null);
 		
 		
 		// draw enemies

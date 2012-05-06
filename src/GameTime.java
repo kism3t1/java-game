@@ -46,30 +46,15 @@ public class GameTime {
 		else
 			newDateTime = TimeOfDay.SUNRISE;
 		
-        //if (gameTime > 1) {
-        	//return newDateTime;
-            //System.out.println("It is " + newDateTime);
-        //}
 		return newDateTime;
         }
-
-	/*
-	public TimeOfDay returnTime(){
-		TimeOfDay theTime = null;
-		theTime = checkDateTime();
-		return theTime;
-		
-	}
-	*/
 	
 	//Gets the hour in game 0-23
 	private int getHour() {
-		// TODO Auto-generated method stub
 		return (gameTime % MINUTES_IN_DAY) / (MINUTES_IN_HOUR);
 	}
 
 	private int getMinute() {
-		// TODO Auto-generated method stub
 		return (gameTime % MINUTES_IN_HOUR);
 	}
 	

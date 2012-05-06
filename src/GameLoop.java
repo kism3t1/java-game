@@ -179,20 +179,21 @@ MouseMotionListener{
 			g.drawImage(enemySkins[world.enemy.get(i).getSkin()], world.enemy.get(i).getX(), world.enemy.get(i).getY(), null);
 		}
 		
-		//Day night Cycle routine
-		//Just displaying images at the moment
-		//I will bring the routine out into its own class eventually
-		//This was just to get it working
+		/*	
+		 * Day night Cycle routine
+		 * Just displaying images at the moment
+		 * I will bring the routine out into its own class eventually I
+		 * This was just to get it working
+		 */	
 
-		if (ReturnTime.returnNight() == true){
+		if (ReturnTime.returnTimeOfDay() == TimeOfDay.NIGHT){
 			g.drawImage(entitySkins[2], 30, 30, 100, 100, null);	//Moon
-			//System.out.println(ReturnTime.returnTime());
-		}else if (ReturnTime.returnDay() == true){
+		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.DAYTIME){
 			g.drawImage(entitySkins[1], 30, 30, 100, 100, null);	//Sun
-		}else if (ReturnTime.returnSunrise() == true){
-			g.drawImage(entitySkins[4], 30, 30, 100, 100, null);	//Half Sun
-		}else if (ReturnTime.returnSunset() == true){
-			g.drawImage(entitySkins[3], 30, 30, 100, 100, null);	//Half sun with moon
+		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.SUNSET){
+			g.drawImage(entitySkins[3], 30, 30, 100, 100, null);	//Half Sun
+		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.SUNRISE){
+			g.drawImage(entitySkins[4], 30, 30, 100, 100, null);	//Half sun with moon
 		}else{}
 		
 		g.dispose();

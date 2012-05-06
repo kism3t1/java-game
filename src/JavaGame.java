@@ -61,11 +61,8 @@ public class JavaGame {
 		Thread gThread = new Thread(new StartScreen(gui));
 		
 		/* GameTime Section */
-		//Start of GameTime Thread
-		//For the time being just getting it to run as soon as the program starts up just to test
 		gametime = new GameTime(0);
 		Thread pThread = new Thread(new GameTimeUpdater(gametime));		
-		//pThread.start();	//Start The GameTimeUpdater as soon as the program starts
 		
 		
 		gThread.start();

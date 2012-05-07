@@ -65,13 +65,13 @@ public class StartScreen extends JPanel implements Runnable{
 	    	Graphics g = strategy.getDrawGraphics();
 
 	        //g.drawImage(bg, 0,0,710,730,null);
-	    	g.drawImage(bgbig, 0, 0, 1400, 750, null);
-	        g.drawImage(start, 500, 200, null);
-	        g.drawImage(map, 500, 350, null);
+	    	g.drawImage(bgbig, 0, 0, gui.getWidth(), gui.getHeight(), null);
+	        g.drawImage(start, (gui.getWidth() /2) - (start.getWidth(null)/2), 200, null);
+	        g.drawImage(map, (gui.getWidth() /2) - (map.getWidth(null)/2), 350, null);
 	        if (menuChoice == 1){
-	        	selection(g, 500, 200, 280, 50); //Location of Play game image
+	        	selection(g, (gui.getWidth() /2) - (start.getWidth(null)/2), 200, 280, 50); //Location of Play game image
 	        }else if (menuChoice ==2){
-	        	selection(g, 500, 350, 280, 50); //Location of Map editor image
+	        	selection(g, (gui.getWidth() /2) - (map.getWidth(null)/2), 350, 280, 50); //Location of Map editor image
 	        }else{
 	        	menuChoice =1;
 	        }

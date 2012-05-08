@@ -69,10 +69,14 @@ MouseMotionListener{
 		try{
 			entitySkins = new BufferedImage[]{
 					optimizedImage("/Images/entity.png"),
-					optimizedImage("/Images/sun.png"),	//Sun Image
-					optimizedImage("/Images/moon.png"),	//Moon Image
-					optimizedImage("/Images/sunset.png"),	//sunset
-					optimizedImage("/Images/sunrise.png")	//sunrise
+					optimizedImage("/Images/Sky/sun.png"),	//Sun Image
+					optimizedImage("/Images/Sky/moon.png"),	//Moon Image
+					optimizedImage("/Images/Sky/sunset.png"),	//sunset
+					optimizedImage("/Images/Sky/sunrise.png"),	//sunrise
+					optimizedImage("/Images/Sky/sunrise20.png"),
+					optimizedImage("/Images/Sky/dark50.png"),
+					optimizedImage("/Images/Sky/dark20.png")
+					
 			};
 		}catch(IOException e){
 			System.out.println("Error loading entitySkins");
@@ -189,12 +193,16 @@ MouseMotionListener{
 
 		if (ReturnTime.returnTimeOfDay() == TimeOfDay.NIGHT){
 			g.drawImage(entitySkins[2], 30, 30, 100, 100, null);	//Moon
+			g.drawImage(entitySkins[5], 0, 0, gui.getWidth(), gui.getHeight(), null);
+			g.drawImage(entitySkins[6], 0, 0, gui.getWidth(), gui.getHeight(), null);
 		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.DAYTIME){
 			g.drawImage(entitySkins[1], 30, 30, 100, 100, null);	//Sun
 		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.SUNSET){
 			g.drawImage(entitySkins[3], 30, 30, 100, 100, null);	//Half Sun
 		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.SUNRISE){
 			g.drawImage(entitySkins[4], 30, 30, 100, 100, null);	//Half sun with moon
+			g.drawImage(entitySkins[5], 0, 0, gui.getWidth(), gui.getHeight(), null);
+			g.drawImage(entitySkins[7], 0, 0, gui.getWidth(), gui.getHeight(), null);
 		}else{}
 		
 		g.dispose();

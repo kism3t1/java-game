@@ -1,5 +1,5 @@
 
-public class GameTimeUpdater implements Runnable{
+public class GameTimeUpdater extends JavaGame implements Runnable{
 	
 	private GameTime time;
 	
@@ -15,11 +15,12 @@ public class GameTimeUpdater implements Runnable{
 	public void run() {
 		 while (true) {
 	            try {
-					Thread.sleep(100);	//1000 is 1 second // 100 for testing to speed things up a little
+					Thread.sleep(1000);	//1000 is 1 second // 100 for testing to speed things up a little
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 		time.increase();	//Increase time
+		
 	}
 	}
 	

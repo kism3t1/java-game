@@ -62,24 +62,29 @@ MouseMotionListener{
 		}catch(IOException e){
 			System.out.println("Error loading enemySkins");
 		}
-
-		//Temporarily added to entitySkins
-		//Will need a new array for misc objects
 		
 		try{
 			entitySkins = new BufferedImage[]{
-					optimizedImage("/Images/entity.png"),
-					optimizedImage("/Images/Sky/sun.png"),	//Sun Image
-					optimizedImage("/Images/Sky/moon.png"),	//Moon Image
-					optimizedImage("/Images/Sky/sunset.png"),	//sunset
-					optimizedImage("/Images/Sky/sunrise.png"),	//sunrise
-					optimizedImage("/Images/Sky/sunrise20.png"),
-					optimizedImage("/Images/Sky/dark50.png"),
-					optimizedImage("/Images/Sky/dark20.png")
+					optimizedImage("/Images/entity.png")
 					
 			};
 		}catch(IOException e){
 			System.out.println("Error loading entitySkins");
+		}
+		
+		try{
+			skySkins = new BufferedImage[]{
+					optimizedImage("/Images/Sky/sun.png"),	//Sun Image [0]
+					optimizedImage("/Images/Sky/moon.png"),	//Moon Image [1]
+					optimizedImage("/Images/Sky/sunset.png"),	//sunset Image [2]
+					optimizedImage("/Images/Sky/sunrise.png"),	//sunrise Image [3]
+					optimizedImage("/Images/Sky/sunrise20.png"), //sunrise 20% opacity [4]
+					optimizedImage("/Images/Sky/dark90.png"), //dark 90% opacity [5]
+					optimizedImage("/Images/Sky/dark20.png") //dark 20% opacity [6]
+					
+			};
+		}catch(IOException e){
+			System.out.println("Error loading skySkins");
 		}
 
 		try {
@@ -192,17 +197,23 @@ MouseMotionListener{
 		 */	
 
 		if (ReturnTime.returnTimeOfDay() == TimeOfDay.NIGHT){
-			g.drawImage(entitySkins[2], 30, 30, 100, 100, null);	//Moon
-			g.drawImage(entitySkins[5], 0, 0, gui.getWidth(), gui.getHeight(), null);
-			g.drawImage(entitySkins[6], 0, 0, gui.getWidth(), gui.getHeight(), null);
+			g.drawImage(skySkins[1], 30, 30, 100, 100, null);	//Moon
+			g.drawImage(skySkins[5], 0, 0, gui.getWidth(), gui.getHeight(), null); //Nightime 50% dark
+			
 		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.DAYTIME){
-			g.drawImage(entitySkins[1], 30, 30, 100, 100, null);	//Sun
+			g.drawImage(skySkins[0], 30, 30, 100, 100, null);	//Sun
+		
 		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.SUNSET){
-			g.drawImage(entitySkins[3], 30, 30, 100, 100, null);	//Half Sun
+			g.drawImage(skySkins[2], 30, 30, 100, 100, null);	//Half Sun
+			// Paints a 50% dark tile and fades in from 0-50
+			fadesky.paint(g);	
+			fadesky.increaseAlpha();
+			
 		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.SUNRISE){
-			g.drawImage(entitySkins[4], 30, 30, 100, 100, null);	//Half sun with moon
-			g.drawImage(entitySkins[5], 0, 0, gui.getWidth(), gui.getHeight(), null);
-			g.drawImage(entitySkins[7], 0, 0, gui.getWidth(), gui.getHeight(), null);
+			g.drawImage(skySkins[3], 30, 30, 100, 100, null);	//Half sun with moon
+			// Paints a 50% dark tile and fades out from 50-0
+			fadesky.paint(g);
+			fadesky.decreaseAlpha();
 		}else{}
 		
 		g.dispose();

@@ -20,9 +20,11 @@ public class JavaGame {
 
 	public static World world;
 	public static GameTime gametime;
+	public static skyFade fadesky;
 	public static BufferedImage[] tileSkins;
 	public static BufferedImage[] enemySkins;
 	public static BufferedImage[] entitySkins;
+	public static BufferedImage[] skySkins;
 
 	//public static Entity entity;
 	//public static ArrayList<Enemy> enemy = new ArrayList<Enemy>();
@@ -63,6 +65,8 @@ public class JavaGame {
 		frame.setResizable(true);
 		
 		Thread gThread = new Thread(new StartScreen(gui));
+		
+		fadesky = new skyFade();
 		
 		/* GameTime Section */
 		gametime = new GameTime(0);

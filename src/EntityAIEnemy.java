@@ -1,10 +1,8 @@
 import java.io.Serializable;
 
-/*This is the AI class for Enemies to use at the moment.
- * Will be the base AI class that every entity will use before there own specialist AI
- */
+//This is the AI class for Enemies to use
 
-public class AI extends JavaGame implements Serializable {
+public class EntityAIEnemy extends JavaGame implements Serializable {
 	
 
 	private static final long serialVersionUID = -123998419983546979L;
@@ -19,7 +17,7 @@ public class AI extends JavaGame implements Serializable {
 	private int distanceY;
 	private int id;
 	
-	public AI(int id){
+	public EntityAIEnemy(int id){
 		this.id = id;
 	}
 	

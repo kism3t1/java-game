@@ -33,8 +33,9 @@ public class GameTime {
 		++gameTime;
 	}
 
+	//Checks the minutes of day passed so far 0-23 and returns the time of day
+	
 	public TimeOfDay checkDateTime() {
-		// TODO Auto-generated method stub
 		TimeOfDay newDateTime = null;
 		int hour = getHour();
 		if (hour > 21 || hour < 4)

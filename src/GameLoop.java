@@ -78,9 +78,9 @@ MouseMotionListener{
 					optimizedImage("/Images/Sky/moon.png"),	//Moon Image [1]
 					optimizedImage("/Images/Sky/sunset.png"),	//sunset Image [2]
 					optimizedImage("/Images/Sky/sunrise.png"),	//sunrise Image [3]
-					optimizedImage("/Images/Sky/sunrise20.png"), //sunrise 20% opacity [4]
-					optimizedImage("/Images/Sky/dark90.png"), //dark 90% opacity [5]
-					optimizedImage("/Images/Sky/dark20.png") //dark 20% opacity [6]
+					optimizedImage("/Images/Sky/sunrise50.png"), //sunrise 50% opacity [4]
+					optimizedImage("/Images/Sky/dark70.png"), //dark 70% opacity [5]
+					optimizedImage("/Images/Sky/dark60.png") //dark 60% opacity [6]
 					
 			};
 		}catch(IOException e){
@@ -191,29 +191,26 @@ MouseMotionListener{
 		
 		/*	
 		 * Day night Cycle routine
-		 * Just displaying images at the moment
-		 * I will bring the routine out into its own class eventually I
-		 * This was just to get it working
 		 */	
 
 		if (ReturnTime.returnTimeOfDay() == TimeOfDay.NIGHT){
 			g.drawImage(skySkins[1], 30, 30, 100, 100, null);	//Moon
-			g.drawImage(skySkins[5], 0, 0, gui.getWidth(), gui.getHeight(), null); //Nightime 50% dark
+			g.drawImage(skySkins[5], 0, 0, gui.getWidth(), gui.getHeight(), null); //Nightime 70% dark
 			
 		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.DAYTIME){
 			g.drawImage(skySkins[0], 30, 30, 100, 100, null);	//Sun
 		
 		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.SUNSET){
-			g.drawImage(skySkins[2], 30, 30, 100, 100, null);	//Half Sun
-			// Paints a 50% dark tile and fades in from 0-50
+			g.drawImage(skySkins[2], 30, 30, 100, 100, null);	//Half Sun with moon
+			// Paints a 70% dark tile and fades in from 0-50. Gets darker
 			fadesky.paint(g);	
-			fadesky.increaseAlpha();
+			SkyFade.increaseAlpha();
 			
 		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.SUNRISE){
-			g.drawImage(skySkins[3], 30, 30, 100, 100, null);	//Half sun with moon
-			// Paints a 50% dark tile and fades out from 50-0
+			g.drawImage(skySkins[3], 30, 30, 100, 100, null);	//Half sun
+			// Paints a 70% dark tile and fades out from 50-0. Gets lighter
 			fadesky.paint(g);
-			fadesky.decreaseAlpha();
+			SkyFade.decreaseAlpha();
 		}else{}
 		
 		g.dispose();

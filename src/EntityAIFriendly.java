@@ -1,13 +1,13 @@
 import java.io.Serializable;
 
-/*This is the AI class for Enemies to use at the moment.
- * Will be the base AI class that every entity will use before there own specialist AI
- */
+//This is the AI class for Friendly entities/mobs
 
-public class AI extends JavaGame implements Serializable {
+public class EntityAIFriendly extends JavaGame implements Serializable {
 	
-
-	private static final long serialVersionUID = -123998419983546979L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3502850127885723374L;
 	private int dx;
 	private int dy;
 	private int speed;
@@ -19,7 +19,7 @@ public class AI extends JavaGame implements Serializable {
 	private int distanceY;
 	private int id;
 	
-	public AI(int id){
+	public EntityAIFriendly(int id){
 		this.id = id;
 	}
 	
@@ -49,14 +49,12 @@ public class AI extends JavaGame implements Serializable {
 	}
 	
 	//Chase after entity algorithm
-	//VERY MUCH WORK IN PROGRESS!!!!!!!
 	
 	public void checklocation(){
 			enemyX = world.getEnemy(id).getX();
 			enemyY = world.getEnemy(id).getY();
 			entityX = world.entity.getX();
 			entityY = world.entity.getY();
-			distanceX = enemyX - entityX;	//Calculate distance away from entity
 			distanceY = enemyY - entityY;
 		if (distanceX <= 200 && distanceY <= 200){ 	//If enemy is less that 200 tiles away from entity
 			speed = 2;	//Speed up enemy they get angry
@@ -66,7 +64,12 @@ public class AI extends JavaGame implements Serializable {
 		}
 	}
 	
-	//Attack algorithm
+	/*
+	 * Attack algorithm
+	 * 
+	 * Not really needed for the friendly mobs but kept in to maybe 
+	 * edit to follow player if fed or something like that
+	 */
 	
 	//If enemy is < 200 tiles away from entity check locations
 	

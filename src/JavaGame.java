@@ -20,7 +20,7 @@ public class JavaGame {
 
 	public static World world;
 	public static GameTime gametime;
-	public static skyFade fadesky;
+	public static SkyFade fadesky;
 	public static BufferedImage[] tileSkins;
 	public static BufferedImage[] enemySkins;
 	public static BufferedImage[] entitySkins;
@@ -66,10 +66,11 @@ public class JavaGame {
 		
 		Thread gThread = new Thread(new StartScreen(gui));
 		
-		fadesky = new skyFade();
+		fadesky = new SkyFade();
 		
 		/* GameTime Section */
-		gametime = new GameTime(0);
+		/* new GameTime set to 2200 so that the game starts in the day, while testing */
+		gametime = new GameTime(2200);
 		Thread pThread = new Thread(new GameTimeUpdater(gametime));		
 		
 		

@@ -35,7 +35,6 @@ public class Enemy extends JavaGame implements Serializable {
 		x += dx;
 		y += dy;
 		if (System.currentTimeMillis() - dLast > 500) {	//Wait .5 seconds //Changed for speed AI attack change
-			//ai.randomAIDirection();	//Run random AI Direction method
 			ai.checklocation();			//Check for enemies in proximity
 			dx = ai.returnx();		//Get x value from AI Class
 			dy = ai.returny();		//Get y value from AI Class
@@ -44,8 +43,6 @@ public class Enemy extends JavaGame implements Serializable {
 
 		if (collisionDetection.check(getBounds(), true, true, true, id) != CollisionDetection.CD_NULL) {	//Check Collision
 			ai.randomAIDirection();	//Run random AI Direction method
-			//System.out.println("YOU DIED!!!");
-			//ai.checklocation();
 			dx = ai.returnx();		//Get x value from AI Class
 			dy = ai.returny();		//Get y value from AI Class
 			dLast = System.currentTimeMillis() - 500;

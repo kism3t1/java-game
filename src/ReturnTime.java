@@ -1,8 +1,6 @@
 
 /*
  * 
- * POC code, needs tidying up when I get the chance
- * 
  * Used to return the Time Of Day to GameLoop
  * 
  */

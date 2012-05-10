@@ -1,6 +1,9 @@
 import java.io.Serializable;
 
-//This is the AI class for Friendly entities/mobs
+/*This is the AI class for Friendly entities/mobs
+ * 
+ * The friendly will speed up and run away from the player
+ */
 
 public class EntityAIFriendly extends JavaGame implements Serializable {
 	
@@ -11,8 +14,8 @@ public class EntityAIFriendly extends JavaGame implements Serializable {
 	private int dx;
 	private int dy;
 	private int speed;
-	private int enemyX;
-	private int enemyY;
+	private int friendlyX;
+	private int friendlyY;
 	private int entityX;
 	private int entityY;
 	private int distanceX;
@@ -51,14 +54,14 @@ public class EntityAIFriendly extends JavaGame implements Serializable {
 	//Chase after entity algorithm
 	
 	public void checklocation(){
-			enemyX = world.getEnemy(id).getX();
-			enemyY = world.getEnemy(id).getY();
+			friendlyX = world.getFriendly(id).getX();
+			friendlyY = world.getFriendly(id).getY();
 			entityX = world.entity.getX();
 			entityY = world.entity.getY();
-			distanceY = enemyY - entityY;
-		if (distanceX <= 200 && distanceY <= 200){ 	//If enemy is less that 200 tiles away from entity
-			speed = 2;	//Speed up enemy they get angry
-			attack();		//Run attack Method
+			distanceY = friendlyY - entityY;
+		if (distanceX <= 80 && distanceY <= 80){ 	//If enemy is less that 80 tiles away from entity
+			speed =2;	//Speed up friendly as they are very shy
+			runAway();		//Run away Method
 		}else{
 			randomAIDirection();
 		}
@@ -67,28 +70,28 @@ public class EntityAIFriendly extends JavaGame implements Serializable {
 	/*
 	 * Attack algorithm
 	 * 
-	 * Not really needed for the friendly mobs but kept in to maybe 
-	 * edit to follow player if fed or something like that
+	 * NOTE: May edit to follow player if fed or something like that
+	 * At the moment instead of attacking they will run away...
 	 */
 	
-	//If enemy is < 200 tiles away from entity check locations
+	//If enemy is < 100 tiles away from entity check locations
 	
-	public void attack(){
-			if (enemyX < entityX && enemyY < entityY){	//If enemy is to the left of entity - go right
-				dx = speed;
+	public void runAway(){
+			if (friendlyX < entityX && friendlyY < entityY){	//If friendly is to the left of entity - go left
+				dx = -speed;
 				dy = 0;		
 			}
-			else if (enemyX > entityX && enemyY > entityY){	//If enemy is to the right of entity - go left
-				dx = -speed;
+			else if (friendlyX > entityX && friendlyY > entityY){	//If friendly is to the right of entity - go right
+				dx = speed;
 				dy = 0;
 			}
-			else if (enemyY < entityY){	//If enemy is above the entity - go down
+			else if (friendlyY < entityY){	//If friendly is above the entity - go up
 				dx = 0; 
-				dy = speed;
+				dy = -speed;
 			}
-			else if (enemyY > entityY){	//If enemy is below the entity - go up
+			else if (friendlyY > entityY){	//If friendly is below the entity - go down
 				dx = 0;
-				dy = -speed;				
+				dy = speed;				
 			}
 			else{
 				randomAIDirection();

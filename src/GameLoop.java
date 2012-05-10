@@ -86,6 +86,15 @@ MouseMotionListener{
 		}catch(IOException e){
 			System.out.println("Error loading skySkins");
 		}
+		
+		try{
+			entityFriendlySkins = new BufferedImage[]{		
+					optimizedImage("/Images/pig.png"),
+					optimizedImage("/Images/fox.png")
+			};
+		}catch(IOException e){
+			System.out.println("Error loading enemySkins");
+		}
 
 		try {
 			loadWorld(false);
@@ -123,6 +132,9 @@ MouseMotionListener{
 
 		//move enemies
 		world.moveEnemies();
+		
+		//move friendlies
+		world.moveFriendly();
 
 		// move enemies and entity for scrolling effect		
 		if(world.entity.getX() > gui.getWidth() * 0.6
@@ -134,6 +146,9 @@ MouseMotionListener{
 			for (int i = 0; i < world.enemy.size(); i++) {
 				world.enemy.get(i).setX(world.enemy.get(i).getX() - dif);
 			}
+			for (int i = 0; i < world.friendly.size(); i++) {
+				world.friendly.get(i).setX(world.friendly.get(i).getX() - dif);
+			}
 		}
 		
 		if(world.entity.getX() < gui.getWidth() * 0.4 && cameraX > 0)
@@ -143,6 +158,9 @@ MouseMotionListener{
 			world.entity.setX(world.entity.getX() + dif);
 			for (int i = 0; i < world.enemy.size(); i++) {
 				world.enemy.get(i).setX(world.enemy.get(i).getX() + dif);
+			}
+			for (int i = 0; i < world.friendly.size(); i++) {
+				world.friendly.get(i).setX(world.friendly.get(i).getX() + dif);
 			}
 		}
 		
@@ -155,6 +173,9 @@ MouseMotionListener{
 			for (int i = 0; i < world.enemy.size(); i++) {
 				world.enemy.get(i).setY(world.enemy.get(i).getY() - dif);
 			}
+			for (int i = 0; i < world.friendly.size(); i++) {
+				world.friendly.get(i).setY(world.friendly.get(i).getY() - dif);
+			}
 		}
 		
 		if(world.entity.getY() < gui.getHeight() * 0.4 && cameraY > 0)
@@ -164,6 +185,9 @@ MouseMotionListener{
 			world.entity.setY(world.entity.getY() + dif);
 			for (int i = 0; i < world.enemy.size(); i++) {
 				world.enemy.get(i).setY(world.enemy.get(i).getY() + dif);
+			}
+			for (int i = 0; i < world.friendly.size(); i++) {
+				world.friendly.get(i).setY(world.friendly.get(i).getY() + dif);
 			}
 		}
 	
@@ -187,6 +211,11 @@ MouseMotionListener{
 		// draw enemies
 		for (int i = 0; i < world.enemy.size(); i++) {
 			g.drawImage(enemySkins[world.enemy.get(i).getSkin()], world.enemy.get(i).getX(), world.enemy.get(i).getY(), null);
+		}
+		
+		//Draw friendlies
+		for (int f = 0; f < world.friendly.size(); f++) {
+			g.drawImage(entityFriendlySkins[world.friendly.get(f).getSkin()], world.friendly.get(f).getX(), world.friendly.get(f).getY(), null);
 		}
 		
 		/*	

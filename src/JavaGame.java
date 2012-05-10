@@ -25,6 +25,7 @@ public class JavaGame {
 	public static BufferedImage[] enemySkins;
 	public static BufferedImage[] entitySkins;
 	public static BufferedImage[] skySkins;
+	public static BufferedImage[] entityFriendlySkins;
 
 	//public static Entity entity;
 	//public static ArrayList<Enemy> enemy = new ArrayList<Enemy>();

@@ -99,6 +99,15 @@ MouseMotionListener{
 		}catch(IOException e){
 			System.out.println("Error loading entitySkins");
 		}
+		
+		try{
+			entityFriendlySkins = new BufferedImage[]{		
+					optimizedImage("/Images/pig.png"),
+					optimizedImage("/Images/fox.png"),
+			};
+		}catch(IOException e){
+			System.out.println("Error loading friendlySkins");
+		}
 
 
 		//initialize world
@@ -159,7 +168,7 @@ MouseMotionListener{
 			marker.setLastTileY(y);
 		}
 
-		// move enemies and entity for scrolling effect
+		// move enemies, entity, and friendlies for scrolling effect
 		if (xOffset != prevXOffset || yOffset != prevYOffset) {
 			world.entity.setPos(world.entity.getX() - ((xOffset - prevXOffset) * tileWidth),
 					world.entity.getY() - ((yOffset - prevYOffset) * tileHeight));
@@ -168,6 +177,12 @@ MouseMotionListener{
 				world.enemy.get(i).setPos(
 						world.enemy.get(i).getX() - ((xOffset - prevXOffset) * tileWidth),
 						world.enemy.get(i).getY() - ((yOffset - prevYOffset) * tileHeight));
+			}
+			
+			for (int f = 0; f < world.friendly.size(); f++) {
+				world.friendly.get(f).setPos(
+						world.friendly.get(f).getX() - ((xOffset - prevXOffset) * tileWidth),
+						world.friendly.get(f).getY() - ((yOffset - prevYOffset) * tileHeight));
 			}
 		}
 		prevXOffset = xOffset;
@@ -227,6 +242,11 @@ MouseMotionListener{
 		// draw enemies
 		for (int i = 0; i < world.enemy.size(); i++) {
 			g.drawImage(enemySkins[world.enemy.get(i).getSkin()], world.enemy.get(i).getX(), world.enemy.get(i).getY(), null);
+		}
+		
+		//Draw friendlies
+		for (int f = 0; f < world.friendly.size(); f++) {
+			g.drawImage(entityFriendlySkins[world.friendly.get(f).getSkin()], world.friendly.get(f).getX(), world.friendly.get(f).getY(), null);
 		}
 
 		// draw tile marker
@@ -710,6 +730,18 @@ MouseMotionListener{
 				}
 				menu.add(subMenu);
 			add(menu);
+			
+			menu = new JMenu("Add Friendly");
+			subMenu = new JMenu("Type");
+			subMenu.setLayout(new GridLayout(0,5));
+			for(int i = 0; i < entityFriendlySkins.length; i++){
+				menuItem = new JMenuItem(new ImageIcon(entityFriendlySkins[i]));
+				menuItem.addActionListener(this);
+				menuItem.setActionCommand("FRIEND:" + Integer.toString(i));
+				subMenu.add(menuItem);
+			}
+			menu.add(subMenu);
+		add(menu);
 				
 			menu = new JMenu("Options");
 				menuItem = new JMenuItem("Set Entity Start Point");
@@ -812,6 +844,15 @@ MouseMotionListener{
 				for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
 					for (int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++) {
 				world.addEnemy(Integer.parseInt(command[1]), 
+						(world.floorMap.TileSet[x][y].getX()), 
+						(world.floorMap.TileSet[x][y].getY()));
+					}
+				}
+				break;
+			case "FRIEND":
+				for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
+					for (int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++) {
+				world.addFriendly(Integer.parseInt(command[1]), 
 						(world.floorMap.TileSet[x][y].getX()), 
 						(world.floorMap.TileSet[x][y].getY()));
 					}

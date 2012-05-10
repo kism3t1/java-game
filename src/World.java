@@ -16,6 +16,7 @@ public class World implements Serializable {
 	private int height;
 	
 	public ArrayList<Enemy> enemy;
+	public ArrayList<EntityFriendly> friendly;
 	public Entity entity;
 
 	public World(String title, int width, int height, int borderSkin) {
@@ -25,6 +26,8 @@ public class World implements Serializable {
 		
 		enemy = new ArrayList<Enemy>();
 		entity = (new Entity());
+		
+		friendly = new ArrayList<EntityFriendly>();
 
 		floorMap = new Map(width, height, true, borderSkin);	
 		wallMap = new Map(width, height, false, borderSkin);	
@@ -123,6 +126,75 @@ public class World implements Serializable {
 	{
 		for(int i = 0; i < enemy.size(); i++)
 			enemy.get(i).move();
+	}
+	
+	/* Friendly entity part */
+	
+	
+	public void addFriendly(int skin, int x, int y)
+	{
+		EntityFriendly e = new EntityFriendly(getnewFriendlyID(), skin, x, y);
+		friendly.add(e);
+	}
+	
+	public void removefriendly(int FriendlyID)
+	{
+		if(!friendly.isEmpty())
+		{
+			for(int i = 0; i < friendly.size(); i++)
+			{
+				if(friendly.get(i).getID() == FriendlyID)
+					friendly.remove(i);
+			}
+		}
+	}
+	
+	private int getnewFriendlyID() {
+		int id = 1;
+		boolean searching = true;
+		boolean unique = true;
+
+		if(!friendly.isEmpty())
+		{
+			do
+			{
+				for(int i = 0; i < friendly.size(); i++)
+				{
+					if(friendly.get(i).getID() == id)
+					{
+						unique = false;
+						break;
+					}
+				}
+				
+				if(unique)
+				{
+					searching = false;
+				}
+				else
+				{
+					id++;
+					unique = true;
+				}
+				
+			}while(searching);
+		}
+		return id;
+	}
+	
+	public EntityFriendly getFriendly(int FriendlyID)
+	{
+		for(int i = 0; i < friendly.size(); i++){
+			if(friendly.get(i).getID() == FriendlyID)
+				return friendly.get(i);
+		}
+		return null;
+	}
+	
+	public void moveFriendly()
+	{
+		for(int i = 0; i < friendly.size(); i++)
+			friendly.get(i).move();
 	}
 
 }

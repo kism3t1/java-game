@@ -228,9 +228,6 @@ MouseMotionListener{
 			g.drawImage(entityFriendlySkins[world.friendly.get(i).getSkin()], world.friendly.get(i).getX(), world.friendly.get(i).getY(), null);
 		}
 		
-		//draw HUD
-		hud.draw(g);
-		
 		/*	
 		 * Day night Cycle routine
 		 */	
@@ -245,15 +242,18 @@ MouseMotionListener{
 		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.SUNSET){
 			g.drawImage(skySkins[2], 30, 30, 100, 100, null);	//Half Sun with moon
 			// Paints a 70% dark tile and fades in from 0-50. Gets darker
-			fadeSky.paint(g);	
+			fadeSky.draw(g);	
 			SkyFade.increaseAlpha();
 			
 		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.SUNRISE){
 			g.drawImage(skySkins[3], 30, 30, 100, 100, null);	//Half sun
 			// Paints a 70% dark tile and fades out from 50-0. Gets lighter
-			fadeSky.paint(g);
+			fadeSky.draw(g);
 			SkyFade.decreaseAlpha();
 		}else{}
+		
+		//draw HUD
+		hud.draw(g);
 		
 		g.dispose();
 		strategy.show();

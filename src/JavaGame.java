@@ -70,8 +70,8 @@ public class JavaGame {
 		fadeSky = new SkyFade();
 		
 		/* GameTime Section */
-		/* new GameTime set to 2200 so that the game starts in the day, while testing */
-		gametime = new GameTime(2200);
+		/* new GameTime set to 2000 so that the game starts in the day, while testing */
+		gametime = new GameTime(2000);
 		Thread pThread = new Thread(new GameTimeUpdater(gametime));		
 		
 		

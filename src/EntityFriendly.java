@@ -1,3 +1,4 @@
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
 
@@ -15,6 +16,10 @@ public class EntityFriendly extends JavaGame implements Serializable {
 	private int x, y, width, height;
 	private int skin;
 	private int health;
+	private int state;
+	private int frame_count = 0;
+	private long frame_last;
+	private boolean visible;
 	
 	private EntityAIFriendly ai;
 
@@ -27,6 +32,8 @@ public class EntityFriendly extends JavaGame implements Serializable {
 		this.id = id;
 		speed = 1;
 		health = 3;
+		state = STATE_NORMAL;
+		visible = true;
 		dLast = System.currentTimeMillis() - 800;
 		ai = new EntityAIFriendly(id);
 	}
@@ -47,6 +54,19 @@ public class EntityFriendly extends JavaGame implements Serializable {
 			dy = ai.returny();		//Get y value from AI Class
 			dLast = System.currentTimeMillis() - 800;
 		}
+		if(collisionDetection.checkFriendly(world.entity.getBounds(), -1))
+		{
+			System.out.println("HIT!");
+			if(state != STATE_INJURED)
+				damage(1);
+		}
+	}
+	
+	private void damage(int amount) {
+		health -= amount;
+		state = STATE_INJURED;
+		frame_count = 6;
+		frame_last = System.currentTimeMillis() - 200;
 	}
 
 	public int getSpeed() {
@@ -117,6 +137,34 @@ public class EntityFriendly extends JavaGame implements Serializable {
 
 	public void setHealth(int health) {
 		this.health = health;
+	}
+	
+	public void draw(Graphics g)
+	{
+		switch(state)
+		{
+		case STATE_NORMAL:
+			visible = true;
+			break;
+		case STATE_INJURED:
+			if(frame_last < System.currentTimeMillis() - 200)
+			{
+				if(frame_count > 0)
+				{
+					visible = !visible;
+					frame_count -= 1;
+					frame_last = System.currentTimeMillis();
+				}else{
+					state = STATE_NORMAL;
+				}
+			}
+			break;
+		default:
+			visible = true;
+			break;	
+		}
+		if(visible)
+			g.drawImage(entityFriendlySkins[skin], x, y, null);
 	}
 
 }

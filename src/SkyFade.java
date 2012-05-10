@@ -38,7 +38,7 @@ public class SkyFade extends JavaGame {
 	 */
 	
 	public static void increaseAlpha(){
-		alpha += 0.005f;
+		alpha += 0.0005f;
 	    if (alpha >= 1.0f) {
 	        alpha = 1.0f;
 	    } else {}
@@ -47,7 +47,7 @@ public class SkyFade extends JavaGame {
 	
 	
 	public static void decreaseAlpha(){
-		alpha -= 0.005f;
+		alpha -= 0.0005f;
 		if (alpha <=0.0f){
 			alpha = 0.0f;
 		}else{}

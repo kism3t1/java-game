@@ -86,6 +86,22 @@ public class CollisionDetection extends JavaGame{
 		}
 		return false;
 	}
+	
+	public boolean checkFriendly(Rectangle r1, int friendlyID){
+		Rectangle r2;
+		if(!world.friendly.isEmpty()){
+			for (int i = 0; i < world.friendly.size(); i++) {
+				if (world.friendly.get(i).getID() != friendlyID) {
+					r2 = world.friendly.get(i).getBounds(); // Get bounds of Friendly
+
+					if (r1.intersects(r2)) { // Checks if entity collides with a friendly
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 
 	public int getEnemyID(Point point)
 	{

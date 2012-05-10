@@ -504,6 +504,11 @@ MouseMotionListener{
 		EnemyPopupMenu menu = new EnemyPopupMenu(id);
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
+	
+	private void showFriendlyMenu(MouseEvent e, int id) {
+		FriendlyPopupMenu menu = new FriendlyPopupMenu(id);
+		menu.show(e.getComponent(), e.getX(), e.getY());
+	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -551,10 +556,12 @@ MouseMotionListener{
 			break;
 		case MouseEvent.BUTTON3:
 			if(e.isPopupTrigger()){
-				int id = collisionDetection.getEnemyID(e.getPoint());
-				if(id > -1)
-				{
-					showEnemyMenu(e, id);
+				int enemyID = collisionDetection.getEnemyID(e.getPoint());
+				int friendlyID = collisionDetection.getFriendlyID(e.getPoint());
+				if(enemyID != CollisionDetection.CD_NULL){
+					showEnemyMenu(e, enemyID);
+				}else if(friendlyID != CollisionDetection.CD_NULL){
+					showFriendlyMenu(e, friendlyID);
 				}else{
 					showTileMenu(e);
 				}
@@ -907,6 +914,50 @@ MouseMotionListener{
 						null,
 						world.getEnemy(enemyID).getHealth()).toString());
 				world.getEnemy(enemyID).setHealth(i);
+				break;
+			}
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	private class FriendlyPopupMenu extends JPopupMenu implements ActionListener{
+		JMenu menu = null;
+		JMenu subMenu = null;
+		JMenuItem menuItem = null;	
+		JCheckBoxMenuItem cbMenuItem = null;
+		JRadioButtonMenuItem rbMenuItem = null;
+		
+		int friendlyID;
+
+		public FriendlyPopupMenu(int friendlyID){
+			this.friendlyID = friendlyID;
+			
+			menuItem = new JMenuItem("Set Health (" + world.getFriendly(friendlyID).getHealth() + ")");
+			menuItem.setActionCommand("HEALTH");
+			menuItem.addActionListener(this);
+			add(menuItem);
+			
+			menuItem = new JMenuItem("Remove");
+			menuItem.setActionCommand("REM");
+			menuItem.addActionListener(this);
+			add(menuItem);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			String[] command = e.getActionCommand().split("[:]");
+			switch(command[0]){
+			case "REM":
+				world.removeFriendly(friendlyID);
+				break;
+			case "HEALTH":
+				int i = Integer.parseInt(JOptionPane.showInputDialog(null, 
+						"Enter new enemy health value (whole number only)", 
+						"Enemy Health", 
+						JOptionPane.PLAIN_MESSAGE, 
+						new ImageIcon(enemySkins[world.getFriendly(friendlyID).getSkin()]),
+						null,
+						world.getFriendly(friendlyID).getHealth()).toString());
+				world.getFriendly(friendlyID).setHealth(i);
 				break;
 			}
 		}

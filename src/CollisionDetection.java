@@ -108,4 +108,26 @@ public class CollisionDetection extends JavaGame{
 
 		return CD_NULL;
 	}
+	
+	public int getFriendlyID(Point point)
+	{
+		int id;
+		Rectangle r2;
+		Rectangle r1 = new Rectangle(point, new Dimension(1,1));
+
+		if(!world.friendly.isEmpty()){
+			for (int i = 0; i < world.friendly.size(); i++) {
+				r2 = world.friendly.get(i).getBounds(); // Get bounds of enemy
+
+				if (r1.intersects(r2)) { 
+					id = world.friendly.get(i).getID();
+					return id;
+				}
+
+			}
+			
+		}
+
+		return CD_NULL;
+	}
 }

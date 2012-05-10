@@ -134,7 +134,7 @@ MouseMotionListener{
 		world.moveEnemies();
 		
 		//move friendlies
-		world.moveFriendly();
+		world.moveFriendlies();
 
 		// move enemies and entity for scrolling effect		
 		if(world.entity.getX() > gui.getWidth() * 0.6
@@ -205,8 +205,6 @@ MouseMotionListener{
 
 		// draw entity
 		world.entity.draw(g);
-		//g.drawImage(entitySkins[world.entity.getSkin()], world.entity.getX(), world.entity.getY(), null);
-		
 		
 		// draw enemies
 		for (int i = 0; i < world.enemy.size(); i++) {
@@ -214,8 +212,8 @@ MouseMotionListener{
 		}
 		
 		//Draw friendlies
-		for (int f = 0; f < world.friendly.size(); f++) {
-			g.drawImage(entityFriendlySkins[world.friendly.get(f).getSkin()], world.friendly.get(f).getX(), world.friendly.get(f).getY(), null);
+		for (int i = 0; i < world.friendly.size(); i++) {
+			g.drawImage(entityFriendlySkins[world.friendly.get(i).getSkin()], world.friendly.get(i).getX(), world.friendly.get(i).getY(), null);
 		}
 		
 		/*	
@@ -232,13 +230,13 @@ MouseMotionListener{
 		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.SUNSET){
 			g.drawImage(skySkins[2], 30, 30, 100, 100, null);	//Half Sun with moon
 			// Paints a 70% dark tile and fades in from 0-50. Gets darker
-			fadesky.paint(g);	
+			fadeSky.paint(g);	
 			SkyFade.increaseAlpha();
 			
 		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.SUNRISE){
 			g.drawImage(skySkins[3], 30, 30, 100, 100, null);	//Half sun
 			// Paints a 70% dark tile and fades out from 50-0. Gets lighter
-			fadesky.paint(g);
+			fadeSky.paint(g);
 			SkyFade.decreaseAlpha();
 		}else{}
 		

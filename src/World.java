@@ -2,7 +2,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class World implements Serializable {
+public class World extends JavaGame implements Serializable {
 
 	/**
 	 * 
@@ -25,7 +25,7 @@ public class World implements Serializable {
 		this.height = height + 2;		//to allow for the border
 		
 		enemy = new ArrayList<Enemy>();
-		entity = (new Entity());
+		entity = new Entity();
 		
 		friendly = new ArrayList<EntityFriendly>();
 
@@ -125,7 +125,10 @@ public class World implements Serializable {
 	public void moveEnemies()
 	{
 		for(int i = 0; i < enemy.size(); i++)
-			enemy.get(i).move();
+			if(enemy.get(i).getX() > 0 && enemy.get(i).getY() > 0
+					&& enemy.get(i).getX() < screenTilesWide * tileWidth
+					&& enemy.get(i).getY() < screenTilesHigh * tileHeight)
+				enemy.get(i).move();
 	}
 	
 	/* Friendly entity part */
@@ -133,11 +136,11 @@ public class World implements Serializable {
 	
 	public void addFriendly(int skin, int x, int y)
 	{
-		EntityFriendly e = new EntityFriendly(getnewFriendlyID(), skin, x, y);
+		EntityFriendly e = new EntityFriendly(getNewFriendlyID(), skin, x, y);
 		friendly.add(e);
 	}
 	
-	public void removefriendly(int FriendlyID)
+	public void removeFriendly(int FriendlyID)
 	{
 		if(!friendly.isEmpty())
 		{
@@ -149,7 +152,7 @@ public class World implements Serializable {
 		}
 	}
 	
-	private int getnewFriendlyID() {
+	private int getNewFriendlyID() {
 		int id = 1;
 		boolean searching = true;
 		boolean unique = true;
@@ -191,10 +194,15 @@ public class World implements Serializable {
 		return null;
 	}
 	
-	public void moveFriendly()
+	public void moveFriendlies()
 	{
-		for(int i = 0; i < friendly.size(); i++)
-			friendly.get(i).move();
+		for(int i = 0; i < friendly.size(); i++){
+			if(friendly.get(i).getX() > 0 && friendly.get(i).getY() > 0
+					&& friendly.get(i).getX() < screenTilesWide * tileWidth
+					&& friendly.get(i).getY() < screenTilesHigh * tileHeight)
+				friendly.get(i).move();
+		}
+			
 	}
 
 }

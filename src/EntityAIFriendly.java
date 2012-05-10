@@ -59,6 +59,7 @@ public class EntityAIFriendly extends JavaGame implements Serializable {
 			entityX = world.entity.getX();
 			entityY = world.entity.getY();
 			distanceY = friendlyY - entityY;
+			distanceX = friendlyX - entityX;
 		if (distanceX <= 80 && distanceY <= 80){ 	//If enemy is less that 80 tiles away from entity
 			speed =2;	//Speed up friendly as they are very shy
 			runAway();		//Run away Method

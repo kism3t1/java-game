@@ -27,14 +27,14 @@ public class EntityFriendly extends JavaGame implements Serializable {
 		this.id = id;
 		speed = 1;
 		health = 3;
-		dLast = System.currentTimeMillis() - 500;
+		dLast = System.currentTimeMillis() - 800;
 		ai = new EntityAIFriendly(id);
 	}
 
 	public void move() {
 		x += dx;
 		y += dy;
-		if (System.currentTimeMillis() - dLast > 500) {	//Wait .5 second
+		if (System.currentTimeMillis() - dLast > 800) {	//Wait .8 second
 			ai.checklocation();			//Check for friendly in proximity
 			dx = ai.returnx();		//Get x value from AI Class
 			dy = ai.returny();		//Get y value from AI Class
@@ -45,7 +45,7 @@ public class EntityFriendly extends JavaGame implements Serializable {
 			ai.randomAIDirection();	//Run random AI Direction method
 			dx = ai.returnx();		//Get x value from AI Class
 			dy = ai.returny();		//Get y value from AI Class
-			dLast = System.currentTimeMillis() - 500;
+			dLast = System.currentTimeMillis() - 800;
 		}
 	}
 

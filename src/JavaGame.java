@@ -17,6 +17,9 @@ public class JavaGame {
 	//animation state identifiers
 	public static final int STATE_NORMAL = 0;
 	public static final int STATE_INJURED = 1;
+	
+	//HUD icon ID's
+	public static final int HUD_HEART = 0;
 
 	public static World world;
 	public static GameTime gametime;
@@ -26,6 +29,7 @@ public class JavaGame {
 	public static BufferedImage[] entitySkins;
 	public static BufferedImage[] skySkins;
 	public static BufferedImage[] entityFriendlySkins;
+	public static BufferedImage[] HUDIcons;
 
 	//public static Entity entity;
 	//public static ArrayList<Enemy> enemy = new ArrayList<Enemy>();
@@ -45,6 +49,8 @@ public class JavaGame {
 	public static int screenTilesHigh = 0;
 	public static int tileWidth = 32;
 	public static int tileHeight = 32;
+	public static int guiWidth = 0;
+	public static int guiHeight = 0;
 
 	public static void main(String[] args) {
 	//	/*

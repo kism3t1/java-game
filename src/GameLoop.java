@@ -1,3 +1,4 @@
+import java.awt.AlphaComposite;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -24,12 +25,16 @@ MouseMotionListener{
 	private boolean isRunning;
 	private Canvas gui;
 	private long cycleTime;
+	private HUD hud = new HUD();
 	
 	private int cameraX, cameraY = 0;
 
 	public GameLoop(Canvas gui){
 		this.gui = gui;
 		isRunning = true;
+		
+		guiWidth = gui.getWidth();
+		guiHeight = gui.getHeight();
 
 		gui.addKeyListener(new TAdapter());
 		gui.addMouseListener(this);
@@ -94,6 +99,13 @@ MouseMotionListener{
 			};
 		}catch(IOException e){
 			System.out.println("Error loading enemySkins");
+		}
+		
+		try{
+			HUDIcons = new BufferedImage[1];
+			HUDIcons[HUD_HEART] = optimizedImage("/Images/HUD/heart.png");
+		}catch(IOException e){
+			System.out.println("Error loading HUDIcons");
 		}
 
 		try {
@@ -215,6 +227,9 @@ MouseMotionListener{
 		for (int i = 0; i < world.friendly.size(); i++) {
 			g.drawImage(entityFriendlySkins[world.friendly.get(i).getSkin()], world.friendly.get(i).getX(), world.friendly.get(i).getY(), null);
 		}
+		
+		//draw HUD
+		hud.draw(g);
 		
 		/*	
 		 * Day night Cycle routine

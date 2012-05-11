@@ -20,6 +20,7 @@ public class JavaGame {
 	
 	//HUD icon ID's
 	public static final int HUD_HEART = 0;
+	public static final int HUD_SWORD = 1;
 
 	public static World world;
 	public static GameTime gametime;

@@ -57,16 +57,17 @@ public class EntityFriendly extends JavaGame implements Serializable {
 		if(collisionDetection.checkFriendly(world.entity.getBounds(), -1))
 		{
 			System.out.println("HIT!");
+			world.entity.setHealth(world.entity.getHealth()+1);
 			if(state != STATE_INJURED)
 				damage(1);
 		}
 	}
 	
 	private void damage(int amount) {
-		health -= amount;
+		health += amount;
 		state = STATE_INJURED;
 		frame_count = 6;
-		frame_last = System.currentTimeMillis() - 200;
+		//frame_last = System.currentTimeMillis() - 200;
 	}
 
 	public int getSpeed() {

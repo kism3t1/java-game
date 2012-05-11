@@ -102,8 +102,9 @@ MouseMotionListener{
 		}
 		
 		try{
-			HUDIcons = new BufferedImage[1];
+			HUDIcons = new BufferedImage[2];
 			HUDIcons[HUD_HEART] = optimizedImage("/Images/HUD/heart.png");
+			HUDIcons[HUD_SWORD] = optimizedImage("/Images/HUD/sword.png");
 		}catch(IOException e){
 			System.out.println("Error loading HUDIcons");
 		}

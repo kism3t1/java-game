@@ -15,6 +15,7 @@ public class Entity extends JavaGame implements Serializable {
 	public int x, y, width, height;
 	public int skin;
 	private int health;
+	private int armour;
 	private int state;
 	private int frame_count = 0;
 	private long frame_last;
@@ -23,6 +24,7 @@ public class Entity extends JavaGame implements Serializable {
 	public Entity() {
 		skin = 0;
 		health = 5;
+		armour = 4;
 		width = entitySkins[skin].getWidth(null);
 		height = entitySkins[skin].getHeight(null);
 		x = tileWidth * 2;		//default position
@@ -37,6 +39,7 @@ public class Entity extends JavaGame implements Serializable {
 		this.x = x;
 		this.y = y;
 		health = 5;
+		armour = 4;
 		width = entitySkins[skin].getWidth(null);
 		height = entitySkins[skin].getHeight(null);
 		speed = 5;
@@ -58,11 +61,16 @@ public class Entity extends JavaGame implements Serializable {
 		{
 			if(state != STATE_INJURED)
 				damage(1);
+			System.out.println("Armour value is: " + armour);
 		}
 	}
 
 	private void damage(int amount) {
-		health -= amount;
+		if (armour == 0){
+			health -= amount;
+		}else{
+			armour -=amount;
+		}
 		state = STATE_INJURED;
 		frame_count = 6;
 		frame_last = System.currentTimeMillis() - 200;
@@ -160,6 +168,14 @@ public class Entity extends JavaGame implements Serializable {
 
 	public void setHealth(int health) {
 		this.health = health;
+	}
+	
+	public int getArmour(){
+		return armour;
+	}
+	
+	public void setArmour(int armour){
+		this.armour = armour;
 	}
 
 	public void setX(int x) {

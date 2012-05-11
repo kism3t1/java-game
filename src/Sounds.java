@@ -26,7 +26,7 @@ public class Sounds {
 		DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
 		Clip clip = (Clip) AudioSystem.getLine(info);
 		clip.open(sound);
-		
+	
 		clip.start();
 	}
 

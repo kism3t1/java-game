@@ -80,7 +80,6 @@ public class Entity extends JavaGame implements Serializable {
 		{
 			if(state != STATE_INJURED)
 				damage(1);
-			System.out.println("Armour value is: " + armour);
 		}
 	}
 

@@ -20,6 +20,7 @@ MouseMotionListener{
 	private Canvas gui;
 	private long cycleTime;
 	private HUD hud = new HUD();
+	private Sounds sound = new Sounds();
 	
 	private int cameraX, cameraY = 0;
 
@@ -56,6 +57,14 @@ MouseMotionListener{
 		cycleTime = System.currentTimeMillis();
 		gui.createBufferStrategy(2);				//2 = double buffer
 		BufferStrategy strategy = gui.getBufferStrategy();
+		
+		//Plays background music
+		try {
+			sound.play();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		//game loop
 		while(isRunning){

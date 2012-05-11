@@ -27,17 +27,6 @@ public class Sounds {
 		Clip clip = (Clip) AudioSystem.getLine(info);
 		clip.open(sound);
 		
-		//Error handling due to bug in java...
-		
-		clip.addLineListener(new LineListener() {
-			public void update(LineEvent event) {
-				if (event.getType() == LineEvent.Type.STOP) {
-					event.getLine().close();
-					System.exit(0);
-				}
-			}
-		});
-		
 		clip.start();
 	}
 

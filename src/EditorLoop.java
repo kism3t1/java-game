@@ -68,48 +68,7 @@ MouseMotionListener{
 		//initial calculation of screen -> tile size
 		screenTilesWide = gui.getWidth() / JavaGame.tileWidth;
 		screenTilesHigh = gui.getHeight() / JavaGame.tileHeight;
-
-		//load resources in to memory
-		try{
-			tileSkins = new BufferedImage[]{
-					optimizedImage("/Images/dirt.png"),
-					optimizedImage("/Images/grass.png"),
-					optimizedImage("/Images/stone.png"),
-					optimizedImage("/Images/tree.png"),
-					optimizedImage("/Images/water.png")
-			};
-		}catch(IOException e){
-			System.out.println("Error loading tileSkins");
-		}
-		try{
-			enemySkins = new BufferedImage[]{		
-					optimizedImage("/Images/enemy.png"),
-					optimizedImage("/Images/eye.png"),
-					optimizedImage("/Images/snake.png"),
-			};
-		}catch(IOException e){
-			System.out.println("Error loading enemySkins");
-		}
-
 		
-		try{
-			entitySkins = new BufferedImage[]{
-					optimizedImage("/Images/entity.png")
-			};
-		}catch(IOException e){
-			System.out.println("Error loading entitySkins");
-		}
-		
-		try{
-			entityFriendlySkins = new BufferedImage[]{		
-					optimizedImage("/Images/pig.png"),
-					optimizedImage("/Images/fox.png"),
-			};
-		}catch(IOException e){
-			System.out.println("Error loading friendlySkins");
-		}
-
-
 		//initialize world
 		world = new World("Default World", MAP_TILES_WIDE, MAP_TILES_HIGH, 2);
 

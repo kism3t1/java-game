@@ -17,9 +17,12 @@ public class Entity extends JavaGame implements Serializable {
 	private int health;
 	private int armour;
 	private int state;
+	private int animState = ANIM_STILL;
 	private int frame_count = 0;
 	private long frame_last;
 	private boolean visible;
+	
+	private Animation[] animations = null;
 
 	public Entity() {
 		skin = 0;
@@ -31,7 +34,15 @@ public class Entity extends JavaGame implements Serializable {
 		y = tileHeight * 2;	//at tile 1,1
 		speed = 5;
 		state = STATE_NORMAL;
+		animState = ANIM_STILL;
 		visible = true;
+		
+		animations = new Animation[6];		//initialize animation sprites
+		animations[ANIM_STILL] = new Animation(ANIM_STILL, 32, 32, 0);
+		animations[ANIM_WALK_LEFT] = new Animation(ANIM_WALK_LEFT, 32, 32, 10);
+		animations[ANIM_WALK_RIGHT] = new Animation(ANIM_WALK_RIGHT, 32, 32, 10);
+		animations[ANIM_WALK_UP] = new Animation(ANIM_WALK_UP, 32, 32, 10);
+		animations[ANIM_WALK_DOWN] = new Animation(ANIM_WALK_DOWN, 32, 32, 10);
 	}
 
 	public Entity(int skin, int x, int y) {
@@ -44,7 +55,15 @@ public class Entity extends JavaGame implements Serializable {
 		height = entitySkins[skin].getHeight(null);
 		speed = 5;
 		state = STATE_NORMAL;
+		animState = ANIM_STILL;
 		visible = true;
+		
+		animations = new Animation[6];		//initialize animation sprites
+		animations[ANIM_STILL] = new Animation(ANIM_STILL, 32, 32, 0);
+		animations[ANIM_WALK_LEFT] = new Animation(ANIM_WALK_LEFT, 32, 32, 10);
+		animations[ANIM_WALK_RIGHT] = new Animation(ANIM_WALK_RIGHT, 32, 32, 10);
+		animations[ANIM_WALK_UP] = new Animation(ANIM_WALK_UP, 32, 32, 10);
+		animations[ANIM_WALK_DOWN] = new Animation(ANIM_WALK_DOWN, 32, 32, 10);
 	}
 
 	public void move() {
@@ -103,18 +122,22 @@ public class Entity extends JavaGame implements Serializable {
 
 		if (key == KeyEvent.VK_LEFT) {
 			dx = -speed;
+			animState = ANIM_WALK_LEFT;
 		}
 
 		if (key == KeyEvent.VK_RIGHT) {
 			dx = speed;
+			animState = ANIM_WALK_RIGHT;
 		}
 
 		if (key == KeyEvent.VK_UP) {
 			dy = -speed;
+			animState = ANIM_WALK_UP;
 		}
 
 		if (key == KeyEvent.VK_DOWN) {
 			dy = speed;
+			animState = ANIM_WALK_DOWN;
 		}
 	}
 
@@ -136,6 +159,7 @@ public class Entity extends JavaGame implements Serializable {
 		if (key == KeyEvent.VK_DOWN) {
 			dy = 0;
 		}
+		animState = ANIM_STILL;
 	}
 	
 	public int getWidth() {
@@ -192,7 +216,7 @@ public class Entity extends JavaGame implements Serializable {
 	
 	public void draw(Graphics g)
 	{
-		switch(state)
+		switch(state)		//is player injured? Adjust visibility if so
 		{
 		case STATE_NORMAL:
 			visible = true;
@@ -215,7 +239,7 @@ public class Entity extends JavaGame implements Serializable {
 			break;	
 		}
 		if(visible)
-			g.drawImage(entitySkins[skin], x, y, null);
+			g.drawImage(animations[animState].nextFrame(), x, y, null);
 	}
 
 }

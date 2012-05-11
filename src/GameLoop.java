@@ -1,22 +1,16 @@
-import java.awt.AlphaComposite;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.zip.GZIPInputStream;
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 
@@ -45,69 +39,6 @@ MouseMotionListener{
 		//initial calculation of screen -> tile size
 		screenTilesWide = gui.getWidth() / tileWidth;
 		screenTilesHigh = gui.getHeight() / tileHeight;
-
-		//load resources in to memory
-		try{
-			tileSkins = new BufferedImage[]{
-					optimizedImage("/Images/dirt.png"),
-					optimizedImage("/Images/grass.png"),
-					optimizedImage("/Images/stone.png"),
-					optimizedImage("/Images/tree.png"),
-					optimizedImage("/Images/water.png")
-			};
-		}catch(IOException e){
-			System.out.println("Error loading tileSkins");
-		}
-		try{
-			enemySkins = new BufferedImage[]{		
-					optimizedImage("/Images/enemy.png"),
-					optimizedImage("/Images/eye.png"),
-					optimizedImage("/Images/snake.png"),
-			};
-		}catch(IOException e){
-			System.out.println("Error loading enemySkins");
-		}
-		
-		try{
-			entitySkins = new BufferedImage[]{
-					optimizedImage("/Images/entity.png")
-					
-			};
-		}catch(IOException e){
-			System.out.println("Error loading entitySkins");
-		}
-		
-		try{
-			skySkins = new BufferedImage[]{
-					optimizedImage("/Images/Sky/sun.png"),	//Sun Image [0]
-					optimizedImage("/Images/Sky/moon.png"),	//Moon Image [1]
-					optimizedImage("/Images/Sky/sunset.png"),	//sunset Image [2]
-					optimizedImage("/Images/Sky/sunrise.png"),	//sunrise Image [3]
-					optimizedImage("/Images/Sky/sunrise50.png"), //sunrise 50% opacity [4]
-					optimizedImage("/Images/Sky/dark70.png"), //dark 70% opacity [5]
-					optimizedImage("/Images/Sky/dark60.png") //dark 60% opacity [6]
-					
-			};
-		}catch(IOException e){
-			System.out.println("Error loading skySkins");
-		}
-		
-		try{
-			entityFriendlySkins = new BufferedImage[]{		
-					optimizedImage("/Images/pig.png"),
-					optimizedImage("/Images/fox.png")
-			};
-		}catch(IOException e){
-			System.out.println("Error loading enemySkins");
-		}
-		
-		try{
-			HUDIcons = new BufferedImage[2];
-			HUDIcons[HUD_HEART] = optimizedImage("/Images/HUD/heart.png");
-			HUDIcons[HUD_SWORD] = optimizedImage("/Images/HUD/sword.png");
-		}catch(IOException e){
-			System.out.println("Error loading HUDIcons");
-		}
 
 		try {
 			loadWorld(false);
@@ -290,36 +221,7 @@ MouseMotionListener{
 		}
 	}
 
-	//optimize images for current system
-	public BufferedImage optimizedImage(String resourceName) throws IOException
-	{
-		BufferedImage image = ImageIO.read(this.getClass().getResourceAsStream(resourceName));
-		// obtain the current system graphical settings
-		GraphicsConfiguration gfx_config = GraphicsEnvironment.
-				getLocalGraphicsEnvironment().getDefaultScreenDevice().
-				getDefaultConfiguration();
-
-		/*
-		 * if image is already compatible and optimized for current system 
-		 * settings, simply return it
-		 */
-		if (image.getColorModel().equals(gfx_config.getColorModel()))
-			return image;
-
-		// image is not optimized, so create a new image that is
-		BufferedImage new_image = gfx_config.createCompatibleImage(
-				image.getWidth(), image.getHeight(), image.getTransparency());
-
-		// get the graphics context of the new image to draw the old image on
-		Graphics2D g2d = (Graphics2D) new_image.getGraphics();
-
-		// actually draw the image and dispose of context no longer needed
-		g2d.drawImage(image, 0, 0, null);
-		g2d.dispose();
-
-		// return the new optimized image
-		return new_image; 
-	}
+	
 
 	// mouse control
 	@Override

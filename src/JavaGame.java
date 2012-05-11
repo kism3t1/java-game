@@ -17,6 +17,11 @@ public class JavaGame {
 	//animation state identifiers
 	public static final int STATE_NORMAL = 0;
 	public static final int STATE_INJURED = 1;
+	public static final int ANIM_STILL = 1;
+	public static final int ANIM_WALK_LEFT = 2;
+	public static final int ANIM_WALK_RIGHT = 3;
+	public static final int ANIM_WALK_UP = 4;
+	public static final int ANIM_WALK_DOWN = 5;
 	
 	//HUD icon ID's
 	public static final int HUD_HEART = 0;
@@ -31,9 +36,6 @@ public class JavaGame {
 	public static BufferedImage[] skySkins;
 	public static BufferedImage[] entityFriendlySkins;
 	public static BufferedImage[] HUDIcons;
-
-	//public static Entity entity;
-	//public static ArrayList<Enemy> enemy = new ArrayList<Enemy>();
 	
 	public static CollisionDetection collisionDetection = new CollisionDetection();
 
@@ -72,7 +74,13 @@ public class JavaGame {
 		frame.setMinimumSize(frame.getSize());			//prevents window shrinking when moved
 		frame.setResizable(true);
 		
-		Thread gThread = new Thread(new StartScreen(gui));
+		//load resources in to memory
+		Thread gThread = new Thread(new LoadResources());
+		frame.setTitle("Loading");
+		gThread.start();
+		do{}while(gThread.isAlive());	//wait until resources are loaded to continue
+		
+		gThread = new Thread(new StartScreen(gui));
 		
 		fadeSky = new SkyFade();
 		

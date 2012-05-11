@@ -12,7 +12,7 @@ import java.awt.RenderingHints;
 
 public class SkyFade extends JavaGame {
 	
-	static float alpha = 0.0f;
+	static float alpha = 0.5f;
 
 	public void draw(Graphics g) {
 	    Graphics2D g2d = (Graphics2D) g;

@@ -57,14 +57,6 @@ MouseMotionListener{
 		cycleTime = System.currentTimeMillis();
 		gui.createBufferStrategy(2);				//2 = double buffer
 		BufferStrategy strategy = gui.getBufferStrategy();
-		
-		//Plays background music
-		try {
-			sound.play();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		//game loop
 		while(isRunning){
@@ -81,6 +73,14 @@ MouseMotionListener{
 	private void updateGameState(){
 		//TODO add movement and scrolling logic 
 
+		//Plays background music
+		try {
+			sound.play();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		world.entity.move();
 
 		//move enemies

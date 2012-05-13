@@ -1,6 +1,7 @@
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
+import java.util.Random;
 
 public class EntityFriendly extends JavaGame implements Serializable {
 
@@ -41,7 +42,12 @@ public class EntityFriendly extends JavaGame implements Serializable {
 	public void move() {
 		x += dx;
 		y += dy;
-		if (System.currentTimeMillis() - dLast > 800) {	//Wait .8 second
+		Random rn = new Random(); //New random
+		int maximum = 5000;	//maximum value
+		int minimum = 800;	//minimum value
+		int range = maximum - minimum + 1;	//Calculate the range from min & max
+		int randomNum =  rn.nextInt(range) + minimum;
+		if (System.currentTimeMillis() - dLast > randomNum) {	//Wait .8 second
 			ai.checklocation();			//Check for friendly in proximity
 			dx = ai.returnx();		//Get x value from AI Class
 			dy = ai.returny();		//Get y value from AI Class

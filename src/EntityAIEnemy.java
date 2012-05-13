@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.Random;
 
 //This is the AI class for Enemies to use
 
@@ -16,6 +17,7 @@ public class EntityAIEnemy extends JavaGame implements Serializable {
 	private int distanceX;
 	private int distanceY;
 	private int id;
+	private boolean attack;
 	
 	public EntityAIEnemy(int id){
 		this.id = id;
@@ -60,6 +62,7 @@ public class EntityAIEnemy extends JavaGame implements Serializable {
 			speed = 2;	//Speed up enemy they get angry
 			attack();		//Run attack Method
 		}else{
+			attack = false;
 			randomAIDirection();
 		}
 	}
@@ -69,6 +72,7 @@ public class EntityAIEnemy extends JavaGame implements Serializable {
 	//If enemy is < 200 tiles away from entity check locations
 	
 	public void attack(){
+		attack = true;
 			if (enemyX < entityX && enemyY < entityY){	//If enemy is to the left of entity - go right
 				dx = speed;
 				dy = 0;		
@@ -90,12 +94,27 @@ public class EntityAIEnemy extends JavaGame implements Serializable {
 			}
 	}
 	
+	//Random number generator
+	public int returnRandom(){
+		Random rn = new Random(); //New random
+		int maximum = 5000;	//maximum value
+		int minimum = 800;	//minimum value
+		int range = maximum - minimum + 1;	//Calculate the range from min & max
+		int randomNum =  rn.nextInt(range) + minimum;
+		return randomNum;
+	}
+	
 	public int returnx(){	//Returns dx value
 		return dx;
 	}
 	
 	public int returny(){	//Returns dy value
 		return dy;
+	}
+	
+	//Return boolean value if attacking or not
+	public boolean returnAttack(){
+		return attack;
 	}
 
 }

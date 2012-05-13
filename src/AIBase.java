@@ -4,7 +4,7 @@ import java.io.Serializable;
  * Will be the base AI class that every entity will use before there own specialist AI
  */
 
-public class AI extends JavaGame implements Serializable {
+public class AIBase extends JavaGame implements Serializable {
 	
 
 	private static final long serialVersionUID = -123998419983546979L;
@@ -19,7 +19,7 @@ public class AI extends JavaGame implements Serializable {
 	private int distanceY;
 	private int id;
 	
-	public AI(int id){
+	public AIBase(int id){
 		this.id = id;
 	}
 	

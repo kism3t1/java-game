@@ -1,5 +1,6 @@
 import java.awt.Rectangle;
 import java.io.Serializable;
+import java.util.Random;
 
 public class Enemy extends JavaGame implements Serializable {
 
@@ -15,8 +16,10 @@ public class Enemy extends JavaGame implements Serializable {
 	private int x, y, width, height;
 	private int skin;
 	private int health;
+	private boolean random;
+	private int theNumber;
 	
-	private AI ai;
+	private EntityAIEnemy ai;
 
 	public Enemy(int id, int skin, int x, int y) {
 		this.skin = skin;
@@ -27,25 +30,32 @@ public class Enemy extends JavaGame implements Serializable {
 		this.id = id;
 		speed = 1;
 		health = 3;
-		dLast = System.currentTimeMillis() - 500;
-		ai = new AI(id);
+		//dLast = System.currentTimeMillis() - 500;
+		ai = new EntityAIEnemy(id);
 	}
-
+	
 	public void move() {
 		x += dx;
 		y += dy;
-		if (System.currentTimeMillis() - dLast > 500) {	//Wait .5 seconds //Changed for speed AI attack change
+		random = ai.returnAttack();
+		if (random == true){
+			theNumber = 200;
+		}else{
+			theNumber = ai.returnRandom();
+		}
+		if (System.currentTimeMillis() - dLast > theNumber) {	//Wait a random int seconds
 			ai.checklocation();			//Check for enemies in proximity
 			dx = ai.returnx();		//Get x value from AI Class
 			dy = ai.returny();		//Get y value from AI Class
+			//System.out.println(theNumber);
 			dLast = System.currentTimeMillis();
 		}
-
+//If collides then random direction
 		if (collisionDetection.check(getBounds(), true, true, true, id) != CollisionDetection.CD_NULL) {	//Check Collision
 			ai.randomAIDirection();	//Run random AI Direction method
 			dx = ai.returnx();		//Get x value from AI Class
 			dy = ai.returny();		//Get y value from AI Class
-			dLast = System.currentTimeMillis() - 500;
+			//dLast = System.currentTimeMillis() - ai.returnRandom();
 		}
 	}
 

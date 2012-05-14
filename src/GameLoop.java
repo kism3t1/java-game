@@ -27,9 +27,6 @@ MouseMotionListener{
 	public GameLoop(Canvas gui){
 		this.gui = gui;
 		isRunning = true;
-		
-		guiWidth = gui.getWidth();
-		guiHeight = gui.getHeight();
 
 		gui.addKeyListener(new TAdapter());
 		gui.addMouseListener(this);
@@ -71,7 +68,9 @@ MouseMotionListener{
 
 
 	private void updateGameState(){
-		//TODO add movement and scrolling logic 
+		//update global screen size info
+		guiWidth = gui.getWidth();
+		guiHeight = gui.getHeight();
 
 		//Plays background music
 		try {

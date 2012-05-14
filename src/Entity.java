@@ -16,33 +16,25 @@ public class Entity extends JavaGame implements Serializable {
 	public int skin;
 	private int health;
 	private int armour;
+	
 	private int state;
 	private int animState = ANIM_STILL;
 	private int frame_count = 0;
 	private long frame_last;
 	private boolean visible;
-	
-	private Animation[] animations = null;
 
 	public Entity() {
 		skin = 0;
 		health = 5;
 		armour = 4;
-		width = entitySkins[skin].getWidth(null);
-		height = entitySkins[skin].getHeight(null);
+		width = entitySkins[skin].getWidth();
+		height = entitySkins[skin].getHeight();
 		x = tileWidth * 2;		//default position
 		y = tileHeight * 2;	//at tile 1,1
 		speed = 5;
 		state = STATE_NORMAL;
 		animState = ANIM_STILL;
 		visible = true;
-		
-		animations = new Animation[6];		//initialize animation sprites
-		animations[ANIM_STILL] = new Animation(ANIM_STILL, 32, 32, 0);
-		animations[ANIM_WALK_LEFT] = new Animation(ANIM_WALK_LEFT, 32, 32, 10);
-		animations[ANIM_WALK_RIGHT] = new Animation(ANIM_WALK_RIGHT, 32, 32, 10);
-		animations[ANIM_WALK_UP] = new Animation(ANIM_WALK_UP, 32, 32, 10);
-		animations[ANIM_WALK_DOWN] = new Animation(ANIM_WALK_DOWN, 32, 32, 10);
 	}
 
 	public Entity(int skin, int x, int y) {
@@ -51,19 +43,12 @@ public class Entity extends JavaGame implements Serializable {
 		this.y = y;
 		health = 5;
 		armour = 4;
-		width = entitySkins[skin].getWidth(null);
-		height = entitySkins[skin].getHeight(null);
+		width = entitySkins[skin].getWidth();
+		height = entitySkins[skin].getHeight();
 		speed = 5;
 		state = STATE_NORMAL;
 		animState = ANIM_STILL;
 		visible = true;
-		
-		animations = new Animation[6];		//initialize animation sprites
-		animations[ANIM_STILL] = new Animation(ANIM_STILL, 32, 32, 0);
-		animations[ANIM_WALK_LEFT] = new Animation(ANIM_WALK_LEFT, 32, 32, 10);
-		animations[ANIM_WALK_RIGHT] = new Animation(ANIM_WALK_RIGHT, 32, 32, 10);
-		animations[ANIM_WALK_UP] = new Animation(ANIM_WALK_UP, 32, 32, 10);
-		animations[ANIM_WALK_DOWN] = new Animation(ANIM_WALK_DOWN, 32, 32, 10);
 	}
 
 	public void move() {
@@ -238,7 +223,7 @@ public class Entity extends JavaGame implements Serializable {
 			break;	
 		}
 		if(visible)
-			g.drawImage(animations[animState].nextFrame(), x, y, null);
+			g.drawImage(entitySkins[animState].nextFrame(), x, y, null);
 	}
 
 }

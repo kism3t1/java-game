@@ -160,9 +160,7 @@ MouseMotionListener{
 		world.entity.draw(g);
 		
 		// draw enemies
-		for (int i = 0; i < world.enemy.size(); i++) {
-			g.drawImage(enemySkins[world.enemy.get(i).getSkin()], world.enemy.get(i).getX(), world.enemy.get(i).getY(), null);
-		}
+		world.drawEnemies(g);
 		
 		//Draw friendlies
 		for (int i = 0; i < world.friendly.size(); i++) {

@@ -8,7 +8,7 @@ public class Animation extends JavaGame implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 7115057005618802362L;
-	private int skin = 0;				//skin to use for animation
+	private BufferedImage img = null;
 	private int totalFrames = 0;		//total frames contained in skin
 	private int frameWidth = 0;			//width of each frame (in pixels)
 	private int frameHeight = 0;		//height of each frame (in pixels)
@@ -17,12 +17,12 @@ public class Animation extends JavaGame implements Serializable{
 	
 	private int currentFrame = -1;		//current frame within skin (start at -1, next calculation will return 0)
 	
-	public Animation(int skin, int frameWidth, int frameHeight, int frameDelay){
-		this.skin = skin;
+	public Animation(BufferedImage img, int frameWidth, int frameHeight, int frameDelay){	//constructor for entity
+		this.img = img;
 		this.frameWidth = frameWidth;
 		this.frameHeight = frameHeight;
 		
-		totalFrames = (entitySkins[skin].getWidth() / frameWidth) - 1; //must -1 as first frame is 0
+		totalFrames = (img.getWidth() / frameWidth) - 1; //must -1 as first frame is 0
 	}
 	
 	public BufferedImage nextFrame(){
@@ -35,7 +35,7 @@ public class Animation extends JavaGame implements Serializable{
 			
 			framesDelayed = 0;	//reset framesDelayed counter
 			
-			return entitySkins[skin].getSubimage(currentFrame * frameWidth, 0, frameWidth, frameHeight); //get current frame to return
+			return img.getSubimage(currentFrame * frameWidth, 0, frameWidth, frameHeight); //get current frame to return
 		}else{
 			framesDelayed += 1;
 		}
@@ -52,11 +52,23 @@ public class Animation extends JavaGame implements Serializable{
 			
 			framesDelayed = 0;	//reset framesDelayed counter
 			
-			return entitySkins[skin].getSubimage(currentFrame * frameWidth, 0, frameWidth, frameHeight); //get current frame to return
+			return img.getSubimage(currentFrame * frameWidth, 0, frameWidth, frameHeight); //get current frame to return
 		}else{
 			framesDelayed += 1;
 		}
 		return null;
+	}
+	
+	public int getWidth(){
+		return frameWidth;
+	}
+	
+	public int getHeight(){
+		return frameHeight;
+	}
+	
+	public BufferedImage getImage(){
+		return img;
 	}
 
 }

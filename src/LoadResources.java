@@ -24,23 +24,42 @@ public class LoadResources extends JavaGame implements Runnable{
 			System.out.println("Error loading tileSkins");
 		}
 		try{
-			enemySkins = new BufferedImage[]{		
-					optimizedImage("/Images/enemy.png"),
-					optimizedImage("/Images/eye.png"),
-					optimizedImage("/Images/snake.png"),
-			};
+			enemySkins = new Animation[3][6];
+				//Enemy
+				enemySkins[0][0] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);		//0 - old skin
+				enemySkins[0][ANIM_STILL] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);
+				enemySkins[0][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);
+				enemySkins[0][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);
+				enemySkins[0][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);
+				enemySkins[0][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);
+				
+				//Eye
+				enemySkins[1][0] = new Animation(optimizedImage("/Images/eye.png"), 22, 32, 0);		//0 - old skin
+				enemySkins[1][ANIM_STILL] = new Animation(optimizedImage("/Images/Animation/Eye/Standing.png"), 32, 32, 0);
+				enemySkins[1][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/Animation/Eye/Walk_Down.png"), 32, 32, 0);
+				enemySkins[1][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/Animation/Eye/Walk_Left.png"), 32, 32, 0);
+				enemySkins[1][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/Animation/Eye/Walk_Right.png"), 32, 32, 0);
+				enemySkins[1][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/Animation/Eye/Walk_Up.png"), 32, 32, 0);
+				
+				//Snake
+				enemySkins[2][0] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);		//0 - old skin
+				enemySkins[2][ANIM_STILL] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);
+				enemySkins[2][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);	
+				enemySkins[2][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);
+				enemySkins[2][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);	
+				enemySkins[2][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);
 		}catch(IOException e){
 			System.out.println("Error loading enemySkins");
 		}
 
 		try{
-			entitySkins = new BufferedImage[6];
-			entitySkins[0] = optimizedImage("/Images/entity.png");		//0 - Old skin
-			entitySkins[ANIM_STILL] = optimizedImage("Images/Animation/Entity/Standing.png");
-			entitySkins[ANIM_WALK_DOWN] = optimizedImage("Images/Animation/Entity/Walk_Down.png");	
-			entitySkins[ANIM_WALK_LEFT] = optimizedImage("Images/Animation/Entity/Walk_Left.png");	
-			entitySkins[ANIM_WALK_RIGHT] = optimizedImage("Images/Animation/Entity/Walk_Right.png");	
-			entitySkins[ANIM_WALK_UP] = optimizedImage("Images/Animation/Entity/Walk_Up.png");
+			entitySkins = new Animation[6];
+			entitySkins[0] = new Animation(optimizedImage("/Images/entity.png"), 22, 32, 0);		//0 - Old skin
+			entitySkins[ANIM_STILL] = new Animation(optimizedImage("Images/Animation/Entity/Standing.png"), 32, 32, 0);
+			entitySkins[ANIM_WALK_DOWN] = new Animation(optimizedImage("Images/Animation/Entity/Walk_Down.png"), 32, 32, 0);	
+			entitySkins[ANIM_WALK_LEFT] = new Animation(optimizedImage("Images/Animation/Entity/Walk_Left.png"), 32, 32, 0);	
+			entitySkins[ANIM_WALK_RIGHT] = new Animation(optimizedImage("Images/Animation/Entity/Walk_Right.png"), 32, 32, 0);	
+			entitySkins[ANIM_WALK_UP] = new Animation(optimizedImage("Images/Animation/Entity/Walk_Up.png"), 32, 32, 0);
 		}catch(IOException e){
 			System.out.println("Error loading entitySkins");
 		}

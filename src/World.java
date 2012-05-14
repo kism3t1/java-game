@@ -1,3 +1,4 @@
+import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -129,6 +130,11 @@ public class World extends JavaGame implements Serializable {
 					&& enemy.get(i).getX() < screenTilesWide * tileWidth
 					&& enemy.get(i).getY() < screenTilesHigh * tileHeight)
 				enemy.get(i).move();
+	}
+	
+	public void drawEnemies(Graphics g){
+		for(int i = 0; i < enemy.size(); i++)
+			enemy.get(i).draw(g);
 	}
 	
 	/* Friendly entity part */

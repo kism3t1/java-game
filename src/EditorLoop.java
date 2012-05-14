@@ -196,12 +196,10 @@ MouseMotionListener{
 		}
 
 		// draw entity
-		g.drawImage(entitySkins[world.entity.getSkin()], world.entity.getX(), world.entity.getY(), null);
+		world.entity.draw(g);
 
 		// draw enemies
-		for (int i = 0; i < world.enemy.size(); i++) {
-			g.drawImage(enemySkins[world.enemy.get(i).getSkin()], world.enemy.get(i).getX(), world.enemy.get(i).getY(), null);
-		}
+		world.drawEnemies(g);
 		
 		//Draw friendlies
 		for (int f = 0; f < world.friendly.size(); f++) {
@@ -689,7 +687,7 @@ MouseMotionListener{
 				subMenu = new JMenu("Type");
 				subMenu.setLayout(new GridLayout(0,5));
 				for(int i = 0; i < enemySkins.length; i++){
-					menuItem = new JMenuItem(new ImageIcon(enemySkins[i]));
+					menuItem = new JMenuItem(new ImageIcon(enemySkins[i][0].getImage()));
 					menuItem.addActionListener(this);
 					menuItem.setActionCommand("ENEMY:" + Integer.toString(i));
 					subMenu.add(menuItem);
@@ -836,11 +834,7 @@ MouseMotionListener{
 	
 	@SuppressWarnings("serial")
 	private class EnemyPopupMenu extends JPopupMenu implements ActionListener{
-		JMenu menu = null;
-		JMenu subMenu = null;
 		JMenuItem menuItem = null;	
-		JCheckBoxMenuItem cbMenuItem = null;
-		JRadioButtonMenuItem rbMenuItem = null;
 		
 		int enemyID;
 
@@ -869,7 +863,7 @@ MouseMotionListener{
 						"Enter new enemy health value (whole number only)", 
 						"Enemy Health", 
 						JOptionPane.PLAIN_MESSAGE, 
-						new ImageIcon(enemySkins[world.getEnemy(enemyID).getSkin()]),
+						new ImageIcon(enemySkins[world.getEnemy(enemyID).getSkin()][0].getImage()),
 						null,
 						world.getEnemy(enemyID).getHealth()).toString());
 				world.getEnemy(enemyID).setHealth(i);
@@ -880,11 +874,7 @@ MouseMotionListener{
 	
 	@SuppressWarnings("serial")
 	private class FriendlyPopupMenu extends JPopupMenu implements ActionListener{
-		JMenu menu = null;
-		JMenu subMenu = null;
 		JMenuItem menuItem = null;	
-		JCheckBoxMenuItem cbMenuItem = null;
-		JRadioButtonMenuItem rbMenuItem = null;
 		
 		int friendlyID;
 
@@ -913,7 +903,7 @@ MouseMotionListener{
 						"Enter new enemy health value (whole number only)", 
 						"Enemy Health", 
 						JOptionPane.PLAIN_MESSAGE, 
-						new ImageIcon(enemySkins[world.getFriendly(friendlyID).getSkin()]),
+						new ImageIcon(enemySkins[world.getFriendly(friendlyID).getSkin()][0].getImage()),
 						null,
 						world.getFriendly(friendlyID).getHealth()).toString());
 				world.getFriendly(friendlyID).setHealth(i);

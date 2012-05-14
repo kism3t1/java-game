@@ -1,6 +1,6 @@
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
-import java.util.Random;
 
 public class Enemy extends JavaGame implements Serializable {
 
@@ -16,8 +16,9 @@ public class Enemy extends JavaGame implements Serializable {
 	private int x, y, width, height;
 	private int skin;
 	private int health;
-	private boolean random;
 	private int theNumber;
+	
+	private int animState = ANIM_STILL;
 	
 	private EntityAIEnemy ai;
 
@@ -25,20 +26,21 @@ public class Enemy extends JavaGame implements Serializable {
 		this.skin = skin;
 		this.x = x;
 		this.y = y;
-		width = enemySkins[skin].getWidth(null);
-		height = enemySkins[skin].getHeight(null);
+		width = enemySkins[skin][0].getWidth();
+		height = enemySkins[skin][0].getHeight();
 		this.id = id;
 		speed = 1;
 		health = 3;
 		//dLast = System.currentTimeMillis() - 500;
 		ai = new EntityAIEnemy(id);
+		
+		animState = ANIM_STILL;
 	}
 	
 	public void move() {
 		x += dx;
 		y += dy;
-		random = ai.returnAttack();
-		if (random == true){
+		if (ai.returnAttack()){
 			theNumber = 200;
 		}else{
 			theNumber = ai.returnRandom();
@@ -127,6 +129,10 @@ public class Enemy extends JavaGame implements Serializable {
 
 	public void setHealth(int health) {
 		this.health = health;
+	}
+	
+	public void draw(Graphics g){
+		g.drawImage(enemySkins[skin][animState].nextFrame(), x, y, null);
 	}
 
 }

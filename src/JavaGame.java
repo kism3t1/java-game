@@ -31,11 +31,12 @@ public class JavaGame {
 	public static GameTime gametime;
 	public static SkyFade fadeSky;
 	public static BufferedImage[] tileSkins;
-	public static BufferedImage[] enemySkins;
-	public static BufferedImage[] entitySkins;
 	public static BufferedImage[] skySkins;
-	public static BufferedImage[] entityFriendlySkins;
 	public static BufferedImage[] HUDIcons;
+	
+	public static Animation[][] enemySkins;
+	public static Animation[] entitySkins;
+	public static BufferedImage[] entityFriendlySkins;
 	
 	public static CollisionDetection collisionDetection = new CollisionDetection();
 
@@ -68,7 +69,7 @@ public class JavaGame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(gui);
 		
-		frame.setTitle("Java-Game V0.1 - Map Editor");
+		frame.setTitle("Java-Game V0.1");
 		frame.setVisible(true); // start AWT painting.
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setMinimumSize(frame.getSize());			//prevents window shrinking when moved
@@ -80,6 +81,7 @@ public class JavaGame {
 		gThread.start();
 		do{}while(gThread.isAlive());	//wait until resources are loaded to continue
 		
+		frame.setTitle("Java-Game V0.1");
 		gThread = new Thread(new StartScreen(gui));
 		
 		fadeSky = new SkyFade();

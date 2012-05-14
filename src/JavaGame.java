@@ -31,7 +31,10 @@ public class JavaGame {
 	public static GameTime gametime;
 	public static SkyFade fadeSky;
 	public static BufferedImage[] tileSkins;
+	
 	public static BufferedImage[] skySkins;
+	public static BufferedImage[] skyTransparency;
+	
 	public static BufferedImage[] HUDIcons;
 	
 	public static Animation[][] enemySkins;

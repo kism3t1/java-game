@@ -12,9 +12,10 @@ import java.awt.RenderingHints;
 
 public class SkyFade extends JavaGame {
 	
-	static float alpha = 0.5f;
+	static int alpha = 0;
 
 	public void draw(Graphics g) {
+		/* old code
 	    Graphics2D g2d = (Graphics2D) g;
 	    
 	    //store previous G2D settings to restore when done
@@ -30,6 +31,10 @@ public class SkyFade extends JavaGame {
 	    //restore G2D settings
 	    g2d.setComposite(prevComposite);
 	    g2d.setRenderingHints(prevHint);
+	    */
+	    
+	    //new code:
+	    g.drawImage(skyTransparency[alpha], 0, 0, guiWidth, guiHeight, null);
 	}
 	
 	/* Increase Alpha value by 0.005f for testing to speed it up. And 0.0005f for in Game 
@@ -39,19 +44,19 @@ public class SkyFade extends JavaGame {
 	 */
 	
 	public static void increaseAlpha(){
-		alpha += 0.0005f;
-	    if (alpha >= 1.0f) {
-	        alpha = 1.0f;
-	    } else {}
+		alpha += 1;
+	    if (alpha >= skyTransparency.length) {
+	        alpha = skyTransparency.length - 1;
+	    }
 	}
 	
 	
 	
 	public static void decreaseAlpha(){
-		alpha -= 0.0005f;
-		if (alpha <=0.0f){
-			alpha = 0.0f;
-		}else{}
+		alpha -= 1;
+		if (alpha < 0){
+			alpha = 0;
+		}
 	}
 	
 }

@@ -1,6 +1,9 @@
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -8,6 +11,11 @@ import javax.imageio.ImageIO;
 
 
 public class LoadResources extends JavaGame implements Runnable{
+	
+	// obtain the current system graphical settings
+	GraphicsConfiguration gfx_config = GraphicsEnvironment.
+			getLocalGraphicsEnvironment().getDefaultScreenDevice().
+			getDefaultConfiguration();
 
 	@Override
 	public void run() {
@@ -88,6 +96,10 @@ public class LoadResources extends JavaGame implements Runnable{
 			System.out.println("Error loading skySkins");
 		}
 		
+		skyTransparency = new BufferedImage[150];
+			for(int i = 0; i < 150; i++)
+				skyTransparency[i] = genPixel(new Color(0, 0, 0, i));
+		
 		try{
 			entityFriendlySkins = new BufferedImage[]{		
 					optimizedImage("/Images/pig.png"),
@@ -107,33 +119,39 @@ public class LoadResources extends JavaGame implements Runnable{
 	}
 	
 	//optimize images for current system
-		public BufferedImage optimizedImage(String resourceName) throws IOException
-		{
-			BufferedImage image = ImageIO.read(this.getClass().getResourceAsStream(resourceName));
-			// obtain the current system graphical settings
-			GraphicsConfiguration gfx_config = GraphicsEnvironment.
-					getLocalGraphicsEnvironment().getDefaultScreenDevice().
-					getDefaultConfiguration();
+	private BufferedImage optimizedImage(String resourceName) throws IOException
+	{
+		BufferedImage image = ImageIO.read(this.getClass().getResourceAsStream(resourceName));
 
-			/*
-			 * if image is already compatible and optimized for current system 
-			 * settings, simply return it
-			 */
-			if (image.getColorModel().equals(gfx_config.getColorModel()))
-				return image;
+		/*
+		 * if image is already compatible and optimized for current system 
+		 * settings, simply return it
+		 */
+		if (image.getColorModel().equals(gfx_config.getColorModel()))
+			return image;
 
-			// image is not optimized, so create a new image that is
-			BufferedImage new_image = gfx_config.createCompatibleImage(
-					image.getWidth(), image.getHeight(), image.getTransparency());
+		// image is not optimized, so create a new image that is
+		BufferedImage new_image = gfx_config.createCompatibleImage(
+				image.getWidth(), image.getHeight(), image.getTransparency());
 
-			// get the graphics context of the new image to draw the old image on
-			Graphics2D g2d = (Graphics2D) new_image.getGraphics();
+		// get the graphics context of the new image to draw the old image on
+		Graphics2D g2d = (Graphics2D) new_image.getGraphics();
 
-			// actually draw the image and dispose of context no longer needed
-			g2d.drawImage(image, 0, 0, null);
-			g2d.dispose();
+		// actually draw the image and dispose of context no longer needed
+		g2d.drawImage(image, 0, 0, null);
+		g2d.dispose();
 
-			// return the new optimized image
-			return new_image; 
-		}
+		// return the new optimized image
+		return new_image; 
+	}
+	
+	//create buffered pixels
+	private BufferedImage genPixel(Color color){
+		BufferedImage pixel = gfx_config.createCompatibleImage(1, 1, Transparency.TRANSLUCENT);
+		Graphics g = pixel.getGraphics();
+		g.setColor(color);
+		g.fillRect(0, 0, 1, 1);
+		g.dispose();
+		return pixel;
+	}
 }

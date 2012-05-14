@@ -97,7 +97,7 @@ public class LoadResources extends JavaGame implements Runnable{
 		}
 		
 		skyTransparency = new BufferedImage[150];
-			for(int i = 0; i < 150; i++)
+			for(int i = 0; i < skyTransparency.length; i++)
 				skyTransparency[i] = genPixel(new Color(0, 0, 0, i));
 		
 		try{

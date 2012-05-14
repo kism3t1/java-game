@@ -52,20 +52,36 @@ public class EntityAIEnemy extends JavaGame implements Serializable {
 	//VERY MUCH WORK IN PROGRESS!!!!!!!
 	
 	public void checklocation(){
-			enemyX = world.getEnemy(id).getX();
-			enemyY = world.getEnemy(id).getY();
-			entityX = world.entity.getX();
-			entityY = world.entity.getY();
-			distanceX = enemyX - entityX;	//Calculate distance away from entity
-			distanceY = enemyY - entityY;
-		if (distanceX <= 200 && distanceY <= 200){ 	//If enemy is less that 200 tiles away from entity
-			speed = 2;	//Speed up enemy they get angry
-			attack();		//Run attack Method
+		enemyX = world.getEnemy(id).getX();
+		enemyY = world.getEnemy(id).getY();
+		entityX = world.entity.getX();
+		entityY = world.entity.getY();
+		distanceX = enemyX - entityX;	//Calculate distance away from entity
+		distanceY = enemyY - entityY;
+		
+		/*
+		 * Check if enemy is less than 200 tiles away from enity - if so speed up and attack
+		 * 
+		 * If enemy if less than 100 tiles away speed up more and go get him!!!
+		 * 
+		 * Maybe there is a better way of doing this? with ! or &&
+		 */
+		
+	if (distanceX < 200 && distanceY < 200){ 	//If enemy is less that 200 tiles away from entity
+		if (distanceX < 100 && distanceY < 100){ //If it is closer then speed up
+			speed = 4;
+			attack();
+			//System.out.println("Closest!");
 		}else{
-			attack = false;
-			randomAIDirection();
+		speed = 2;	//Speed up enemy 
+		attack();		//Run attack Method
+		//System.out.println("I see you!");
 		}
+	}else{
+		attack = false;
+		randomAIDirection();
 	}
+}
 	
 	//Attack algorithm
 	

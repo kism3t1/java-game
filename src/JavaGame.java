@@ -67,6 +67,8 @@ public class JavaGame {
 		else
             System.setProperty("sun.java2d.opengl", "true");
 		
+		System.setProperty("sun.java2d.translaccel", "true");
+		
 		JFrame frame = new JFrame();
 		Canvas gui = new Canvas();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

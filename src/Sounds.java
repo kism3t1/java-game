@@ -21,7 +21,7 @@ import javax.sound.sampled.LineListener;
 
 
 
-public class Sounds {
+public class Sounds extends JavaGame{
 	
 	String theFile = null;
 	boolean isPlaying;
@@ -32,13 +32,13 @@ public class Sounds {
 		if (isPlaying == false){
 		//&&  isPlaying kept in just in case, cant do any harm
 			
-		if (ReturnTime.returnTimeOfDay() == TimeOfDay.NIGHT && isPlaying == false){
+		if (gameTime.checkDateTime() == TOD_NIGHT && isPlaying == false){
 			theFile = "Night.wav";
-		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.DAYTIME && isPlaying == false){
+		}else if (gameTime.checkDateTime() == TOD_DAYTIME && isPlaying == false){
 			theFile = "Sunrise.wav";			
-		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.SUNRISE && isPlaying == false){
+		}else if (gameTime.checkDateTime() == TOD_SUNRISE && isPlaying == false){
 			theFile = "Night.wav";
-		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.SUNSET && isPlaying == false){
+		}else if (gameTime.checkDateTime() == TOD_SUNSET && isPlaying == false){
 			theFile = "Night.wav";
 		}else{}
 	

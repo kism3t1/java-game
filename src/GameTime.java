@@ -1,7 +1,7 @@
 import java.security.InvalidParameterException;
 
 
-public class GameTime {
+public class GameTime extends JavaGame {
 	
 	public static int MINUTES_IN_HOUR = 60;
 	public static int MINUTES_IN_DAY = 60 * 24;
@@ -35,20 +35,17 @@ public class GameTime {
 
 	//Checks the minutes of day passed so far 0-23 and returns the time of day
 	
-	public TimeOfDay checkDateTime() {
-		TimeOfDay newDateTime = null;
+	public int checkDateTime() {
 		int hour = getHour();
 		if (hour > 21 || hour < 4)
-			newDateTime = TimeOfDay.NIGHT;
+			return TOD_NIGHT;
 		else if (hour > 16)
-			newDateTime = TimeOfDay.SUNSET;
+			return TOD_SUNSET;
 		else if (hour > 8)
-			newDateTime = TimeOfDay.DAYTIME;
+			return TOD_DAYTIME;
 		else
-			newDateTime = TimeOfDay.SUNRISE;
-		
-		return newDateTime;
-        }
+			return TOD_SUNRISE;
+	}
 	
 	//Gets the hour in game 0-23
 	private int getHour() {

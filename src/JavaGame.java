@@ -5,59 +5,65 @@ import javax.swing.JFrame;
 
 public class JavaGame {
 	
-	public static final int FRAME_DELAY = 20;	// frame delay in milliseconds (i.e. 1000/20 = 50 FPS)
-	public static final int KEY_DELAY = 75; 	// set delay in milliseconds between key strokes
+	public static transient final int FRAME_DELAY = 20;	// frame delay in milliseconds (i.e. 1000/20 = 50 FPS)
+	public static transient final int KEY_DELAY = 75; 	// set delay in milliseconds between key strokes
 	
-	public static String nextThread;
+	public static transient String nextThread;
 	
 	// tile level identifiers
-	public static final int LEVEL_FLOOR = 0;
-	public static final int LEVEL_WALL = 1;
+	public static transient final int LEVEL_FLOOR = 0;
+	public static transient final int LEVEL_WALL = 1;
 	
 	//animation state identifiers
-	public static final int STATE_NORMAL = 0;
-	public static final int STATE_INJURED = 1;
-	public static final int ANIM_STILL = 1;
-	public static final int ANIM_WALK_LEFT = 2;
-	public static final int ANIM_WALK_RIGHT = 3;
-	public static final int ANIM_WALK_UP = 4;
-	public static final int ANIM_WALK_DOWN = 5;
+	public static transient final int STATE_NORMAL = 0;
+	public static transient final int STATE_INJURED = 1;
+	public static transient final int ANIM_STILL = 1;
+	public static transient final int ANIM_WALK_LEFT = 2;
+	public static transient final int ANIM_WALK_RIGHT = 3;
+	public static transient final int ANIM_WALK_UP = 4;
+	public static transient final int ANIM_WALK_DOWN = 5;
+	
+	//Time of Day identifiers
+	public static final transient int TOD_DAYTIME = 0;
+	public static final transient int TOD_SUNRISE = 1;
+	public static final transient int TOD_SUNSET = 2;
+	public static final transient int TOD_NIGHT = 3;
 	
 	//HUD icon ID's
-	public static final int HUD_HEART = 0;
-	public static final int HUD_SWORD = 1;
+	public static transient final int HUD_HEART = 0;
+	public static transient final int HUD_SWORD = 1;
 
-	public static World world;
-	public static GameTime gametime;
-	public static SkyFade fadeSky;
-	public static BufferedImage[] tileSkins;
+	public static transient World world;
+	public static transient GameTime gameTime;
+	public static transient SkyFade fadeSky;
+	public static transient BufferedImage[] tileSkins;
 	
-	public static BufferedImage[] skySkins;
-	public static BufferedImage[] skyTransparency;
+	public static transient BufferedImage[] skySkins;
+	public static transient BufferedImage[] skyTransparency;
 	
-	public static BufferedImage[] HUDIcons;
+	public static transient BufferedImage[] HUDIcons;
 	
-	public static Animation[][] enemySkins;
-	public static Animation[] entitySkins;
-	public static BufferedImage[] entityFriendlySkins;
+	public static transient Animation[][] enemySkins;
+	public static transient Animation[] entitySkins;
+	public static transient BufferedImage[] entityFriendlySkins;
 	
-	public static CollisionDetection collisionDetection = new CollisionDetection();
+	public static transient CollisionDetection collisionDetection = new CollisionDetection();
 
 	// tile offset for scrolling
-	public static int xOffset = 0;
-	public static int yOffset = 0;
-	public static int prevXOffset = 0;
-	public static int prevYOffset = 0;
+	public static transient int xOffset = 0;
+	public static transient int yOffset = 0;
+	public static transient int prevXOffset = 0;
+	public static transient int prevYOffset = 0;
 
 	// screen size info to aide scrolling
-	public static int screenWidth = 0;
-	public static int screenHeight = 0;
-	public static int screenTilesWide = 0;
-	public static int screenTilesHigh = 0;
-	public static int tileWidth = 32;
-	public static int tileHeight = 32;
-	public static int guiWidth = 0;
-	public static int guiHeight = 0;
+	public static transient int screenWidth = 0;
+	public static transient int screenHeight = 0;
+	public static transient int screenTilesWide = 0;
+	public static transient int screenTilesHigh = 0;
+	public static transient int tileWidth = 32;
+	public static transient int tileHeight = 32;
+	public static transient int guiWidth = 0;
+	public static transient int guiHeight = 0;
 
 	public static void main(String[] args) {
 	//	/*
@@ -93,8 +99,8 @@ public class JavaGame {
 		
 		/* GameTime Section */
 		/* new GameTime set to 400 so that the game starts just as the sun rises, while testing */
-		gametime = new GameTime(450);
-		Thread pThread = new Thread(new GameTimeUpdater(gametime));		
+		gameTime = new GameTime(450);
+		Thread pThread = new Thread(new GameTimeUpdater(gameTime));		
 		
 		
 		gThread.start();
@@ -114,7 +120,7 @@ public class JavaGame {
 					break;
 				case "GAME":
 					gThread = new Thread(new GameLoop(gui));
-					pThread = new Thread(new GameTimeUpdater(gametime)); // Start the Game Time when game selected
+					pThread = new Thread(new GameTimeUpdater(gameTime)); // Start the Game Time when game selected
 					pThread.start();	//Starts the game Time thread
 					break;
 				}
@@ -123,9 +129,4 @@ public class JavaGame {
 		}while(isRunning);
 	}
 
-	//Used to return the objects (Games) Time
-	
-	public static GameTime returnTime(){ 
-		return gametime;
-	}
 }

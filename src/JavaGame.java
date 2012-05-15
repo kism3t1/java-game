@@ -36,7 +36,7 @@ public class JavaGame {
 	public static transient World world;
 	public static transient GameTime gameTime;
 	public static transient SkyFade fadeSky;
-	public static transient BufferedImage[] tileSkins;
+	public static transient BufferedImage[][] tileSkins;
 	
 	public static transient BufferedImage[] skySkins;
 	public static transient BufferedImage[] skyTransparency;

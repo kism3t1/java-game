@@ -174,7 +174,7 @@ MouseMotionListener{
 				for (int y = yOffset; y < tileToY; y++) {
 					if (world.floorMap.TileSet[x][y] != null) {
 						world.floorMap.TileSet[x][y].setPos((x - xOffset) * tileWidth, (y - yOffset) * tileHeight);
-						g.drawImage(tileSkins[world.floorMap.TileSet[x][y].getSkin()],
+						g.drawImage(tileSkins[TOD_DAYTIME][world.floorMap.TileSet[x][y].getSkin()],
 								world.floorMap.TileSet[x][y].getX(), world.floorMap.TileSet[x][y].getY(),
 								null);
 					}
@@ -187,7 +187,7 @@ MouseMotionListener{
 				for (int y = yOffset; y < tileToY; y++) {
 					if (world.wallMap.TileSet[x][y] != null) {
 						world.wallMap.TileSet[x][y].setPos((x - xOffset) * tileWidth, (y - yOffset) * tileHeight);
-						g.drawImage(tileSkins[world.wallMap.TileSet[x][y].getSkin()],
+						g.drawImage(tileSkins[TOD_DAYTIME][world.wallMap.TileSet[x][y].getSkin()],
 								world.wallMap.TileSet[x][y].getX(), world.wallMap.TileSet[x][y].getY(),
 								null);
 					}
@@ -676,7 +676,7 @@ MouseMotionListener{
 				subMenu = new JMenu("Skin");
 				subMenu.setLayout(new GridLayout(0,5));
 				for(int i = 0; i < tileSkins.length; i++){
-					menuItem = new JMenuItem(new ImageIcon(tileSkins[i]));
+					menuItem = new JMenuItem(new ImageIcon(tileSkins[TOD_DAYTIME][i]));
 					menuItem.addActionListener(this);
 					menuItem.setActionCommand("TILE:" + Integer.toString(i));
 					subMenu.add(menuItem);
@@ -748,7 +748,7 @@ MouseMotionListener{
 				subMenu = new JMenu("Change Border Skin");
 				subMenu.setLayout(new GridLayout(0,5));
 					for(int i = 0; i < tileSkins.length; i++){
-						menuItem = new JMenuItem(new ImageIcon(tileSkins[i]));
+						menuItem = new JMenuItem(new ImageIcon(tileSkins[TOD_DAYTIME][i]));
 						menuItem.addActionListener(this);
 						menuItem.setActionCommand("BORDER:" + Integer.toString(i));
 						subMenu.add(menuItem);

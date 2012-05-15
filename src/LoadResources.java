@@ -20,8 +20,9 @@ public class LoadResources extends JavaGame implements Runnable{
 	@Override
 	public void run() {
 		//load resources in to memory
+		tileSkins = new BufferedImage[4][];
 		try{
-			tileSkins = new BufferedImage[]{
+			tileSkins[TOD_DAYTIME] = new BufferedImage[]{
 					optimizedImage("/Images/dirt.png"),
 					optimizedImage("/Images/grass.png"),
 					optimizedImage("/Images/stone.png"),
@@ -31,6 +32,12 @@ public class LoadResources extends JavaGame implements Runnable{
 		}catch(IOException e){
 			System.out.println("Error loading tileSkins");
 		}
+		
+		//generate alternate tile skins
+		tileSkins[TOD_NIGHT] = castTiles(tileSkins[TOD_DAYTIME], new Color(0, 0, 50, 150));
+		tileSkins[TOD_SUNRISE] = castTiles(tileSkins[TOD_DAYTIME], new Color(0, 0, 50, 50));
+		tileSkins[TOD_SUNSET] = castTiles(tileSkins[TOD_DAYTIME], new Color(0, 0, 50, 50));
+		
 		try{
 			enemySkins = new Animation[3][6];
 				//Enemy
@@ -153,5 +160,28 @@ public class LoadResources extends JavaGame implements Runnable{
 		g.fillRect(0, 0, 1, 1);
 		g.dispose();
 		return pixel;
+	}
+	
+	private BufferedImage[] castTiles(BufferedImage[] origTiles, Color color){
+		BufferedImage[] newTiles = new BufferedImage[origTiles.length];
+		
+		for(int i=0; i < origTiles.length; i++){
+			//initialize new BufferedImage in array space
+			newTiles[i] = gfx_config.createCompatibleImage(
+					origTiles[i].getWidth(), origTiles[i].getHeight(), origTiles[i].getTransparency());
+			
+			//get graphics from new tile to draw on
+			Graphics g = newTiles[i].getGraphics();
+			
+			//copy original tile to new tile
+			g.drawImage(origTiles[i], 0, 0, null);
+			
+			//add colour overlay
+			g.setColor(color);
+			g.fillRect(0, 0, newTiles[i].getWidth(), newTiles[i].getHeight());
+			g.dispose();
+		}
+		
+		return newTiles;
 	}
 }

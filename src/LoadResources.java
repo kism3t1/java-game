@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 
 public class LoadResources extends JavaGame implements Runnable{
-	
+
 	// obtain the current system graphical settings
 	GraphicsConfiguration gfx_config = GraphicsEnvironment.
 			getLocalGraphicsEnvironment().getDefaultScreenDevice().
@@ -32,62 +32,80 @@ public class LoadResources extends JavaGame implements Runnable{
 		}catch(IOException e){
 			System.out.println("Error loading tileSkins");
 		}
-		
+
 		//generate alternate tile skins
-		tileSkins[TOD_NIGHT] = castTiles(tileSkins[TOD_DAYTIME], new Color(0, 0, 50, 150));
-		tileSkins[TOD_SUNRISE] = castTiles(tileSkins[TOD_DAYTIME], new Color(0, 0, 50, 50));
-		tileSkins[TOD_SUNSET] = castTiles(tileSkins[TOD_DAYTIME], new Color(0, 0, 50, 50));
-		
+		tileSkins[TOD_NIGHT] = castImage(tileSkins[TOD_DAYTIME], TOD_NIGHT_COLOR);
+		tileSkins[TOD_SUNRISE] = castImage(tileSkins[TOD_DAYTIME], TOD_SUNRISE_COLOR);
+		tileSkins[TOD_SUNSET] = castImage(tileSkins[TOD_DAYTIME], TOD_SUNSET_COLOR);
+
 		try{
-			enemySkins = new Animation[3][6];
-				//Enemy
-				enemySkins[0][0] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);		//0 - old skin
-				enemySkins[0][ANIM_STILL] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);
-				enemySkins[0][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);
-				enemySkins[0][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);
-				enemySkins[0][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);
-				enemySkins[0][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);
-				
-				//Eye
-				enemySkins[1][0] = new Animation(optimizedImage("/Images/eye.png"), 22, 32, 0);		//0 - old skin
-				enemySkins[1][ANIM_STILL] = new Animation(optimizedImage("/Images/Animation/Eye/Standing.png"), 32, 32, 0);
-				enemySkins[1][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/Animation/Eye/Walk_Down.png"), 32, 32, 0);
-				enemySkins[1][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/Animation/Eye/Walk_Left.png"), 32, 32, 0);
-				enemySkins[1][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/Animation/Eye/Walk_Right.png"), 32, 32, 0);
-				enemySkins[1][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/Animation/Eye/Walk_Up.png"), 32, 32, 0);
-				
-				//Snake
-				enemySkins[2][0] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);		//0 - old skin
-				enemySkins[2][ANIM_STILL] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);
-				enemySkins[2][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);	
-				enemySkins[2][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);
-				enemySkins[2][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);	
-				enemySkins[2][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);
+			enemySkins = new Animation[4][3][6];
+			//Enemy
+			enemySkins[TOD_DAYTIME][0][0] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);		//0 - old skin
+			enemySkins[TOD_DAYTIME][0][ANIM_STILL] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);
+			enemySkins[TOD_DAYTIME][0][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);
+			enemySkins[TOD_DAYTIME][0][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);
+			enemySkins[TOD_DAYTIME][0][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);
+			enemySkins[TOD_DAYTIME][0][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/enemy.png"), 22, 32, 0);
+
+			//Eye
+			enemySkins[TOD_DAYTIME][1][0] = new Animation(optimizedImage("/Images/eye.png"), 22, 32, 0);		//0 - old skin
+			enemySkins[TOD_DAYTIME][1][ANIM_STILL] = new Animation(optimizedImage("/Images/Animation/Eye/Standing.png"), 32, 32, 0);
+			enemySkins[TOD_DAYTIME][1][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/Animation/Eye/Walk_Down.png"), 32, 32, 0);
+			enemySkins[TOD_DAYTIME][1][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/Animation/Eye/Walk_Left.png"), 32, 32, 0);
+			enemySkins[TOD_DAYTIME][1][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/Animation/Eye/Walk_Right.png"), 32, 32, 0);
+			enemySkins[TOD_DAYTIME][1][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/Animation/Eye/Walk_Up.png"), 32, 32, 0);
+
+			//Snake
+			enemySkins[TOD_DAYTIME][2][0] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);		//0 - old skin
+			enemySkins[TOD_DAYTIME][2][ANIM_STILL] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);
+			enemySkins[TOD_DAYTIME][2][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);	
+			enemySkins[TOD_DAYTIME][2][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);
+			enemySkins[TOD_DAYTIME][2][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);	
+			enemySkins[TOD_DAYTIME][2][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);
 		}catch(IOException e){
 			System.out.println("Error loading enemySkins");
 		}
 
+		//generate alternate enemy skins
+		for(int i=0; i < enemySkins[0].length; i ++){
+			enemySkins[TOD_NIGHT][i] = castImage(enemySkins[TOD_DAYTIME][i], TOD_NIGHT_COLOR);
+			enemySkins[TOD_SUNRISE][i] = castImage(enemySkins[TOD_DAYTIME][i], TOD_SUNRISE_COLOR);
+			enemySkins[TOD_SUNSET][i] = castImage(enemySkins[TOD_DAYTIME][i], TOD_SUNSET_COLOR);
+		}
+
 		try{
-			entitySkins = new Animation[6];
-			entitySkins[0] = new Animation(optimizedImage("/Images/entity.png"), 22, 32, 0);		//0 - Old skin
-			entitySkins[ANIM_STILL] = new Animation(optimizedImage("Images/Animation/Entity/Standing.png"), 32, 32, 0);
-			entitySkins[ANIM_WALK_DOWN] = new Animation(optimizedImage("Images/Animation/Entity/Walk_Down.png"), 32, 32, 0);	
-			entitySkins[ANIM_WALK_LEFT] = new Animation(optimizedImage("Images/Animation/Entity/Walk_Left.png"), 32, 32, 0);	
-			entitySkins[ANIM_WALK_RIGHT] = new Animation(optimizedImage("Images/Animation/Entity/Walk_Right.png"), 32, 32, 0);	
-			entitySkins[ANIM_WALK_UP] = new Animation(optimizedImage("Images/Animation/Entity/Walk_Up.png"), 32, 32, 0);
+			entitySkins = new Animation[4][6];
+			entitySkins[TOD_DAYTIME][0] = new Animation(optimizedImage("/Images/entity.png"), 22, 32, 0);		//0 - Old skin
+			entitySkins[TOD_DAYTIME][ANIM_STILL] = new Animation(optimizedImage("Images/Animation/Entity/Standing.png"), 32, 32, 0);
+			entitySkins[TOD_DAYTIME][ANIM_WALK_DOWN] = new Animation(optimizedImage("Images/Animation/Entity/Walk_Down.png"), 32, 32, 0);	
+			entitySkins[TOD_DAYTIME][ANIM_WALK_LEFT] = new Animation(optimizedImage("Images/Animation/Entity/Walk_Left.png"), 32, 32, 0);	
+			entitySkins[TOD_DAYTIME][ANIM_WALK_RIGHT] = new Animation(optimizedImage("Images/Animation/Entity/Walk_Right.png"), 32, 32, 0);	
+			entitySkins[TOD_DAYTIME][ANIM_WALK_UP] = new Animation(optimizedImage("Images/Animation/Entity/Walk_Up.png"), 32, 32, 0);
 		}catch(IOException e){
 			System.out.println("Error loading entitySkins");
 		}
 
+		//generate alternate entity skins
+		entitySkins[TOD_NIGHT] = castImage(entitySkins[TOD_DAYTIME], TOD_NIGHT_COLOR);
+		entitySkins[TOD_SUNRISE] = castImage(entitySkins[TOD_DAYTIME], TOD_SUNRISE_COLOR);
+		entitySkins[TOD_SUNSET] = castImage(entitySkins[TOD_DAYTIME], TOD_SUNSET_COLOR);
+
 		try{
-			entityFriendlySkins = new BufferedImage[]{		
+			entityFriendlySkins = new BufferedImage[4][];
+			entityFriendlySkins[TOD_DAYTIME] = new BufferedImage[]{		
 					optimizedImage("/Images/pig.png"),
-					optimizedImage("/Images/fox.png"),
+					optimizedImage("/Images/fox.png")
 			};
 		}catch(IOException e){
-			System.out.println("Error loading friendlySkins");
+			System.out.println("Error loading enemySkins");
 		}
-		
+
+		//generate alternate entity skins
+		entityFriendlySkins[TOD_NIGHT] = castImage(entityFriendlySkins[TOD_DAYTIME], TOD_NIGHT_COLOR);
+		entityFriendlySkins[TOD_SUNRISE] = castImage(entityFriendlySkins[TOD_DAYTIME], TOD_SUNRISE_COLOR);
+		entityFriendlySkins[TOD_SUNSET] = castImage(entityFriendlySkins[TOD_DAYTIME], TOD_SUNSET_COLOR);
+
 		try{
 			skySkins = new BufferedImage[]{
 					optimizedImage("/Images/Sky/sun.png"),	//Sun Image [0]
@@ -97,25 +115,18 @@ public class LoadResources extends JavaGame implements Runnable{
 					optimizedImage("/Images/Sky/sunrise50.png"), //sunrise 50% opacity [4]
 					optimizedImage("/Images/Sky/dark70.png"), //dark 70% opacity [5]
 					optimizedImage("/Images/Sky/dark60.png") //dark 60% opacity [6]
-					
+
 			};
 		}catch(IOException e){
 			System.out.println("Error loading skySkins");
 		}
-		
+
+		/*
 		skyTransparency = new BufferedImage[150];
 			for(int i = 0; i < skyTransparency.length; i++)
 				skyTransparency[i] = genPixel(new Color(0, 0, 0, i));
-		
-		try{
-			entityFriendlySkins = new BufferedImage[]{		
-					optimizedImage("/Images/pig.png"),
-					optimizedImage("/Images/fox.png")
-			};
-		}catch(IOException e){
-			System.out.println("Error loading enemySkins");
-		}
-		
+		 */
+
 		try{
 			HUDIcons = new BufferedImage[2];
 			HUDIcons[HUD_HEART] = optimizedImage("/Images/HUD/heart.png");
@@ -124,7 +135,7 @@ public class LoadResources extends JavaGame implements Runnable{
 			System.out.println("Error loading HUDIcons");
 		}
 	}
-	
+
 	//optimize images for current system
 	private BufferedImage optimizedImage(String resourceName) throws IOException
 	{
@@ -151,7 +162,8 @@ public class LoadResources extends JavaGame implements Runnable{
 		// return the new optimized image
 		return new_image; 
 	}
-	
+
+	/*
 	//create buffered pixels
 	private BufferedImage genPixel(Color color){
 		BufferedImage pixel = gfx_config.createCompatibleImage(1, 1, Transparency.TRANSLUCENT);
@@ -161,27 +173,66 @@ public class LoadResources extends JavaGame implements Runnable{
 		g.dispose();
 		return pixel;
 	}
+*/
 	
-	private BufferedImage[] castTiles(BufferedImage[] origTiles, Color color){
-		BufferedImage[] newTiles = new BufferedImage[origTiles.length];
-		
-		for(int i=0; i < origTiles.length; i++){
+	private BufferedImage[] castImage(BufferedImage[] origImage, Color color){
+		BufferedImage[] newTiles = new BufferedImage[origImage.length];
+
+		for(int i=0; i < origImage.length; i++){
 			//initialize new BufferedImage in array space
 			newTiles[i] = gfx_config.createCompatibleImage(
-					origTiles[i].getWidth(), origTiles[i].getHeight(), origTiles[i].getTransparency());
-			
+					origImage[i].getWidth(), origImage[i].getHeight(), origImage[i].getTransparency());
+
 			//get graphics from new tile to draw on
 			Graphics g = newTiles[i].getGraphics();
-			
+
 			//copy original tile to new tile
-			g.drawImage(origTiles[i], 0, 0, null);
-			
+			g.drawImage(origImage[i], 0, 0, null);
+
 			//add colour overlay
 			g.setColor(color);
 			g.fillRect(0, 0, newTiles[i].getWidth(), newTiles[i].getHeight());
 			g.dispose();
 		}
-		
+
 		return newTiles;
+	}
+
+	private Animation[] castImage(Animation[] origAnim, Color color){
+		Animation[] newAnim = new Animation[origAnim.length];
+		BufferedImage newImage = null;
+
+		for(int i=0; i < origAnim.length; i++){
+			//initialize new BufferedImage in array space
+			newImage = gfx_config.createCompatibleImage(
+					origAnim[i].getImage().getWidth(), 
+					origAnim[i].getImage().getHeight(), 
+					origAnim[i].getImage().getTransparency());
+
+			//get graphics from new tile to draw on
+			Graphics g = newImage.getGraphics();
+
+			//copy original tile to new tile
+			g.drawImage(origAnim[i].getImage(), 0, 0, null);
+
+			//add colour overlay
+			g.setColor(color);
+			g.fillRect(0, 0, newImage.getWidth(), newImage.getHeight());
+			
+			//restore transparent areas
+			for(int x = 0; x < newImage.getWidth(); x++){
+				for(int y = 0; y < newImage.getHeight(); y ++){
+					if((origAnim[i].getImage().getRGB(x, y) >> 24) == 0xff000000)
+						newImage.setRGB(x, y, origAnim[i].getImage().getRGB(x, y));
+				}
+			}
+			
+			g.dispose();
+			
+			
+			newAnim[i] = new Animation(newImage, origAnim[i].getWidth(), origAnim[i].getHeight(), origAnim[i].getFrameDelay());
+		}
+
+		return newAnim;
 	}
 }

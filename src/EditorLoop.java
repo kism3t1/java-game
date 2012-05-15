@@ -203,7 +203,7 @@ MouseMotionListener{
 		
 		//Draw friendlies
 		for (int f = 0; f < world.friendly.size(); f++) {
-			g.drawImage(entityFriendlySkins[world.friendly.get(f).getSkin()], world.friendly.get(f).getX(), world.friendly.get(f).getY(), null);
+			g.drawImage(entityFriendlySkins[TOD_DAYTIME][world.friendly.get(f).getSkin()], world.friendly.get(f).getX(), world.friendly.get(f).getY(), null);
 		}
 
 		// draw tile marker
@@ -688,7 +688,7 @@ MouseMotionListener{
 				subMenu = new JMenu("Type");
 				subMenu.setLayout(new GridLayout(0,5));
 				for(int i = 0; i < enemySkins.length; i++){
-					menuItem = new JMenuItem(new ImageIcon(enemySkins[i][0].getImage()));
+					menuItem = new JMenuItem(new ImageIcon(enemySkins[TOD_DAYTIME][i][0].getImage()));
 					menuItem.addActionListener(this);
 					menuItem.setActionCommand("ENEMY:" + Integer.toString(i));
 					subMenu.add(menuItem);
@@ -700,7 +700,7 @@ MouseMotionListener{
 			subMenu = new JMenu("Type");
 			subMenu.setLayout(new GridLayout(0,5));
 			for(int i = 0; i < entityFriendlySkins.length; i++){
-				menuItem = new JMenuItem(new ImageIcon(entityFriendlySkins[i]));
+				menuItem = new JMenuItem(new ImageIcon(entityFriendlySkins[TOD_DAYTIME][i]));
 				menuItem.addActionListener(this);
 				menuItem.setActionCommand("FRIEND:" + Integer.toString(i));
 				subMenu.add(menuItem);
@@ -864,7 +864,7 @@ MouseMotionListener{
 						"Enter new enemy health value (whole number only)", 
 						"Enemy Health", 
 						JOptionPane.PLAIN_MESSAGE, 
-						new ImageIcon(enemySkins[world.getEnemy(enemyID).getSkin()][0].getImage()),
+						new ImageIcon(enemySkins[TOD_DAYTIME][world.getEnemy(enemyID).getSkin()][0].getImage()),
 						null,
 						world.getEnemy(enemyID).getHealth()).toString());
 				world.getEnemy(enemyID).setHealth(i);
@@ -904,7 +904,7 @@ MouseMotionListener{
 						"Enter new enemy health value (whole number only)", 
 						"Enemy Health", 
 						JOptionPane.PLAIN_MESSAGE, 
-						new ImageIcon(enemySkins[world.getFriendly(friendlyID).getSkin()][0].getImage()),
+						new ImageIcon(enemySkins[TOD_DAYTIME][world.getFriendly(friendlyID).getSkin()][0].getImage()),
 						null,
 						world.getFriendly(friendlyID).getHealth()).toString());
 				world.getFriendly(friendlyID).setHealth(i);

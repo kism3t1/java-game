@@ -26,8 +26,8 @@ public class Enemy extends JavaGame implements Serializable {
 		this.skin = skin;
 		this.x = x;
 		this.y = y;
-		width = enemySkins[skin][0].getWidth();
-		height = enemySkins[skin][0].getHeight();
+		width = enemySkins[TOD_DAYTIME][skin][0].getWidth();
+		height = enemySkins[TOD_DAYTIME][skin][0].getHeight();
 		this.id = id;
 		speed = 1;
 		health = 3;
@@ -132,7 +132,7 @@ public class Enemy extends JavaGame implements Serializable {
 	}
 	
 	public void draw(Graphics g){
-		g.drawImage(enemySkins[skin][animState].nextFrame(), x, y, null);
+		g.drawImage(enemySkins[gameTime.checkDateTime()][skin][animState].nextFrame(), x, y, null);
 	}
 
 }

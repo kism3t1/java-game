@@ -67,8 +67,16 @@ public class Animation extends JavaGame implements Serializable{
 		return frameHeight;
 	}
 	
+	public int getFrameDelay(){
+		return frameDelay;
+	}
+	
 	public BufferedImage getImage(){
 		return img;
+	}
+	
+	public void setImage(BufferedImage img){
+		this.img = img;
 	}
 
 }

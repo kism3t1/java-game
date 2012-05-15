@@ -163,7 +163,7 @@ MouseMotionListener{
 		
 		//Draw friendlies
 		for (int i = 0; i < world.friendly.size(); i++) {
-			g.drawImage(entityFriendlySkins[world.friendly.get(i).getSkin()], world.friendly.get(i).getX(), world.friendly.get(i).getY(), null);
+			g.drawImage(entityFriendlySkins[gameTime.checkDateTime()][world.friendly.get(i).getSkin()], world.friendly.get(i).getX(), world.friendly.get(i).getY(), null);
 		}
 		
 		/*	

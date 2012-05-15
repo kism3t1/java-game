@@ -1,4 +1,5 @@
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 
@@ -29,6 +30,11 @@ public class JavaGame {
 	public static final transient int TOD_SUNSET = 2;
 	public static final transient int TOD_NIGHT = 3;
 	
+	//Time of day color casts
+	public static final transient Color TOD_NIGHT_COLOR = new Color(0, 0, 50, 150);
+	public static final transient Color TOD_SUNRISE_COLOR = new Color(0, 0, 50, 75);
+	public static final transient Color TOD_SUNSET_COLOR = new Color(0, 0, 50, 75);
+	
 	//HUD icon ID's
 	public static transient final int HUD_HEART = 0;
 	public static transient final int HUD_SWORD = 1;
@@ -43,9 +49,9 @@ public class JavaGame {
 	
 	public static transient BufferedImage[] HUDIcons;
 	
-	public static transient Animation[][] enemySkins;
-	public static transient Animation[] entitySkins;
-	public static transient BufferedImage[] entityFriendlySkins;
+	public static transient Animation[][][] enemySkins;
+	public static transient Animation[][] entitySkins;
+	public static transient BufferedImage[][] entityFriendlySkins;
 	
 	public static transient CollisionDetection collisionDetection = new CollisionDetection();
 

@@ -27,8 +27,8 @@ public class Entity extends JavaGame implements Serializable {
 		skin = 0;
 		health = 5;
 		armour = 4;
-		width = entitySkins[skin].getWidth();
-		height = entitySkins[skin].getHeight();
+		width = entitySkins[TOD_DAYTIME][skin].getWidth();
+		height = entitySkins[TOD_DAYTIME][skin].getHeight();
 		x = tileWidth * 2;		//default position
 		y = tileHeight * 2;	//at tile 1,1
 		speed = 5;
@@ -43,8 +43,8 @@ public class Entity extends JavaGame implements Serializable {
 		this.y = y;
 		health = 5;
 		armour = 4;
-		width = entitySkins[skin].getWidth();
-		height = entitySkins[skin].getHeight();
+		width = entitySkins[TOD_DAYTIME][skin].getWidth();
+		height = entitySkins[TOD_DAYTIME][skin].getHeight();
 		speed = 5;
 		state = STATE_NORMAL;
 		animState = ANIM_STILL;
@@ -223,7 +223,7 @@ public class Entity extends JavaGame implements Serializable {
 			break;	
 		}
 		if(visible)
-			g.drawImage(entitySkins[animState].nextFrame(), x, y, null);
+			g.drawImage(entitySkins[gameTime.checkDateTime()][animState].nextFrame(), x, y, null);
 	}
 
 }

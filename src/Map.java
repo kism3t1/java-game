@@ -16,7 +16,7 @@ public class Map extends JavaGame implements Serializable {
 	Tile[][] TileSet; // array to hold tiles and form level map
 
 	public Map(int width, int height,
-			boolean isVisible, int borderSkin) { // Map constructor
+			boolean populate, int borderSkin) { // Map constructor
 		this.width = width;
 		this.height = height;
 
@@ -24,12 +24,25 @@ public class Map extends JavaGame implements Serializable {
 											// size
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
+				/*
 				TileSet[x][y] = new Tile();
 				TileSet[x][y].setVisible(isVisible);
 				
 				if(x == 0 || y == 0 || x == width-1 || y == height-1){
 					TileSet[x][y].setSkin(borderSkin);
 					TileSet[x][y].setVisible(true);
+					TileSet[x][y].setDestructible(false);
+				}
+				*/
+				
+				if(populate)
+					TileSet[x][y] = new Tile();
+				
+				if(x == 0 || y == 0 || x == width-1 || y == height-1){
+					if(TileSet[x][y] == null)
+						TileSet[x][y] = new Tile();
+					
+					TileSet[x][y].setSkin(borderSkin);
 					TileSet[x][y].setDestructible(false);
 				}
 			}
@@ -46,10 +59,13 @@ public class Map extends JavaGame implements Serializable {
 
 	public void changeTile(int tileX, int tileY, byte bSkin, byte bHealth,
 			boolean isDestructible, boolean isVisible) {
+		
+		if(TileSet[tileX][tileY] == null)
+			TileSet[tileX][tileY] = new Tile();
+		
 		TileSet[tileX][tileY].setSkin(bSkin);
 		TileSet[tileX][tileY].setHealth(bHealth);
 		TileSet[tileX][tileY].setDestructible(isDestructible);
-		TileSet[tileX][tileY].setVisible(isVisible);
 	}
 	
 	public void changeBorder(int borderSkin)
@@ -58,7 +74,6 @@ public class Map extends JavaGame implements Serializable {
 			for (int y = 0; y < height; y++) {
 				if(x == 0 || y == 0 || x == width - 1 || y == height - 1){
 					TileSet[x][y].setSkin(borderSkin);
-					TileSet[x][y].setVisible(true);
 					TileSet[x][y].setDestructible(false);
 				}
 			}
@@ -77,7 +92,7 @@ public class Map extends JavaGame implements Serializable {
 			for(int y = 0; y <= screenTilesHigh+1; y++){
 				if(x + mapX >= 0 && x + mapX < TileSet.length && y + mapY >= 0 && y + mapY < TileSet[0].length)
 				{
-					if(TileSet[x + mapX][y + mapY].isVisible()){
+					if(TileSet[x + mapX][y + mapY] != null){
 						TileSet[x + mapX][y + mapY].setPos((x * tileWidth) - mapXoff, (y * tileHeight) - mapYoff);
 						g.drawImage(tileSkins[TileSet[x + mapX][y + mapY].getSkin()], TileSet[x + mapX][y + mapY].getX(), TileSet[x + mapX][y + mapY].getY(), null);
 					}

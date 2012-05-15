@@ -36,7 +36,7 @@ public class CollisionDetection extends JavaGame{
 					+ xOffset; tx++) {
 				for (int ty = yOffset; ty < screenTilesHigh
 						+ yOffset; ty++) {
-					if (world.wallMap.TileSet[tx][ty].isVisible()) {
+					if (world.wallMap.TileSet[tx][ty] != null) {
 						r2 = world.wallMap.TileSet[tx][ty].getBounds();
 
 						if (r1.intersects(r2)) { // Checks if entity collides
@@ -74,7 +74,7 @@ public class CollisionDetection extends JavaGame{
 				+ xOffset; tx++) {
 			for (int ty = yOffset; ty < screenTilesHigh
 					+ yOffset; ty++) {
-				if (world.wallMap.TileSet[tx][ty].isVisible()) {
+				if (world.wallMap.TileSet[tx][ty] != null) {
 					r2 = world.wallMap.TileSet[tx][ty].getBounds();
 
 					if (r1.intersects(r2)) { // Checks if entity collides

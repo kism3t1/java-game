@@ -172,7 +172,7 @@ MouseMotionListener{
 		if(!exclusiveLayer || marker.getLevel() == LEVEL_FLOOR){
 			for (int x = xOffset; x < tileToX; x++) {
 				for (int y = yOffset; y < tileToY; y++) {
-					if (world.floorMap.TileSet[x][y].isVisible()) {
+					if (world.floorMap.TileSet[x][y] != null) {
 						world.floorMap.TileSet[x][y].setPos((x - xOffset) * tileWidth, (y - yOffset) * tileHeight);
 						g.drawImage(tileSkins[world.floorMap.TileSet[x][y].getSkin()],
 								world.floorMap.TileSet[x][y].getX(), world.floorMap.TileSet[x][y].getY(),
@@ -185,7 +185,7 @@ MouseMotionListener{
 		if(!exclusiveLayer || marker.getLevel() == LEVEL_WALL){
 			for (int x = xOffset; x < tileToX; x++) {
 				for (int y = yOffset; y < tileToY; y++) {
-					if (world.wallMap.TileSet[x][y].isVisible()) {
+					if (world.wallMap.TileSet[x][y] != null) {
 						world.wallMap.TileSet[x][y].setPos((x - xOffset) * tileWidth, (y - yOffset) * tileHeight);
 						g.drawImage(tileSkins[world.wallMap.TileSet[x][y].getSkin()],
 								world.wallMap.TileSet[x][y].getX(), world.wallMap.TileSet[x][y].getY(),
@@ -250,8 +250,8 @@ MouseMotionListener{
 
 			for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
 				for (int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++) {
-					if (!m.TileSet[x][y].isVisible())
-						m.TileSet[x][y].setVisible(true);
+					if (m.TileSet[x][y] == null)
+						m.TileSet[x][y] = new Tile();
 					m.TileSet[x][y].setSkin(nextSkin);
 				}
 			}
@@ -277,8 +277,8 @@ MouseMotionListener{
 
 			for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
 				for (int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++) {
-					if (!m.TileSet[x][y].isVisible())
-						m.TileSet[x][y].setVisible(true);
+					if (m.TileSet[x][y] == null)
+						m.TileSet[x][y] = new Tile();
 					m.TileSet[x][y].setSkin(nextSkin);
 				}
 			}
@@ -294,8 +294,8 @@ MouseMotionListener{
 
 		for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
 			for (int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++) {
-				if (!m.TileSet[x][y].isVisible())
-					m.TileSet[x][y].setVisible(true);
+				if (m.TileSet[x][y] == null)
+					m.TileSet[x][y] = new Tile();
 				m.TileSet[x][y].setSkin(skin);
 			}
 		}
@@ -303,14 +303,15 @@ MouseMotionListener{
 		writeCurrentMap(m);
 	}
 
-	private void toggleTileVisible() {
+	private void deleteTile() {
 		if(marker.getLevel() == LEVEL_WALL){
 			if (System.currentTimeMillis() - keyLastProcessed > KEY_DELAY) {
 				Map m = readCurrentMap();
 
 				for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
 					for (int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++) {
-						m.TileSet[x][y].toggleVisibility();
+						if(m.TileSet[x][y] != null)
+							m.TileSet[x][y] = null;
 					}
 				}
 				writeCurrentMap(m);
@@ -581,8 +582,9 @@ MouseMotionListener{
 			case KeyEvent.VK_X: // previous tile
 				previousTile();
 				break;
-			case KeyEvent.VK_DELETE: // toggle tile visibility
-				toggleTileVisible();
+			case KeyEvent.VK_DELETE: // delete tiles
+				if(marker.getLevel() == LEVEL_WALL)
+					deleteTile();
 				break;
 			case KeyEvent.VK_PAGE_UP: // edit wall map
 				marker.changeLevel(JavaGame.LEVEL_WALL);
@@ -654,21 +656,20 @@ MouseMotionListener{
 				case LEVEL_FLOOR:
 					break;
 				case LEVEL_WALL:
-					cbMenuItem = new JCheckBoxMenuItem("Visible");
-					cbMenuItem.setSelected(readCurrentMap().TileSet
-							[marker.getFirstTileX()][marker.getFirstTileY()]
-									.isVisible());
-					cbMenuItem.setActionCommand("VISIBLE");
-					cbMenuItem.addActionListener(this);
-					menu.add(cbMenuItem);
+					if(readCurrentMap().TileSet[marker.getFirstTileX()][marker.getFirstTileY()]!= null){
+						menuItem = new JCheckBoxMenuItem("Delete");
+						menuItem.setActionCommand("DELETE");
+						menuItem.addActionListener(this);
+						menu.add(menuItem);
 					
-					cbMenuItem = new JCheckBoxMenuItem("Destructible");
-					cbMenuItem.setSelected(readCurrentMap().TileSet
-							[marker.getFirstTileX()][marker.getFirstTileY()]
-									.isDestructible());
-					cbMenuItem.setActionCommand("DESTRUCT");
-					cbMenuItem.addActionListener(this);
-					menu.add(cbMenuItem);
+						cbMenuItem = new JCheckBoxMenuItem("Destructible");
+						cbMenuItem.setSelected(readCurrentMap().TileSet
+								[marker.getFirstTileX()][marker.getFirstTileY()]
+										.isDestructible());
+						cbMenuItem.setActionCommand("DESTRUCT");
+						cbMenuItem.addActionListener(this);
+						menu.add(cbMenuItem);
+					}
 					break;
 				}
 				
@@ -801,8 +802,8 @@ MouseMotionListener{
 			case "DESTRUCT":
 				toggleTileDestructible();
 				break;
-			case "VISIBLE":
-				toggleTileVisible();
+			case "DELETE":
+				deleteTile();
 				break;
 			case "ENEMY":
 				for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {

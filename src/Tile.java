@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author LosOjos
  */
 
-public class Tile implements Serializable {
+public class Tile extends JavaGame implements Serializable {
 
 	/**
 	 * 
@@ -19,7 +19,6 @@ public class Tile implements Serializable {
 	private static final long serialVersionUID = 6973028747019539127L;
 	// initialize Tile fields
 	private boolean destructible;
-	private boolean visible;
 
 	private int skin;
 	private int health;
@@ -31,15 +30,12 @@ public class Tile implements Serializable {
 		skin = 0;
 		health = 3;
 		destructible = false;
-		visible = true;
 	}
 
-	public Tile(byte bSkin, byte bHealth, boolean isDestructible,
-			boolean isWall, boolean isVisible) { // customisable contructor
+	public Tile(byte bSkin, byte bHealth, boolean isDestructible) { // customisable contructor
 		skin = bSkin;
 		health = bHealth;
 		destructible = isDestructible;
-		visible = isVisible;
 	}
 
 	public boolean isDestructible() { // returns destructible field
@@ -52,18 +48,6 @@ public class Tile implements Serializable {
 	
 	public void toggleDestructible() {
 		destructible = !destructible;
-	}
-
-	public boolean isVisible() { // returns visible field
-		return visible;
-	}
-
-	public void setVisible(boolean isVisible) {
-		visible = isVisible;
-	}
-
-	public void toggleVisibility() {
-		visible = !visible;
 	}
 
 	public int getHealth() {
@@ -111,6 +95,6 @@ public class Tile implements Serializable {
 	}
 
 	public Rectangle getBounds() { // Get bounds for collision detection
-		return new Rectangle(x, y, 32, 32); // 32, 32 size of tile
+		return new Rectangle(x, y, tileWidth, tileHeight); // 32, 32 size of tile
 	}
 }

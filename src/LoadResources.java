@@ -34,9 +34,9 @@ public class LoadResources extends JavaGame implements Runnable{
 		}
 
 		//generate alternate tile skins
-		tileSkins[TOD_NIGHT] = castImage(tileSkins[TOD_DAYTIME], TOD_NIGHT_COLOR);
-		tileSkins[TOD_SUNRISE] = castImage(tileSkins[TOD_DAYTIME], TOD_SUNRISE_COLOR);
-		tileSkins[TOD_SUNSET] = castImage(tileSkins[TOD_DAYTIME], TOD_SUNSET_COLOR);
+		tileSkins[TOD_NIGHT] = castImageArray(tileSkins[TOD_DAYTIME], TOD_NIGHT_COLOR);
+		tileSkins[TOD_SUNRISE] = castImageArray(tileSkins[TOD_DAYTIME], TOD_SUNRISE_COLOR);
+		tileSkins[TOD_SUNSET] = castImageArray(tileSkins[TOD_DAYTIME], TOD_SUNSET_COLOR);
 
 		try{
 			enemySkins = new Animation[4][3][6];
@@ -69,9 +69,9 @@ public class LoadResources extends JavaGame implements Runnable{
 
 		//generate alternate enemy skins
 		for(int i=0; i < enemySkins[0].length; i ++){
-			enemySkins[TOD_NIGHT][i] = castImage(enemySkins[TOD_DAYTIME][i], TOD_NIGHT_COLOR);
-			enemySkins[TOD_SUNRISE][i] = castImage(enemySkins[TOD_DAYTIME][i], TOD_SUNRISE_COLOR);
-			enemySkins[TOD_SUNSET][i] = castImage(enemySkins[TOD_DAYTIME][i], TOD_SUNSET_COLOR);
+			enemySkins[TOD_NIGHT][i] = castImageArray(enemySkins[TOD_DAYTIME][i], TOD_NIGHT_COLOR);
+			enemySkins[TOD_SUNRISE][i] = castImageArray(enemySkins[TOD_DAYTIME][i], TOD_SUNRISE_COLOR);
+			enemySkins[TOD_SUNSET][i] = castImageArray(enemySkins[TOD_DAYTIME][i], TOD_SUNSET_COLOR);
 		}
 
 		try{
@@ -87,9 +87,9 @@ public class LoadResources extends JavaGame implements Runnable{
 		}
 
 		//generate alternate entity skins
-		entitySkins[TOD_NIGHT] = castImage(entitySkins[TOD_DAYTIME], TOD_NIGHT_COLOR);
-		entitySkins[TOD_SUNRISE] = castImage(entitySkins[TOD_DAYTIME], TOD_SUNRISE_COLOR);
-		entitySkins[TOD_SUNSET] = castImage(entitySkins[TOD_DAYTIME], TOD_SUNSET_COLOR);
+		entitySkins[TOD_NIGHT] = castImageArray(entitySkins[TOD_DAYTIME], TOD_NIGHT_COLOR);
+		entitySkins[TOD_SUNRISE] = castImageArray(entitySkins[TOD_DAYTIME], TOD_SUNRISE_COLOR);
+		entitySkins[TOD_SUNSET] = castImageArray(entitySkins[TOD_DAYTIME], TOD_SUNSET_COLOR);
 
 		try{
 			entityFriendlySkins = new BufferedImage[4][];
@@ -102,9 +102,9 @@ public class LoadResources extends JavaGame implements Runnable{
 		}
 
 		//generate alternate entity skins
-		entityFriendlySkins[TOD_NIGHT] = castImage(entityFriendlySkins[TOD_DAYTIME], TOD_NIGHT_COLOR);
-		entityFriendlySkins[TOD_SUNRISE] = castImage(entityFriendlySkins[TOD_DAYTIME], TOD_SUNRISE_COLOR);
-		entityFriendlySkins[TOD_SUNSET] = castImage(entityFriendlySkins[TOD_DAYTIME], TOD_SUNSET_COLOR);
+		entityFriendlySkins[TOD_NIGHT] = castImageArray(entityFriendlySkins[TOD_DAYTIME], TOD_NIGHT_COLOR);
+		entityFriendlySkins[TOD_SUNRISE] = castImageArray(entityFriendlySkins[TOD_DAYTIME], TOD_SUNRISE_COLOR);
+		entityFriendlySkins[TOD_SUNSET] = castImageArray(entityFriendlySkins[TOD_DAYTIME], TOD_SUNSET_COLOR);
 
 		try{
 			skySkins = new BufferedImage[]{
@@ -175,64 +175,50 @@ public class LoadResources extends JavaGame implements Runnable{
 	}
 */
 	
-	private BufferedImage[] castImage(BufferedImage[] origImage, Color color){
+	private BufferedImage[] castImageArray(BufferedImage[] origImage, Color color){
 		BufferedImage[] newTiles = new BufferedImage[origImage.length];
 
-		for(int i=0; i < origImage.length; i++){
-			//initialize new BufferedImage in array space
-			newTiles[i] = gfx_config.createCompatibleImage(
-					origImage[i].getWidth(), origImage[i].getHeight(), origImage[i].getTransparency());
-
-			//get graphics from new tile to draw on
-			Graphics g = newTiles[i].getGraphics();
-
-			//copy original tile to new tile
-			g.drawImage(origImage[i], 0, 0, null);
-
-			//add colour overlay
-			g.setColor(color);
-			g.fillRect(0, 0, newTiles[i].getWidth(), newTiles[i].getHeight());
-			g.dispose();
-		}
+		for(int i=0; i < origImage.length; i++)
+			newTiles[i] = castImage(origImage[i], color);
 
 		return newTiles;
 	}
 
-	private Animation[] castImage(Animation[] origAnim, Color color){
+	private Animation[] castImageArray(Animation[] origAnim, Color color){
 		Animation[] newAnim = new Animation[origAnim.length];
-		BufferedImage newImage = null;
 
-		for(int i=0; i < origAnim.length; i++){
-			//initialize new BufferedImage in array space
-			newImage = gfx_config.createCompatibleImage(
-					origAnim[i].getImage().getWidth(), 
-					origAnim[i].getImage().getHeight(), 
-					origAnim[i].getImage().getTransparency());
-
-			//get graphics from new tile to draw on
-			Graphics g = newImage.getGraphics();
-
-			//copy original tile to new tile
-			g.drawImage(origAnim[i].getImage(), 0, 0, null);
-
-			//add colour overlay
-			g.setColor(color);
-			g.fillRect(0, 0, newImage.getWidth(), newImage.getHeight());
-			
-			//restore transparent areas
-			for(int x = 0; x < newImage.getWidth(); x++){
-				for(int y = 0; y < newImage.getHeight(); y ++){
-					if((origAnim[i].getImage().getRGB(x, y) >> 24) == 0xff000000)
-						newImage.setRGB(x, y, origAnim[i].getImage().getRGB(x, y));
-				}
-			}
-			
-			g.dispose();
-			
-			
-			newAnim[i] = new Animation(newImage, origAnim[i].getWidth(), origAnim[i].getHeight(), origAnim[i].getFrameDelay());
-		}
+		for(int i=0; i < origAnim.length; i++)
+			newAnim[i] = new Animation(castImage(origAnim[i].getImage(), color), origAnim[i].getWidth(), origAnim[i].getHeight(), origAnim[i].getFrameDelay());
 
 		return newAnim;
+	}
+	
+	private BufferedImage castImage(BufferedImage origImage, Color color){
+		//initialize new BufferedImage in array space
+		BufferedImage newImage = gfx_config.createCompatibleImage(
+				origImage.getWidth(), origImage.getHeight(), origImage.getTransparency());
+
+		//get graphics from new tile to draw on
+		Graphics g = newImage.getGraphics();
+
+		//copy original tile to new tile
+		g.drawImage(origImage, 0, 0, null);
+
+		//add colour overlay
+		g.setColor(color);
+		g.fillRect(0, 0, newImage.getWidth(), newImage.getHeight());
+		
+		//restore transparent areas
+		for(int x = 0; x < newImage.getWidth(); x++){
+			for(int y = 0; y < newImage.getHeight(); y ++){
+				//System.out.println(origAnim[i].getImage().getRGB(x, y));
+				if(origImage.getRGB(x, y) == 0)
+					newImage.setRGB(x, y, origImage.getRGB(x, y));
+			}
+		}
+		
+		g.dispose();
+		
+		return newImage;
 	}
 }

@@ -24,6 +24,26 @@ public class GameTime extends JavaGame {
 		return gameTime;
 	}
 	
+	public void setTime(int TimeOfDay){
+		switch(TimeOfDay){
+		case TOD_DAYTIME:
+			gameTime = MINUTES_IN_HOUR * 8;	//set time to 0800
+			break;
+		case TOD_SUNSET:
+			gameTime = MINUTES_IN_HOUR * 16; //set time to 1600
+			break;
+		case TOD_NIGHT:
+			gameTime = MINUTES_IN_HOUR * 21; //set time to 2100
+			break;
+		case TOD_SUNRISE:
+			gameTime = MINUTES_IN_HOUR * 4;	//set time to 0400
+			break;
+		default:
+			gameTime = MINUTES_IN_HOUR * 8;	//incorrect value passed, default to 0800
+			break;
+		}
+	}
+	
 	//Increase game time by a minute
 	
 	protected void increase(){
@@ -37,11 +57,11 @@ public class GameTime extends JavaGame {
 	
 	public int checkDateTime() {
 		int hour = getHour();
-		if (hour > 21 || hour < 4)
+		if (hour >= 21 || hour < 4)
 			return TOD_NIGHT;
-		else if (hour > 16)
+		else if (hour >= 16)
 			return TOD_SUNSET;
-		else if (hour > 8)
+		else if (hour >= 8)
 			return TOD_DAYTIME;
 		else
 			return TOD_SUNRISE;

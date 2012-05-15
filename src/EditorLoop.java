@@ -92,6 +92,8 @@ MouseMotionListener{
 		cycleTime = System.currentTimeMillis();
 		gui.createBufferStrategy(2);				//2 = double buffer
 		BufferStrategy strategy = gui.getBufferStrategy();
+		
+		gameTime.setTime(TOD_DAYTIME);	//default editor to daytime
 
 		//game loop
 		while(isRunning){
@@ -174,7 +176,7 @@ MouseMotionListener{
 				for (int y = yOffset; y < tileToY; y++) {
 					if (world.floorMap.TileSet[x][y] != null) {
 						world.floorMap.TileSet[x][y].setPos((x - xOffset) * tileWidth, (y - yOffset) * tileHeight);
-						g.drawImage(tileSkins[TOD_DAYTIME][world.floorMap.TileSet[x][y].getSkin()],
+						g.drawImage(tileSkins[gameTime.checkDateTime()][world.floorMap.TileSet[x][y].getSkin()],
 								world.floorMap.TileSet[x][y].getX(), world.floorMap.TileSet[x][y].getY(),
 								null);
 					}
@@ -187,7 +189,7 @@ MouseMotionListener{
 				for (int y = yOffset; y < tileToY; y++) {
 					if (world.wallMap.TileSet[x][y] != null) {
 						world.wallMap.TileSet[x][y].setPos((x - xOffset) * tileWidth, (y - yOffset) * tileHeight);
-						g.drawImage(tileSkins[TOD_DAYTIME][world.wallMap.TileSet[x][y].getSkin()],
+						g.drawImage(tileSkins[gameTime.checkDateTime()][world.wallMap.TileSet[x][y].getSkin()],
 								world.wallMap.TileSet[x][y].getX(), world.wallMap.TileSet[x][y].getY(),
 								null);
 					}
@@ -203,7 +205,7 @@ MouseMotionListener{
 		
 		//Draw friendlies
 		for (int f = 0; f < world.friendly.size(); f++) {
-			g.drawImage(entityFriendlySkins[TOD_DAYTIME][world.friendly.get(f).getSkin()], world.friendly.get(f).getX(), world.friendly.get(f).getY(), null);
+			g.drawImage(entityFriendlySkins[gameTime.checkDateTime()][world.friendly.get(f).getSkin()], world.friendly.get(f).getX(), world.friendly.get(f).getY(), null);
 		}
 
 		// draw tile marker
@@ -675,8 +677,8 @@ MouseMotionListener{
 				
 				subMenu = new JMenu("Skin");
 				subMenu.setLayout(new GridLayout(0,5));
-				for(int i = 0; i < tileSkins.length; i++){
-					menuItem = new JMenuItem(new ImageIcon(tileSkins[TOD_DAYTIME][i]));
+				for(int i = 0; i < tileSkins[0].length; i++){
+					menuItem = new JMenuItem(new ImageIcon(tileSkins[gameTime.checkDateTime()][i]));
 					menuItem.addActionListener(this);
 					menuItem.setActionCommand("TILE:" + Integer.toString(i));
 					subMenu.add(menuItem);
@@ -687,8 +689,8 @@ MouseMotionListener{
 			menu = new JMenu("Add Enemy");
 				subMenu = new JMenu("Type");
 				subMenu.setLayout(new GridLayout(0,5));
-				for(int i = 0; i < enemySkins.length; i++){
-					menuItem = new JMenuItem(new ImageIcon(enemySkins[TOD_DAYTIME][i][0].getImage()));
+				for(int i = 0; i < enemySkins[0].length; i++){
+					menuItem = new JMenuItem(new ImageIcon(enemySkins[gameTime.checkDateTime()][i][0].getImage()));
 					menuItem.addActionListener(this);
 					menuItem.setActionCommand("ENEMY:" + Integer.toString(i));
 					subMenu.add(menuItem);
@@ -699,8 +701,8 @@ MouseMotionListener{
 			menu = new JMenu("Add Friendly");
 			subMenu = new JMenu("Type");
 			subMenu.setLayout(new GridLayout(0,5));
-			for(int i = 0; i < entityFriendlySkins.length; i++){
-				menuItem = new JMenuItem(new ImageIcon(entityFriendlySkins[TOD_DAYTIME][i]));
+			for(int i = 0; i < entityFriendlySkins[0].length; i++){
+				menuItem = new JMenuItem(new ImageIcon(entityFriendlySkins[gameTime.checkDateTime()][i]));
 				menuItem.addActionListener(this);
 				menuItem.setActionCommand("FRIEND:" + Integer.toString(i));
 				subMenu.add(menuItem);
@@ -726,9 +728,9 @@ MouseMotionListener{
 				menuItem.setEnabled(false);
 				menu.add(menuItem);
 				
-				ButtonGroup group = new ButtonGroup();
+				ButtonGroup levelGroup = new ButtonGroup();
 				rbMenuItem = new JRadioButtonMenuItem("Floor");
-				group.add(rbMenuItem);
+				levelGroup.add(rbMenuItem);
 				if(marker.getLevel() == LEVEL_FLOOR)
 					rbMenuItem.setSelected(true);
 				rbMenuItem.setActionCommand("LEVEL:" + LEVEL_FLOOR);
@@ -736,7 +738,7 @@ MouseMotionListener{
 				menu.add(rbMenuItem);
 				
 				rbMenuItem = new JRadioButtonMenuItem("Wall");
-				group.add(rbMenuItem);
+				levelGroup.add(rbMenuItem);
 				if(marker.getLevel() == LEVEL_WALL)
 					rbMenuItem.setSelected(true);
 				rbMenuItem.setActionCommand("LEVEL:" + LEVEL_WALL);
@@ -745,10 +747,49 @@ MouseMotionListener{
 				
 				menu.addSeparator();
 				
+				menuItem = new JMenuItem("Time Of Day Preview:");
+				menuItem.setEnabled(false);
+				menu.add(menuItem);
+				
+				ButtonGroup todGroup = new ButtonGroup();
+				rbMenuItem = new JRadioButtonMenuItem("Daytime");
+				todGroup.add(rbMenuItem);
+				if(gameTime.checkDateTime() == TOD_DAYTIME)
+					rbMenuItem.setSelected(true);
+				rbMenuItem.setActionCommand("TOD:" + TOD_DAYTIME);
+				rbMenuItem.addActionListener(this);
+				menu.add(rbMenuItem);
+				
+				rbMenuItem = new JRadioButtonMenuItem("Sunrise");
+				todGroup.add(rbMenuItem);
+				if(gameTime.checkDateTime() == TOD_SUNRISE)
+					rbMenuItem.setSelected(true);
+				rbMenuItem.setActionCommand("TOD:" + TOD_SUNRISE);
+				rbMenuItem.addActionListener(this);
+				menu.add(rbMenuItem);
+				
+				rbMenuItem = new JRadioButtonMenuItem("Sunset");
+				todGroup.add(rbMenuItem);
+				if(gameTime.checkDateTime() == TOD_SUNSET)
+					rbMenuItem.setSelected(true);
+				rbMenuItem.setActionCommand("TOD:" + TOD_SUNSET);
+				rbMenuItem.addActionListener(this);
+				menu.add(rbMenuItem);
+				
+				rbMenuItem = new JRadioButtonMenuItem("Night");
+				todGroup.add(rbMenuItem);
+				if(gameTime.checkDateTime() == TOD_NIGHT)
+					rbMenuItem.setSelected(true);
+				rbMenuItem.setActionCommand("TOD:" + TOD_NIGHT);
+				rbMenuItem.addActionListener(this);
+				menu.add(rbMenuItem);
+				
+				menu.addSeparator();
+				
 				subMenu = new JMenu("Change Border Skin");
 				subMenu.setLayout(new GridLayout(0,5));
 					for(int i = 0; i < tileSkins.length; i++){
-						menuItem = new JMenuItem(new ImageIcon(tileSkins[TOD_DAYTIME][i]));
+						menuItem = new JMenuItem(new ImageIcon(tileSkins[gameTime.checkDateTime()][i]));
 						menuItem.addActionListener(this);
 						menuItem.setActionCommand("BORDER:" + Integer.toString(i));
 						subMenu.add(menuItem);
@@ -798,6 +839,9 @@ MouseMotionListener{
 				break;
 			case "LEVEL":
 				marker.changeLevel(Integer.parseInt(command[1]));
+				break;
+			case "TOD":
+				gameTime.setTime(Integer.parseInt(command[1]));;
 				break;
 			case "DESTRUCT":
 				toggleTileDestructible();
@@ -864,7 +908,7 @@ MouseMotionListener{
 						"Enter new enemy health value (whole number only)", 
 						"Enemy Health", 
 						JOptionPane.PLAIN_MESSAGE, 
-						new ImageIcon(enemySkins[TOD_DAYTIME][world.getEnemy(enemyID).getSkin()][0].getImage()),
+						new ImageIcon(enemySkins[gameTime.checkDateTime()][world.getEnemy(enemyID).getSkin()][0].getImage()),
 						null,
 						world.getEnemy(enemyID).getHealth()).toString());
 				world.getEnemy(enemyID).setHealth(i);
@@ -904,7 +948,7 @@ MouseMotionListener{
 						"Enter new enemy health value (whole number only)", 
 						"Enemy Health", 
 						JOptionPane.PLAIN_MESSAGE, 
-						new ImageIcon(enemySkins[TOD_DAYTIME][world.getFriendly(friendlyID).getSkin()][0].getImage()),
+						new ImageIcon(enemySkins[gameTime.checkDateTime()][world.getFriendly(friendlyID).getSkin()][0].getImage()),
 						null,
 						world.getFriendly(friendlyID).getHealth()).toString());
 				world.getFriendly(friendlyID).setHealth(i);

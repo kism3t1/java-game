@@ -162,9 +162,7 @@ MouseMotionListener{
 		world.drawEnemies(g);
 		
 		//Draw friendlies
-		for (int i = 0; i < world.friendly.size(); i++) {
-			g.drawImage(entityFriendlySkins[gameTime.checkDateTime()][world.friendly.get(i).getSkin()], world.friendly.get(i).getX(), world.friendly.get(i).getY(), null);
-		}
+		world.drawFriendly(g);
 		
 		/*	
 		 * Day night Cycle routine

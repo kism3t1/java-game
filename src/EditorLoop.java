@@ -204,9 +204,7 @@ MouseMotionListener{
 		world.drawEnemies(g);
 		
 		//Draw friendlies
-		for (int f = 0; f < world.friendly.size(); f++) {
-			g.drawImage(entityFriendlySkins[gameTime.checkDateTime()][world.friendly.get(f).getSkin()], world.friendly.get(f).getX(), world.friendly.get(f).getY(), null);
-		}
+		world.drawFriendly(g);
 
 		// draw tile marker
 		g.setColor(marker.getColor());

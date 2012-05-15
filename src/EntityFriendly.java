@@ -21,6 +21,7 @@ public class EntityFriendly extends JavaGame implements Serializable {
 	private int frame_count = 0;
 	private long frame_last;
 	private boolean visible;
+	private int theNumber;
 	
 	private EntityAIFriendly ai;
 
@@ -42,12 +43,12 @@ public class EntityFriendly extends JavaGame implements Serializable {
 	public void move() {
 		x += dx;
 		y += dy;
-		Random rn = new Random(); //New random
-		int maximum = 5000;	//maximum value
-		int minimum = 800;	//minimum value
-		int range = maximum - minimum + 1;	//Calculate the range from min & max
-		int randomNum =  rn.nextInt(range) + minimum;
-		if (System.currentTimeMillis() - dLast > randomNum) {	//Wait .8 second
+		if (ai.returnRunAway()){
+			theNumber = 500;
+		}else{
+			theNumber = ai.returnRandom();
+		}
+		if (System.currentTimeMillis() - dLast > theNumber) {	//Wait
 			ai.checklocation();			//Check for friendly in proximity
 			dx = ai.returnx();		//Get x value from AI Class
 			dy = ai.returny();		//Get y value from AI Class

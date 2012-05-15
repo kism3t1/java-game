@@ -210,5 +210,9 @@ public class World extends JavaGame implements Serializable {
 		}
 			
 	}
+	public void drawFriendly(Graphics g){
+		for(int i = 0; i < friendly.size(); i++)
+			friendly.get(i).draw(g);
+	}
 
 }

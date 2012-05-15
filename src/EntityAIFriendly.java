@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.Random;
 
 /*This is the AI class for Friendly entities/mobs
  * 
@@ -21,6 +22,8 @@ public class EntityAIFriendly extends JavaGame implements Serializable {
 	private int distanceX;
 	private int distanceY;
 	private int id;
+	private boolean runaway;
+	private int animState = ANIM_STILL;
 	
 	public EntityAIFriendly(int id){
 		this.id = id;
@@ -35,22 +38,27 @@ public class EntityAIFriendly extends JavaGame implements Serializable {
 		case 0:	//RIGHT
 			dx = speed; 
 			dy = 0;
+			animState = ANIM_WALK_RIGHT;
 			break;
 		case 1: // LEFT
 			dx = -speed;
 			dy = 0;
+			animState = ANIM_WALK_LEFT;
 			break;
 		case 2: // DOWN
 			dx = 0;
 			dy = speed;
+			animState = ANIM_WALK_DOWN;
 			break;
 		case 3: // UP
 			dx = 0;
 			dy = -speed;
+			animState = ANIM_WALK_UP;
 			break;
 		case 4: //STOP
 			dx = 0;
 			dy = 0;
+			animState = ANIM_STILL;
 		}
 	}
 	
@@ -81,23 +89,29 @@ public class EntityAIFriendly extends JavaGame implements Serializable {
 	//If enemy is < 100 tiles away from entity check locations
 	
 	public void runAway(){
+		runaway = true;
 			if (friendlyX < entityX && friendlyY < entityY){	//If friendly is to the left of entity - go left
 				dx = -speed;
 				dy = 0;		
+				animState = ANIM_WALK_LEFT;
 			}
 			else if (friendlyX > entityX && friendlyY > entityY){	//If friendly is to the right of entity - go right
 				dx = speed;
 				dy = 0;
+				animState = ANIM_WALK_RIGHT;
 			}
 			else if (friendlyY < entityY){	//If friendly is above the entity - go up
 				dx = 0; 
 				dy = -speed;
+				animState = ANIM_WALK_UP;
 			}
 			else if (friendlyY > entityY){	//If friendly is below the entity - go down
 				dx = 0;
 				dy = speed;				
+				animState = ANIM_WALK_DOWN;
 			}
 			else{
+				runaway = false;
 				randomAIDirection();
 			}
 	}
@@ -108,6 +122,23 @@ public class EntityAIFriendly extends JavaGame implements Serializable {
 	
 	public int returny(){	//Returns dy value
 		return dy;
+	}
+	
+	public int retutnAnimState(){
+		return animState;
+	}
+	
+	public int returnRandom(){
+		Random rn = new Random(); //New random
+		int maximum = 5000;	//maximum value
+		int minimum = 800;	//minimum value
+		int range = maximum - minimum + 1;	//Calculate the range from min & max
+		int randomNum =  rn.nextInt(range) + minimum;
+		return randomNum;
+	}
+	
+	public boolean returnRunAway(){
+		return runaway;
 	}
 
 }

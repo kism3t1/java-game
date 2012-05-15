@@ -18,6 +18,7 @@ public class EntityAIEnemy extends JavaGame implements Serializable {
 	private int distanceY;
 	private int id;
 	private boolean attack;
+	private int animState = ANIM_STILL;
 	
 	public EntityAIEnemy(int id){
 		this.id = id;
@@ -27,24 +28,32 @@ public class EntityAIEnemy extends JavaGame implements Serializable {
 	
 	public void randomAIDirection(){	
 		speed = 1;	//Declare speed of enemy/NPC
-		int Direction = (int) (Math.random() * 4); // Either return 0,1,2,3 for Right,left,down,up
+		int Direction = (int) (Math.random() * 5); // Either return 0,1,2,3 for Right,left,down,up
 		switch (Direction) {
 		case 0:	//RIGHT
 			dx = speed; 
 			dy = 0;
+			animState = ANIM_WALK_RIGHT;
 			break;
 		case 1: // LEFT
 			dx = -speed;
 			dy = 0;
+			animState = ANIM_WALK_LEFT;
 			break;
 		case 2: // DOWN
 			dx = 0;
 			dy = speed;
+			animState = ANIM_WALK_DOWN;
 			break;
 		case 3: // UP
 			dx = 0;
 			dy = -speed;
+			animState = ANIM_WALK_UP;
 			break;
+		case 4: //STOP
+			dx = 0;
+			dy = 0;
+			animState = ANIM_STILL;
 		}
 	}
 	
@@ -92,18 +101,22 @@ public class EntityAIEnemy extends JavaGame implements Serializable {
 			if (enemyX < entityX && enemyY < entityY){	//If enemy is to the left of entity - go right
 				dx = speed;
 				dy = 0;		
+				animState = ANIM_WALK_RIGHT;
 			}
 			else if (enemyX > entityX && enemyY > entityY){	//If enemy is to the right of entity - go left
 				dx = -speed;
 				dy = 0;
+				animState = ANIM_WALK_LEFT;
 			}
 			else if (enemyY < entityY){	//If enemy is above the entity - go down
 				dx = 0; 
 				dy = speed;
+				animState = ANIM_WALK_DOWN;
 			}
 			else if (enemyY > entityY){	//If enemy is below the entity - go up
 				dx = 0;
 				dy = -speed;				
+				animState = ANIM_WALK_UP;
 			}
 			else{
 				randomAIDirection();
@@ -131,6 +144,10 @@ public class EntityAIEnemy extends JavaGame implements Serializable {
 	//Return boolean value if attacking or not
 	public boolean returnAttack(){
 		return attack;
+	}
+	
+	public int returnAnimState(){
+		return animState;
 	}
 
 }

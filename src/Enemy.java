@@ -132,7 +132,7 @@ public class Enemy extends JavaGame implements Serializable {
 	}
 	
 	public void draw(Graphics g){
-		g.drawImage(enemySkins[gameTime.checkDateTime()][skin][animState].nextFrame(), x, y, null);
+		g.drawImage(enemySkins[gameTime.checkDateTime()][skin][ai.returnAnimState()].nextFrame(), x, y, null);
 	}
 
 }

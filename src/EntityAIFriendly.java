@@ -33,7 +33,7 @@ public class EntityAIFriendly extends JavaGame implements Serializable {
 	
 	public void randomAIDirection(){	
 		speed = 1;	//Declare speed of enemy/NPC
-		int Direction = (int) (Math.random() * 4); // Either return 0,1,2,3,4 for Right,left,down,up & stop
+		int Direction = (int) (Math.random() * 5); // Either return 0,1,2,3,4 for Right,left,down,up & stop
 		switch (Direction) {
 		case 0:	//RIGHT
 			dx = speed; 

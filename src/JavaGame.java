@@ -51,7 +51,7 @@ public class JavaGame {
 	
 	public static transient Animation[][][] enemySkins;
 	public static transient Animation[][] entitySkins;
-	public static transient BufferedImage[][] entityFriendlySkins;
+	public static transient Animation[][][] entityFriendlySkins;
 	
 	public static transient CollisionDetection collisionDetection = new CollisionDetection();
 

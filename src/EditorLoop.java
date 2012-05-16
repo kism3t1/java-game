@@ -658,7 +658,7 @@ MouseMotionListener{
 			subMenu = new JMenu("Type");
 			subMenu.setLayout(new GridLayout(0,5));
 			for(int i = 0; i < entityFriendlySkins[0].length; i++){
-				menuItem = new JMenuItem(new ImageIcon(entityFriendlySkins[gameTime.checkDateTime()][i]));
+				menuItem = new JMenuItem(new ImageIcon(entityFriendlySkins[gameTime.checkDateTime()][i][0].getImage()));
 				menuItem.addActionListener(this);
 				menuItem.setActionCommand("FRIEND:" + Integer.toString(i));
 				subMenu.add(menuItem);

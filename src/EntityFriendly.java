@@ -28,8 +28,8 @@ public class EntityFriendly extends JavaGame implements Serializable {
 		this.skin = skin;
 		this.x = x;
 		this.y = y;
-		width = entityFriendlySkins[TOD_DAYTIME][skin].getWidth(null);
-		height = entityFriendlySkins[TOD_DAYTIME][skin].getHeight(null);
+		width = entityFriendlySkins[TOD_DAYTIME][skin][0].getWidth();
+		height = entityFriendlySkins[TOD_DAYTIME][skin][0].getHeight();
 		this.id = id;
 		speed = 1;
 		health = 3;
@@ -170,7 +170,7 @@ public class EntityFriendly extends JavaGame implements Serializable {
 			break;	
 		}
 		if(visible)
-			g.drawImage(entityFriendlySkins[gameTime.checkDateTime()][skin], x, y, null);
+			g.drawImage(entityFriendlySkins[gameTime.checkDateTime()][skin][ai.retutnAnimState()].nextFrame(), x, y, null);
 	}
 
 }

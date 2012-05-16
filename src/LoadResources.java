@@ -64,11 +64,11 @@ public class LoadResources extends JavaGame implements Runnable{
 
 			//Snake
 			enemySkins[TOD_DAYTIME][2][0] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);		//0 - old skin
-			enemySkins[TOD_DAYTIME][2][ANIM_STILL] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);
-			enemySkins[TOD_DAYTIME][2][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);	
-			enemySkins[TOD_DAYTIME][2][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);
-			enemySkins[TOD_DAYTIME][2][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);	
-			enemySkins[TOD_DAYTIME][2][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/snake.png"), 22, 32, 0);
+			enemySkins[TOD_DAYTIME][2][ANIM_STILL] = new Animation(optimizedImage("/Images/Animation/Snake/Standing.png"), 32, 32, 0);
+			enemySkins[TOD_DAYTIME][2][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/Animation/Snake/Walk_Down.png"), 32, 32, 0);	
+			enemySkins[TOD_DAYTIME][2][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/Animation/Snake/Walk_Left.png"), 32, 32, 0);
+			enemySkins[TOD_DAYTIME][2][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/Animation/Snake/Standing.png"), 32, 32, 0);	
+			enemySkins[TOD_DAYTIME][2][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/Animation/Snake/Walk_Up.png"), 32, 32, 0);
 		}catch(IOException e){
 			System.out.println("Error loading enemySkins");
 		}
@@ -98,19 +98,33 @@ public class LoadResources extends JavaGame implements Runnable{
 		entitySkins[TOD_SUNSET] = castImageArray(entitySkins[TOD_DAYTIME], TOD_SUNSET_COLOR);
 
 		try{
-			entityFriendlySkins = new BufferedImage[4][];
-			entityFriendlySkins[TOD_DAYTIME] = new BufferedImage[]{		
-					optimizedImage("/Images/pig.png"),
-					optimizedImage("/Images/fox.png")
-			};
-		}catch(IOException e){
-			System.out.println("Error loading enemySkins");
-		}
+			//Friendly Entities
+			entityFriendlySkins = new Animation[4][2][6];
+			//Pig
+			entityFriendlySkins[TOD_DAYTIME][0][0] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);		//0 - old skin
+			entityFriendlySkins[TOD_DAYTIME][0][ANIM_STILL] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);
+			entityFriendlySkins[TOD_DAYTIME][0][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);
+			entityFriendlySkins[TOD_DAYTIME][0][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);
+			entityFriendlySkins[TOD_DAYTIME][0][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);
+			entityFriendlySkins[TOD_DAYTIME][0][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);
 
+			//Fox
+			entityFriendlySkins[TOD_DAYTIME][1][0] = new Animation(optimizedImage("/Images/fox.png"), 22, 32, 0);		//0 - old skin
+			entityFriendlySkins[TOD_DAYTIME][1][ANIM_STILL] = new Animation(optimizedImage("/Images/fox.png"), 32, 32, 0);
+			entityFriendlySkins[TOD_DAYTIME][1][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/fox.png"), 32, 32, 0);
+			entityFriendlySkins[TOD_DAYTIME][1][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/fox.png"), 32, 32, 0);
+			entityFriendlySkins[TOD_DAYTIME][1][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/fox.png"), 32, 32, 0);
+			entityFriendlySkins[TOD_DAYTIME][1][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/fox.png"), 32, 32, 0);
+
+		}catch(IOException e){
+			System.out.println("Error loading FriendlySkins");
+		}
 		//generate alternate entity skins
-		entityFriendlySkins[TOD_NIGHT] = castImageArray(entityFriendlySkins[TOD_DAYTIME], TOD_NIGHT_COLOR);
-		entityFriendlySkins[TOD_SUNRISE] = castImageArray(entityFriendlySkins[TOD_DAYTIME], TOD_SUNRISE_COLOR);
-		entityFriendlySkins[TOD_SUNSET] = castImageArray(entityFriendlySkins[TOD_DAYTIME], TOD_SUNSET_COLOR);
+			for(int i=0; i < entityFriendlySkins[0].length; i ++){
+				entityFriendlySkins[TOD_NIGHT][i] = castImageArray(entityFriendlySkins[TOD_DAYTIME][i], TOD_NIGHT_COLOR);
+				entityFriendlySkins[TOD_SUNRISE][i] = castImageArray(entityFriendlySkins[TOD_DAYTIME][i], TOD_SUNRISE_COLOR);
+				entityFriendlySkins[TOD_SUNSET][i] = castImageArray(entityFriendlySkins[TOD_DAYTIME][i], TOD_SUNSET_COLOR);
+			}
 
 		try{
 			skySkins = new BufferedImage[]{

@@ -15,7 +15,7 @@ public class World extends JavaGame implements Serializable {
 	private String title = "Default World";
 	private int width;
 	private int height;
-	
+
 	public ArrayList<Enemy> enemy;
 	public ArrayList<EntityFriendly> friendly;
 	public Entity entity;
@@ -24,10 +24,10 @@ public class World extends JavaGame implements Serializable {
 		this.title = title;
 		this.width = width + 2;			//we add 2 to width and height
 		this.height = height + 2;		//to allow for the border
-		
+
 		enemy = new ArrayList<Enemy>();
 		entity = new Entity();
-		
+
 		friendly = new ArrayList<EntityFriendly>();
 
 		floorMap = new Map(width, height, true, borderSkin);	
@@ -57,18 +57,18 @@ public class World extends JavaGame implements Serializable {
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	
+
 	public void setBorderSkin(int borderSkin)
 	{
 		wallMap.changeBorder(borderSkin);
 	}
-	
+
 	public void addEnemy(int skin, int x, int y)
 	{
 		Enemy e = new Enemy(getNewID(), skin, x, y);
 		enemy.add(e);
 	}
-	
+
 	public void removeEnemy(int enemyID)
 	{
 		if(!enemy.isEmpty())
@@ -80,7 +80,7 @@ public class World extends JavaGame implements Serializable {
 			}
 		}
 	}
-	
+
 	private int getNewID() {
 		int id = 1;
 		boolean searching = true;
@@ -98,7 +98,7 @@ public class World extends JavaGame implements Serializable {
 						break;
 					}
 				}
-				
+
 				if(unique)
 				{
 					searching = false;
@@ -108,12 +108,12 @@ public class World extends JavaGame implements Serializable {
 					id++;
 					unique = true;
 				}
-				
+
 			}while(searching);
 		}
 		return id;
 	}
-	
+
 	public Enemy getEnemy(int enemyID)
 	{
 		for(int i = 0; i < enemy.size(); i++){
@@ -122,30 +122,27 @@ public class World extends JavaGame implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public void moveEnemies()
 	{
 		for(int i = 0; i < enemy.size(); i++)
-			if(enemy.get(i).getX() > 0 && enemy.get(i).getY() > 0
-					&& enemy.get(i).getX() < screenTilesWide * tileWidth
-					&& enemy.get(i).getY() < screenTilesHigh * tileHeight)
-				enemy.get(i).move();
+			enemy.get(i).move();
 	}
-	
+
 	public void drawEnemies(Graphics g){
 		for(int i = 0; i < enemy.size(); i++)
 			enemy.get(i).draw(g);
 	}
-	
+
 	/* Friendly entity part */
-	
-	
+
+
 	public void addFriendly(int skin, int x, int y)
 	{
 		EntityFriendly e = new EntityFriendly(getNewFriendlyID(), skin, x, y);
 		friendly.add(e);
 	}
-	
+
 	public void removeFriendly(int FriendlyID)
 	{
 		if(!friendly.isEmpty())
@@ -157,7 +154,7 @@ public class World extends JavaGame implements Serializable {
 			}
 		}
 	}
-	
+
 	private int getNewFriendlyID() {
 		int id = 1;
 		boolean searching = true;
@@ -175,7 +172,7 @@ public class World extends JavaGame implements Serializable {
 						break;
 					}
 				}
-				
+
 				if(unique)
 				{
 					searching = false;
@@ -185,12 +182,12 @@ public class World extends JavaGame implements Serializable {
 					id++;
 					unique = true;
 				}
-				
+
 			}while(searching);
 		}
 		return id;
 	}
-	
+
 	public EntityFriendly getFriendly(int FriendlyID)
 	{
 		for(int i = 0; i < friendly.size(); i++){
@@ -199,16 +196,13 @@ public class World extends JavaGame implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public void moveFriendlies()
 	{
 		for(int i = 0; i < friendly.size(); i++){
-			if(friendly.get(i).getX() > 0 && friendly.get(i).getY() > 0
-					&& friendly.get(i).getX() < screenTilesWide * tileWidth
-					&& friendly.get(i).getY() < screenTilesHigh * tileHeight)
-				friendly.get(i).move();
+			friendly.get(i).move();
 		}
-			
+
 	}
 	public void drawFriendly(Graphics g){
 		for(int i = 0; i < friendly.size(); i++)

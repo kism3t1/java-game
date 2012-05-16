@@ -32,7 +32,7 @@ public class JavaGame {
 	
 	//Time of day color casts
 	public static final transient Color TOD_NIGHT_COLOR = new Color(0, 0, 50, 150);
-	public static final transient Color TOD_SUNRISE_COLOR = new Color(0, 0, 50, 75);
+	public static final transient Color TOD_SUNRISE_COLOR = new Color(255, 150, 0, 25);
 	public static final transient Color TOD_SUNSET_COLOR = new Color(0, 0, 50, 75);
 	
 	//HUD icon ID's

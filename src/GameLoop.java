@@ -7,11 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.zip.GZIPInputStream;
-import javax.swing.JOptionPane;
 
 
 public class GameLoop extends JavaGame implements Runnable, MouseListener,
@@ -39,7 +35,7 @@ MouseMotionListener{
 		screenTilesHigh = gui.getHeight() / tileHeight;
 
 		try {
-			loadWorld(false);
+			LoadResources.loadWorld(false);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -206,26 +202,6 @@ MouseMotionListener{
 			e.printStackTrace();
 		}
 	}
-
-	public void loadWorld(boolean confirm) throws IOException,
-	ClassNotFoundException {
-		int n = 0;
-		if (confirm)
-			n = JOptionPane.showConfirmDialog(null,
-					"Load previously saved world?", "Load Dialog",
-					JOptionPane.YES_NO_OPTION);
-		if (n == JOptionPane.YES_OPTION || !confirm) {
-			FileInputStream loadFile = new FileInputStream("world.wld");
-			GZIPInputStream gzipFile = new GZIPInputStream(loadFile);
-			ObjectInputStream loadObject = new ObjectInputStream(gzipFile);
-			world = (World) loadObject.readObject();
-			gzipFile.close();
-			loadObject.close();
-			loadFile.close();
-		}
-	}
-
-	
 
 	// mouse control
 	@Override

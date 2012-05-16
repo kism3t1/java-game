@@ -15,14 +15,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
-
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -73,7 +66,7 @@ MouseMotionListener{
 		world = new World("Default World", MAP_TILES_WIDE, MAP_TILES_HIGH, 2);
 
 		try {
-			loadWorld(false);
+			LoadResources.loadWorld(false);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -369,41 +362,6 @@ MouseMotionListener{
 		}
 	}
 
-	// file handling
-	public static void saveWorld() throws IOException {
-		int n = JOptionPane.showConfirmDialog(null, "Save current world?",
-				"Save Dialog", JOptionPane.YES_NO_OPTION);
-		if (n == JOptionPane.YES_OPTION) {
-			FileOutputStream saveFile = new FileOutputStream("world.wld");
-			GZIPOutputStream gzipFile = new GZIPOutputStream(saveFile);
-			ObjectOutputStream saveObject = new ObjectOutputStream(gzipFile);
-			saveObject.writeObject(world);
-			saveObject.flush();
-			saveObject.close();
-			gzipFile.close();
-			saveFile.close();
-		}
-
-	}
-
-	public void loadWorld(boolean confirm) throws IOException,
-	ClassNotFoundException {
-		int n = 0;
-		if (confirm)
-			n = JOptionPane.showConfirmDialog(null,
-					"Load previously saved world?", "Load Dialog",
-					JOptionPane.YES_NO_OPTION);
-		if (n == JOptionPane.YES_OPTION || !confirm) {
-			FileInputStream loadFile = new FileInputStream("world.wld");
-			GZIPInputStream gzipFile = new GZIPInputStream(loadFile);
-			ObjectInputStream loadObject = new ObjectInputStream(gzipFile);
-			world = (World) loadObject.readObject();
-			gzipFile.close();
-			loadObject.close();
-			loadFile.close();
-		}
-	}
-
 	//optimize images for current system
 	public BufferedImage optimizedImage(String resourceName) throws IOException
 	{
@@ -597,7 +555,7 @@ MouseMotionListener{
 				break;
 			case KeyEvent.VK_F11: // load world
 				try {
-					loadWorld(true);
+					LoadResources.loadWorld(true);
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -608,7 +566,7 @@ MouseMotionListener{
 				break;
 			case KeyEvent.VK_F12: // save world
 				try {
-					saveWorld();
+					LoadResources.saveWorld();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -802,7 +760,7 @@ MouseMotionListener{
 			switch(command[0]){
 			case "SAVE":
 				try {
-					saveWorld();
+					LoadResources.saveWorld();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -810,7 +768,7 @@ MouseMotionListener{
 				break;
 			case "LOAD":
 				try {
-					loadWorld(true);
+					LoadResources.loadWorld(true);
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -821,7 +779,7 @@ MouseMotionListener{
 				break;
 			case "TEST":
 				try {
-					saveWorld();
+					LoadResources.saveWorld();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

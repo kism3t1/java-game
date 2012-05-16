@@ -4,9 +4,16 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 
 public class LoadResources extends JavaGame implements Runnable{
@@ -219,5 +226,40 @@ public class LoadResources extends JavaGame implements Runnable{
 		g.dispose();
 		
 		return newImage;
+	}
+	
+	// file handling
+	public static void saveWorld() throws IOException {
+		int n = JOptionPane.showConfirmDialog(null, "Save current world?",
+				"Save Dialog", JOptionPane.YES_NO_OPTION);
+		if (n == JOptionPane.YES_OPTION) {
+			FileOutputStream saveFile = new FileOutputStream("world.wld");
+			GZIPOutputStream gzipFile = new GZIPOutputStream(saveFile);
+			ObjectOutputStream saveObject = new ObjectOutputStream(gzipFile);
+			saveObject.writeObject(world);
+			saveObject.flush();
+			saveObject.close();
+			gzipFile.close();
+			saveFile.close();
+		}
+
+	}
+
+	public static void loadWorld(boolean confirm) throws IOException,
+	ClassNotFoundException {
+		int n = 0;
+		if (confirm)
+			n = JOptionPane.showConfirmDialog(null,
+					"Load previously saved world?", "Load Dialog",
+					JOptionPane.YES_NO_OPTION);
+		if (n == JOptionPane.YES_OPTION || !confirm) {
+			FileInputStream loadFile = new FileInputStream("world.wld");
+			GZIPInputStream gzipFile = new GZIPInputStream(loadFile);
+			ObjectInputStream loadObject = new ObjectInputStream(gzipFile);
+			world = (World) loadObject.readObject();
+			gzipFile.close();
+			loadObject.close();
+			loadFile.close();
+		}
 	}
 }

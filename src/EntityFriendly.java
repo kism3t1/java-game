@@ -1,7 +1,6 @@
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
-import java.util.Random;
 
 public class EntityFriendly extends JavaGame implements Serializable {
 

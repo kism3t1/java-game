@@ -32,16 +32,17 @@ public class CollisionDetection extends JavaGame{
 
 		// check for tile collision
 		if (checkTile) {
-			for (int tx = xOffset; tx < screenTilesWide
-					+ xOffset; tx++) {
-				for (int ty = yOffset; ty < screenTilesHigh
-						+ yOffset; ty++) {
-					if (world.wallMap.TileSet[tx][ty] != null) {
-						r2 = world.wallMap.TileSet[tx][ty].getBounds();
+			Point[] tileRange = getTileRange(r1);
+			if(tileRange != null){
+				for (int tx = tileRange[0].x; tx < tileRange[1].x; tx++) {
+					for (int ty = tileRange[0].y; ty < tileRange[1].y; ty++) {
+						if (world.wallMap.TileSet[tx][ty] != null) {
+							r2 = world.wallMap.TileSet[tx][ty].getBounds();
 
-						if (r1.intersects(r2)) { // Checks if entity collides
-													// with a tile
-							return CD_TILE;
+							if (r1.intersects(r2)) { // Checks if entity collides
+								// with a tile
+								return CD_TILE;
+							}
 						}
 					}
 				}
@@ -70,16 +71,17 @@ public class CollisionDetection extends JavaGame{
 	public boolean checkTiles(Rectangle r1)
 	{
 		Rectangle r2;
-		for (int tx = xOffset; tx < screenTilesWide
-				+ xOffset; tx++) {
-			for (int ty = yOffset; ty < screenTilesHigh
-					+ yOffset; ty++) {
-				if (world.wallMap.TileSet[tx][ty] != null) {
-					r2 = world.wallMap.TileSet[tx][ty].getBounds();
+		Point[] tileRange = getTileRange(r1);
+		if(tileRange != null){
+			for (int tx = tileRange[0].x; tx < tileRange[1].x; tx++) {
+				for (int ty = tileRange[0].y; ty < tileRange[1].y; ty++) {
+					if (world.wallMap.TileSet[tx][ty] != null) {
+						r2 = world.wallMap.TileSet[tx][ty].getBounds();
 
-					if (r1.intersects(r2)) { // Checks if entity collides
-												// with a tile
-						return true;
+						if (r1.intersects(r2)) { // Checks if entity collides
+							// with a tile
+							return true;
+						}
 					}
 				}
 			}
@@ -145,5 +147,48 @@ public class CollisionDetection extends JavaGame{
 		}
 
 		return CD_NULL;
+	}
+	
+	public Point[] getTileRange(Rectangle r){
+		for(int x = 0; x < world.floorMap.TileSet.length; x++){
+			for(int y = 0; y < world.floorMap.TileSet[0].length; y++){
+				if(r.intersects(world.floorMap.TileSet[x][y].getBounds())){
+					int startX = x;
+					int startY = y;
+					
+					if(startX > 0)
+						startX -= 1;
+					if(startY > 0)
+						startY -= 1;
+					if (startX < 0)
+						startX = 0;
+					if(startY < 0)
+						startY = 0;
+					
+					int endX = x + 1;
+					int endY = y + 1;
+					
+					if(r.width < tileWidth){
+						endX += 1;
+					}else{
+						endX += Math.abs(r.width / tileWidth);
+					}
+					
+					if(r.height < tileHeight){
+						endY += 1;
+					}else{
+						endY += Math.abs(r.height / tileHeight);
+					}
+					
+					Point[] point = new Point[]{
+						new Point(startX, startY),
+						new Point(endX, endY)
+						};
+					return point;
+				}
+			}
+		}
+		
+		return null;
 	}
 }

@@ -65,8 +65,8 @@ public class EntityAIEnemy extends JavaGame implements Serializable {
 		enemyY = world.getEnemy(id).getY();
 		entityX = world.entity.getX();
 		entityY = world.entity.getY();
-		distanceX = enemyX - entityX;	//Calculate distance away from entity
-		distanceY = enemyY - entityY;
+		distanceX = Math.abs(enemyX - entityX);	//Calculate distance away from entity
+		distanceY = Math.abs(enemyY - entityY);
 		
 		/*
 		 * Check if enemy is less than 200 tiles away from enity - if so speed up and attack

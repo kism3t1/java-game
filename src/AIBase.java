@@ -59,8 +59,8 @@ public class AIBase extends JavaGame implements Serializable {
 			enemyY = world.getEnemy(id).getY();
 			entityX = world.entity.getX();
 			entityY = world.entity.getY();
-			distanceX = enemyX - entityX;	//Calculate distance away from entity
-			distanceY = enemyY - entityY;
+			distanceX = Math.abs(enemyX - entityX);	//Calculate distance away from entity
+			distanceY = Math.abs(enemyY - entityY);
 		if (distanceX <= 200 && distanceY <= 200){ 	//If enemy is less that 200 tiles away from entity
 			speed = 2;	//Speed up enemy they get angry
 			attack();		//Run attack Method

@@ -148,7 +148,7 @@ public class LoadResources extends JavaGame implements Runnable{
 		
 		try{
 			weaponSkin = new BufferedImage[4][2];
-			weaponSkin[TOD_DAYTIME][WPN_IRON_SWORD] = optimizedImage("/Images/Weapon/Sword.png");
+			weaponSkin[TOD_DAYTIME][WPN_IRON_SWORD] = optimizedImage("/Images/Weapon/sword.png");
 		}catch(IOException e){
 			System.out.println("Error loading weaponSkin");
 		}

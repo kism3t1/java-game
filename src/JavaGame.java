@@ -45,7 +45,6 @@ public class JavaGame {
 
 	public static transient World world;
 	public static transient GameTime gameTime;
-	public static transient SkyFade fadeSky;
 	public static transient BufferedImage[][] tileSkins;
 	
 	public static transient BufferedImage[] skySkins;
@@ -109,16 +108,12 @@ public class JavaGame {
 		frame.setTitle("Java-Game V0.1");
 		gThread = new Thread(new StartScreen(gui));
 		
-		fadeSky = new SkyFade();
-		
 		/* GameTime Section */
 		/* new GameTime set to 400 so that the game starts just as the sun rises, while testing */
 		gameTime = new GameTime(450);
 		Thread pThread = new Thread(new GameTimeUpdater(gameTime));		
-		
-		
+				
 		gThread.start();
-		
 		
 		Boolean isRunning = true;
 		do{

@@ -132,20 +132,11 @@ public class LoadResources extends JavaGame implements Runnable{
 					optimizedImage("/Images/Sky/moon.png"),	//Moon Image [1]
 					optimizedImage("/Images/Sky/sunset.png"),	//sunset Image [2]
 					optimizedImage("/Images/Sky/sunrise.png"),	//sunrise Image [3]
-					optimizedImage("/Images/Sky/sunrise50.png"), //sunrise 50% opacity [4]
-					optimizedImage("/Images/Sky/dark70.png"), //dark 70% opacity [5]
-					optimizedImage("/Images/Sky/dark60.png") //dark 60% opacity [6]
 
 			};
 		}catch(IOException e){
 			System.out.println("Error loading skySkins");
 		}
-
-		/*
-		skyTransparency = new BufferedImage[150];
-			for(int i = 0; i < skyTransparency.length; i++)
-				skyTransparency[i] = genPixel(new Color(0, 0, 0, i));
-		 */
 
 		try{
 			HUDIcons = new BufferedImage[2];
@@ -154,6 +145,27 @@ public class LoadResources extends JavaGame implements Runnable{
 		}catch(IOException e){
 			System.out.println("Error loading HUDIcons");
 		}
+		
+		try{
+			weaponSkin = new BufferedImage[4][2];
+			weaponSkin[TOD_DAYTIME][WPN_IRON_SWORD] = optimizedImage("/Images/Weapon/Sword.png");
+		}catch(IOException e){
+			System.out.println("Error loading weaponSkin");
+		}
+		
+		for(int i=0; i < weaponSkin[0].length; i++){
+			weaponSkin[TOD_NIGHT][i] = castImage(weaponSkin[TOD_DAYTIME][i], TOD_NIGHT_COLOR);
+			weaponSkin[TOD_SUNRISE][i] = castImage(weaponSkin[TOD_DAYTIME][i], TOD_SUNRISE_COLOR);
+			weaponSkin[TOD_SUNSET][i] = castImage(weaponSkin[TOD_DAYTIME][i], TOD_SUNSET_COLOR);
+		}
+		
+		weaponMenuText = new String[2];
+		weaponMenuText[WPN_SLINGSHOT] = "Slinghsot";
+		weaponMenuText[WPN_IRON_SWORD] = "Iron Sword";
+		
+		weapon = new Weapon[2];
+		weapon[WPN_SLINGSHOT] = new Weapon(5, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, true);
+		weapon[WPN_IRON_SWORD] = new Weapon(15, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, false);
 	}
 
 	//optimize images for current system
@@ -182,18 +194,6 @@ public class LoadResources extends JavaGame implements Runnable{
 		// return the new optimized image
 		return new_image; 
 	}
-
-	/*
-	//create buffered pixels
-	private BufferedImage genPixel(Color color){
-		BufferedImage pixel = gfx_config.createCompatibleImage(1, 1, Transparency.TRANSLUCENT);
-		Graphics g = pixel.getGraphics();
-		g.setColor(color);
-		g.fillRect(0, 0, 1, 1);
-		g.dispose();
-		return pixel;
-	}
-*/
 	
 	private BufferedImage[] castImageArray(BufferedImage[] origImage, Color color){
 		BufferedImage[] newTiles = new BufferedImage[origImage.length];
@@ -275,5 +275,9 @@ public class LoadResources extends JavaGame implements Runnable{
 			loadObject.close();
 			loadFile.close();
 		}
+	}
+	
+	public void saveGame(){
+		
 	}
 }

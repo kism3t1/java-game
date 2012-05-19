@@ -38,6 +38,10 @@ public class JavaGame {
 	//HUD icon ID's
 	public static transient final int HUD_HEART = 0;
 	public static transient final int HUD_SWORD = 1;
+	
+	//Weapons ID's
+	public static transient final int WPN_SLINGSHOT = 0;
+	public static transient final int WPN_IRON_SWORD = 1;
 
 	public static transient World world;
 	public static transient GameTime gameTime;
@@ -52,6 +56,10 @@ public class JavaGame {
 	public static transient Animation[][][] enemySkins;
 	public static transient Animation[][] entitySkins;
 	public static transient Animation[][][] entityFriendlySkins;
+	
+	public static transient Weapon[] weapon;
+	public static transient String[] weaponMenuText;
+	public static transient BufferedImage[][] weaponSkin;
 	
 	public static transient CollisionDetection collisionDetection = new CollisionDetection();
 

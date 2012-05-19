@@ -67,8 +67,8 @@ public class EntityAIFriendly extends JavaGame implements Serializable {
 	public void checklocation(){
 			friendlyX = world.getFriendly(id).getX();
 			friendlyY = world.getFriendly(id).getY();
-			entityX = world.entity.getX();
-			entityY = world.entity.getY();
+			entityX = world.ollie.getX();
+			entityY = world.ollie.getY();
 			distanceX = Math.abs(friendlyX - entityX);	//Calculate distance away from entity
 			distanceY = Math.abs(friendlyY - entityY);
 		if (distanceX <= 80 && distanceY <= 80){ 	//If enemy is less that 80 tiles away from entity

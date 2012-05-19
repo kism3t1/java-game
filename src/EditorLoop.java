@@ -124,8 +124,8 @@ MouseMotionListener{
 
 		// move enemies, entity, and friendlies for scrolling effect
 		if (xOffset != prevXOffset || yOffset != prevYOffset) {
-			world.entity.setPos(world.entity.getX() - ((xOffset - prevXOffset) * tileWidth),
-					world.entity.getY() - ((yOffset - prevYOffset) * tileHeight));
+			world.ollie.setPos(world.ollie.getX() - ((xOffset - prevXOffset) * tileWidth),
+					world.ollie.getY() - ((yOffset - prevYOffset) * tileHeight));
 
 			for (int i = 0; i < world.enemy.size(); i++) {
 				world.enemy.get(i).setPos(
@@ -191,7 +191,7 @@ MouseMotionListener{
 		}
 
 		// draw entity
-		world.entity.draw(g);
+		world.ollie.draw(g);
 
 		// draw enemies
 		world.drawEnemies(g);
@@ -208,7 +208,7 @@ MouseMotionListener{
 
 		// write debug info
 		g.setColor(Color.BLACK);
-		g.drawString("X = " + world.entity.getX() + "Y = " + world.entity.getY(), 20, 20);
+		g.drawString("X = " + world.ollie.getX() + "Y = " + world.ollie.getY(), 20, 20);
 		g.drawString(
 				"Tile X,Y:X,Y = " + marker.getFirstTileX() + ","
 						+ marker.getFirstTileY() + ":" + marker.getLastTileX()
@@ -521,7 +521,7 @@ MouseMotionListener{
 
 		public void keyReleased(KeyEvent e) {
 
-			world.entity.keyReleased(e);
+			world.ollie.keyReleased(e);
 			marker.keyReleased(e);
 
 		}
@@ -530,7 +530,7 @@ MouseMotionListener{
 			int key = e.getKeyCode();
 			shiftKey = e.isShiftDown();
 
-			world.entity.keyPressed(e);
+			world.ollie.keyPressed(e);
 			marker.keyPressed(e);
 
 			switch (key) {
@@ -827,7 +827,7 @@ MouseMotionListener{
 				world.setBorderSkin(Integer.parseInt(command[1]));
 				break;
 			case "START":
-				world.entity.setPos(marker.getFirstTileX() * tileWidth, marker.getFirstTileY() * tileHeight);
+				world.ollie.setPos(marker.getFirstTileX() * tileWidth, marker.getFirstTileY() * tileHeight);
 				break;
 			}
 		}

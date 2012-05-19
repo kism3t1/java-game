@@ -60,9 +60,9 @@ public class EntityFriendly extends JavaGame implements Serializable {
 			dy = ai.returny();		//Get y value from AI Class
 			dLast = System.currentTimeMillis() - 800;
 		}
-		if(collisionDetection.checkFriendly(world.entity.getBounds(), -1))
+		if(collisionDetection.checkFriendly(world.ollie.getBounds(), -1))
 		{
-			world.entity.setHealth(world.entity.getHealth()+1);
+			world.ollie.setHealth(world.ollie.getHealth()+1);
 			if(state != STATE_INJURED)
 				damage(1);
 		}

@@ -18,7 +18,7 @@ public class World extends JavaGame implements Serializable {
 
 	public ArrayList<Enemy> enemy;
 	public ArrayList<EntityFriendly> friendly;
-	public Entity entity;
+	public Player ollie;
 
 	public World(String title, int width, int height, int borderSkin) {
 		this.title = title;
@@ -26,7 +26,7 @@ public class World extends JavaGame implements Serializable {
 		this.height = height + 2;		//to allow for the border
 
 		enemy = new ArrayList<Enemy>();
-		entity = new Entity();
+		ollie = new Player();
 
 		friendly = new ArrayList<EntityFriendly>();
 

@@ -63,8 +63,8 @@ public class EntityAIEnemy extends JavaGame implements Serializable {
 	public void checklocation(){
 		enemyX = world.getEnemy(id).getX();
 		enemyY = world.getEnemy(id).getY();
-		entityX = world.entity.getX();
-		entityY = world.entity.getY();
+		entityX = world.ollie.getX();
+		entityY = world.ollie.getY();
 		distanceX = Math.abs(enemyX - entityX);	//Calculate distance away from entity
 		distanceY = Math.abs(enemyY - entityY);
 		

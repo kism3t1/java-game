@@ -76,7 +76,7 @@ MouseMotionListener{
 			e.printStackTrace();
 		}
 		
-		world.entity.move();
+		world.ollie.move();
 
 		//move enemies
 		world.moveEnemies();
@@ -85,12 +85,12 @@ MouseMotionListener{
 		world.moveFriendlies();
 
 		// move enemies and entity for scrolling effect		
-		if(world.entity.getX() > gui.getWidth() * 0.6
+		if(world.ollie.getX() > gui.getWidth() * 0.6
 				&& (int)(cameraX / tileWidth) < world.floorMap.TileSet.length - screenTilesWide)
 		{
-			int dif = (int) (world.entity.getX() - gui.getWidth() * 0.6);
+			int dif = (int) (world.ollie.getX() - gui.getWidth() * 0.6);
 			cameraX += dif;
-			world.entity.setX(world.entity.getX() - dif);
+			world.ollie.setX(world.ollie.getX() - dif);
 			for (int i = 0; i < world.enemy.size(); i++) {
 				world.enemy.get(i).setX(world.enemy.get(i).getX() - dif);
 			}
@@ -99,11 +99,11 @@ MouseMotionListener{
 			}
 		}
 		
-		if(world.entity.getX() < gui.getWidth() * 0.4 && cameraX > 0)
+		if(world.ollie.getX() < gui.getWidth() * 0.4 && cameraX > 0)
 		{
-			int dif = (int) (gui.getWidth() * 0.4 - world.entity.getX());
+			int dif = (int) (gui.getWidth() * 0.4 - world.ollie.getX());
 			cameraX -= dif;
-			world.entity.setX(world.entity.getX() + dif);
+			world.ollie.setX(world.ollie.getX() + dif);
 			for (int i = 0; i < world.enemy.size(); i++) {
 				world.enemy.get(i).setX(world.enemy.get(i).getX() + dif);
 			}
@@ -112,12 +112,12 @@ MouseMotionListener{
 			}
 		}
 		
-		if(world.entity.getY() > gui.getHeight() * 0.6
+		if(world.ollie.getY() > gui.getHeight() * 0.6
 				&& (int)(cameraY / tileHeight) < world.floorMap.TileSet[0].length - screenTilesHigh)
 		{
-			int dif = (int) (world.entity.getY() - gui.getHeight() * 0.6);
+			int dif = (int) (world.ollie.getY() - gui.getHeight() * 0.6);
 			cameraY += dif;
-			world.entity.setY(world.entity.getY() - dif);
+			world.ollie.setY(world.ollie.getY() - dif);
 			for (int i = 0; i < world.enemy.size(); i++) {
 				world.enemy.get(i).setY(world.enemy.get(i).getY() - dif);
 			}
@@ -126,11 +126,11 @@ MouseMotionListener{
 			}
 		}
 		
-		if(world.entity.getY() < gui.getHeight() * 0.4 && cameraY > 0)
+		if(world.ollie.getY() < gui.getHeight() * 0.4 && cameraY > 0)
 		{
-			int dif = (int) (gui.getHeight() * 0.4 - world.entity.getY());
+			int dif = (int) (gui.getHeight() * 0.4 - world.ollie.getY());
 			cameraY -= dif;
-			world.entity.setY(world.entity.getY() + dif);
+			world.ollie.setY(world.ollie.getY() + dif);
 			for (int i = 0; i < world.enemy.size(); i++) {
 				world.enemy.get(i).setY(world.enemy.get(i).getY() + dif);
 			}
@@ -152,7 +152,7 @@ MouseMotionListener{
 		world.wallMap.draw(g, cameraX, cameraY);
 
 		// draw entity
-		world.entity.draw(g);
+		world.ollie.draw(g);
 		
 		// draw enemies
 		world.drawEnemies(g);
@@ -232,14 +232,14 @@ MouseMotionListener{
 
 		public void keyReleased(KeyEvent e) {
 
-			world.entity.keyReleased(e);
+			world.ollie.keyReleased(e);
 
 		}
 
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
 
-			world.entity.keyPressed(e);
+			world.ollie.keyPressed(e);
 
 			switch (key) {
 			case KeyEvent.VK_ESCAPE:	//kill thread and exit to menu

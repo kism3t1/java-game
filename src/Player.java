@@ -3,7 +3,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.io.Serializable;
 
-public class Entity extends JavaGame implements Serializable {
+public class Player extends JavaGame implements Serializable {
 
 	/**
 	 * 
@@ -23,7 +23,7 @@ public class Entity extends JavaGame implements Serializable {
 	private long frame_last;
 	private boolean visible;
 
-	public Entity() {
+	public Player() {
 		skin = 0;
 		health = 5;
 		armour = 4;
@@ -37,7 +37,7 @@ public class Entity extends JavaGame implements Serializable {
 		visible = true;
 	}
 
-	public Entity(int skin, int x, int y) {
+	public Player(int skin, int x, int y) {
 		this.skin = skin;
 		this.x = x;
 		this.y = y;

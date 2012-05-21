@@ -1,4 +1,4 @@
-Java game
+HALJA
 
 Controls:
 	KEYBOARD
@@ -6,6 +6,7 @@ Controls:
 	Up, Down, Left, Right - Move Entity
 	
 	W, A, S, D - Move tile marker (hold SHIFT for range selection)
+	E - View contents of your backpack
 	Z, X - Change tile
 	DEL - Hide tile
 	PGUP - Edit wall map

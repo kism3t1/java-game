@@ -80,7 +80,7 @@ public class StartScreen extends JPanel implements Runnable{
 	    }
 	    
 	    private void syncFPS(){
-			cycleTime = cycleTime + JavaGame.FRAME_DELAY;
+			cycleTime = cycleTime + Halja.FRAME_DELAY;
 			long difference = cycleTime - System.currentTimeMillis();
 			try {
 				Thread.sleep(Math.max(0, difference));
@@ -119,11 +119,11 @@ public class StartScreen extends JPanel implements Runnable{
 			if ((key == KeyEvent.VK_SPACE) ||
 					(key == KeyEvent.VK_ENTER)) {
 				if (menuChoice == 1){
-					JavaGame.nextThread = "GAME";
+					Halja.nextThread = "GAME";
 					isRunning = false;
 				}
 				else if(menuChoice == 2){
-					JavaGame.nextThread = "EDIT";
+					Halja.nextThread = "EDIT";
 					isRunning = false;
 				}else{
 					System.out.println("Error");

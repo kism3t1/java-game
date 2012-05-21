@@ -6,7 +6,7 @@ import java.util.Random;
  * The friendly will speed up and run away from the player
  */
 
-public class EntityAIFriendly extends JavaGame implements Serializable {
+public class EntityAIFriendly extends Halja implements Serializable {
 	
 	/**
 	 * 

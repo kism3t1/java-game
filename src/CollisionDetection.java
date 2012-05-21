@@ -2,7 +2,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-public class CollisionDetection extends JavaGame{
+public class CollisionDetection extends Halja{
 	
 	public static final int CD_ENEMY = 1;		//allow us to identify collision type
 	public static final int CD_ENTITY = 2;

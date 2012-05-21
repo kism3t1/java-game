@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 
 
-public class JavaGame {
+public class Halja {
 	
 	public static transient final int FRAME_DELAY = 20;	// frame delay in milliseconds (i.e. 1000/20 = 50 FPS)
 	public static transient final int KEY_DELAY = 75; 	// set delay in milliseconds between key strokes
@@ -105,7 +105,7 @@ public class JavaGame {
 		gThread.start();
 		do{}while(gThread.isAlive());	//wait until resources are loaded to continue
 		
-		frame.setTitle("Java-Game V0.1");
+		frame.setTitle("HALJA V0.2");
 		gThread = new Thread(new StartScreen(gui));
 		
 		/* GameTime Section */

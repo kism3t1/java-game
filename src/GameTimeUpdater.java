@@ -1,5 +1,5 @@
 
-public class GameTimeUpdater extends JavaGame implements Runnable{
+public class GameTimeUpdater extends Halja implements Runnable{
 	
 	private GameTime time;
 	

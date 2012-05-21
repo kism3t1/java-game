@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author LosOjos
  */
 
-public class Tile extends JavaGame implements Serializable {
+public class Tile extends Halja implements Serializable {
 
 	/**
 	 * 

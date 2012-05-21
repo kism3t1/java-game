@@ -1,7 +1,7 @@
 import java.awt.Graphics;
 
 
-public class HUD extends JavaGame{
+public class HUD extends Halja{
 	
 	public void draw(Graphics g){
 		//draw entity health

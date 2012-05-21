@@ -4,7 +4,7 @@ import java.io.Serializable;
  * Will be the base AI class that every entity will use before there own specialist AI
  */
 
-public class AIBase extends JavaGame implements Serializable {
+public class AIBase extends Halja implements Serializable {
 	
 
 	private static final long serialVersionUID = -123998419983546979L;

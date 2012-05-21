@@ -2,7 +2,7 @@ import java.awt.Graphics;
 import java.io.Serializable;
 
 
-public class Map extends JavaGame implements Serializable {
+public class Map extends Halja implements Serializable {
 
 	/**
 	 * 

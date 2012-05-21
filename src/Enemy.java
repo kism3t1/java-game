@@ -2,7 +2,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
 
-public class Enemy extends JavaGame implements Serializable {
+public class Enemy extends Halja implements Serializable {
 
 	/**
 	 * 

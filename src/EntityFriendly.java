@@ -2,7 +2,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.Serializable;
 
-public class EntityFriendly extends JavaGame implements Serializable {
+public class EntityFriendly extends Halja implements Serializable {
 
 	/**
 	 * 

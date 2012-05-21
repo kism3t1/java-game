@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 
-public class LoadResources extends JavaGame implements Runnable{
+public class LoadResources extends Halja implements Runnable{
 
 	// obtain the current system graphical settings
 	GraphicsConfiguration gfx_config = GraphicsEnvironment.

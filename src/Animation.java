@@ -2,7 +2,7 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 
-public class Animation extends JavaGame implements Serializable{
+public class Animation extends Halja implements Serializable{
 	
 	/**
 	 * 

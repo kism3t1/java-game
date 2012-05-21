@@ -37,14 +37,14 @@ public class Marker {
 	}
 
 	public void move(boolean shiftKey) {
-		if (System.currentTimeMillis() - keyLastProcessed > JavaGame.KEY_DELAY) {
+		if (System.currentTimeMillis() - keyLastProcessed > Halja.KEY_DELAY) {
 			// check marker is within bounds of tileset
-			if (firstTileX + dx >= 1 && lastTileX + dx <= JavaGame.world.getWidth() - 2) {
+			if (firstTileX + dx >= 1 && lastTileX + dx <= Halja.world.getWidth() - 2) {
 
 				// calculate scrolling offset
-				if (lastTileX + dx >= JavaGame.screenTilesWide + JavaGame.xOffset
-						|| (firstTileX + dx <= JavaGame.xOffset && JavaGame.xOffset > 0))
-					JavaGame.xOffset += dx;
+				if (lastTileX + dx >= Halja.screenTilesWide + Halja.xOffset
+						|| (firstTileX + dx <= Halja.xOffset && Halja.xOffset > 0))
+					Halja.xOffset += dx;
 
 				if (!shiftKey)
 					firstTileX += dx;
@@ -52,12 +52,12 @@ public class Marker {
 			}
 
 			// check marker is within bounds of tileset
-			if (firstTileY + dy >= 1 && lastTileY + dy <= JavaGame.world.getHeight() - 2) {
+			if (firstTileY + dy >= 1 && lastTileY + dy <= Halja.world.getHeight() - 2) {
 
 				// calculate scrolling offset
-				if (lastTileY + dy >= JavaGame.screenTilesHigh + JavaGame.yOffset
-						|| (firstTileY + dy <= JavaGame.yOffset && JavaGame.yOffset > 0))
-					JavaGame.yOffset += dy;
+				if (lastTileY + dy >= Halja.screenTilesHigh + Halja.yOffset
+						|| (firstTileY + dy <= Halja.yOffset && Halja.yOffset > 0))
+					Halja.yOffset += dy;
 
 				if (!shiftKey)
 					firstTileY += dy;
@@ -173,14 +173,14 @@ public class Marker {
 		this.level = level;
 
 		switch (level) {
-		case JavaGame.LEVEL_FLOOR: // floor
+		case Halja.LEVEL_FLOOR: // floor
 			color = Color.GREEN;
 			break;
-		case JavaGame.LEVEL_WALL: // wall
+		case Halja.LEVEL_WALL: // wall
 			color = Color.RED;
 			break;
 		default: // default to floor if other value set
-			this.level = JavaGame.LEVEL_FLOOR;
+			this.level = Halja.LEVEL_FLOOR;
 			color = Color.GREEN;
 			break;
 		}
@@ -188,15 +188,15 @@ public class Marker {
 
 	private void calculateScreenPos() {
 		if (firstTileX < lastTileX) {
-			screenX = (firstTileX - JavaGame.xOffset) * 32;
+			screenX = (firstTileX - Halja.xOffset) * 32;
 		} else {
-			screenX = (lastTileX - JavaGame.xOffset) * 32;
+			screenX = (lastTileX - Halja.xOffset) * 32;
 		}
 
 		if (firstTileY < lastTileY) {
-			screenY = (firstTileY - JavaGame.yOffset) * 32;
+			screenY = (firstTileY - Halja.yOffset) * 32;
 		} else {
-			screenY = (lastTileY - JavaGame.yOffset) * 32;
+			screenY = (lastTileY - Halja.yOffset) * 32;
 		}
 	}
 
@@ -240,6 +240,6 @@ public class Marker {
 			break;
 		}
 
-		keyLastProcessed = System.currentTimeMillis() - JavaGame.KEY_DELAY;
+		keyLastProcessed = System.currentTimeMillis() - Halja.KEY_DELAY;
 	}
 }

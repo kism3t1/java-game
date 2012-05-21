@@ -10,7 +10,7 @@ import java.awt.image.BufferStrategy;
 import java.io.IOException;
 
 
-public class GameLoop extends JavaGame implements Runnable, MouseListener,
+public class GameLoop extends Halja implements Runnable, MouseListener,
 MouseMotionListener{
 	private boolean isRunning;
 	private Canvas gui;

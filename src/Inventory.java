@@ -66,7 +66,7 @@ public class Inventory extends JPanel implements Runnable{
 	    }
 	    
 	    private void syncFPS(){
-			cycleTime = cycleTime + JavaGame.FRAME_DELAY;
+			cycleTime = cycleTime + Halja.FRAME_DELAY;
 			long difference = cycleTime - System.currentTimeMillis();
 			try {
 				Thread.sleep(Math.max(0, difference));
@@ -92,7 +92,7 @@ public class Inventory extends JPanel implements Runnable{
 			int key = e.getExtendedKeyCode();
 			
 			if (key == KeyEvent.VK_E){
-				JavaGame.nextThread = "GAME";
+				Halja.nextThread = "GAME";
 				isRunning = false;
 			}
 		}

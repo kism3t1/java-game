@@ -3,7 +3,7 @@ import java.util.Random;
 
 //This is the AI class for Enemies to use
 
-public class EntityAIEnemy extends JavaGame implements Serializable {
+public class EntityAIEnemy extends Halja implements Serializable {
 	
 
 	private static final long serialVersionUID = -123998419983546979L;

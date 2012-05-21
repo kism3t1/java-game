@@ -1,7 +1,7 @@
 import java.security.InvalidParameterException;
 
 
-public class GameTime extends JavaGame {
+public class GameTime extends Halja {
 	
 	public static int MINUTES_IN_HOUR = 60;
 	public static int MINUTES_IN_DAY = 60 * 24;

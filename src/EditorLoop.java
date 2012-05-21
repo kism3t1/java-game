@@ -27,7 +27,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 
 
-public class EditorLoop extends JavaGame implements Runnable, MouseListener,
+public class EditorLoop extends Halja implements Runnable, MouseListener,
 MouseMotionListener{
 
 	// default map info
@@ -59,8 +59,8 @@ MouseMotionListener{
 		gui.requestFocusInWindow();
 
 		//initial calculation of screen -> tile size
-		screenTilesWide = gui.getWidth() / JavaGame.tileWidth;
-		screenTilesHigh = gui.getHeight() / JavaGame.tileHeight;
+		screenTilesWide = gui.getWidth() / Halja.tileWidth;
+		screenTilesHigh = gui.getHeight() / Halja.tileHeight;
 		
 		//initialize world
 		world = new World("Default World", MAP_TILES_WIDE, MAP_TILES_HIGH, 2);
@@ -219,7 +219,7 @@ MouseMotionListener{
 	}
 
 	private void syncFPS(){
-		cycleTime = cycleTime + JavaGame.FRAME_DELAY;
+		cycleTime = cycleTime + Halja.FRAME_DELAY;
 		long difference = cycleTime - System.currentTimeMillis();
 		try {
 			Thread.sleep(Math.max(0, difference));
@@ -545,10 +545,10 @@ MouseMotionListener{
 					deleteTile();
 				break;
 			case KeyEvent.VK_PAGE_UP: // edit wall map
-				marker.changeLevel(JavaGame.LEVEL_WALL);
+				marker.changeLevel(Halja.LEVEL_WALL);
 				break;
 			case KeyEvent.VK_PAGE_DOWN: // edit floor map
-				marker.changeLevel(JavaGame.LEVEL_FLOOR);
+				marker.changeLevel(Halja.LEVEL_FLOOR);
 				break;
 			case KeyEvent.VK_F8: // toggle exclusive layer mode
 				toggleExclusiveLayer();

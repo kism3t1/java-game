@@ -32,7 +32,7 @@ import javax.sound.sampled.LineListener;
 
 
 
-public class Sounds extends JavaGame{
+public class Sounds extends Halja{
 	
 	String theFile = null;
 	boolean isPlaying;

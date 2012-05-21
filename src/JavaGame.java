@@ -125,12 +125,15 @@ public class JavaGame {
 					break;
 				case "EDIT":
 					gThread = new Thread(new EditorLoop(gui));
-					
 					break;
 				case "GAME":
 					gThread = new Thread(new GameLoop(gui));
 					pThread = new Thread(new GameTimeUpdater(gameTime)); // Start the Game Time when game selected
 					pThread.start();	//Starts the game Time thread
+					break;
+				case "INVENTORY":
+					//Start inventory screen
+					gThread = new Thread(new Inventory(gui));
 					break;
 				}
 				gThread.start();

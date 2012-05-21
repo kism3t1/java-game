@@ -246,6 +246,10 @@ MouseMotionListener{
 				nextThread = "MENU";
 				isRunning = false;
 				break;
+			case KeyEvent.VK_E:
+				nextThread = "INVENTORY";
+				isRunning = false;
+				break;
 			}
 		}
 	}

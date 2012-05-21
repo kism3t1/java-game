@@ -1,4 +1,15 @@
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MetaEventListener;
+import javax.sound.midi.MetaMessage;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequence;
+import javax.sound.midi.Sequencer;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -25,8 +36,9 @@ public class Sounds extends JavaGame{
 	
 	String theFile = null;
 	boolean isPlaying;
+	boolean playing;
 	
-	public void play() throws Exception{
+	public void playWav() throws Exception{
 		
 		//Checks to see if the music is playing
 		if (isPlaying == false){
@@ -59,5 +71,50 @@ public class Sounds extends JavaGame{
 		  isPlaying = true;
 		clip.start();
 	}else{}
+	}
+	
+	public void playMidi(){
+		
+		if (playing == false){
+			//Check what midi file to play dependent on the time of day
+			if (gameTime.checkDateTime() == TOD_NIGHT && isPlaying == false){
+				theFile = "night.mid";
+			}else if (gameTime.checkDateTime() == TOD_DAYTIME && isPlaying == false){
+				theFile = "day.mid";			
+			}else if (gameTime.checkDateTime() == TOD_SUNRISE && isPlaying == false){
+				theFile = "day.mid";
+			}else if (gameTime.checkDateTime() == TOD_SUNSET && isPlaying == false){
+				theFile = "night.mid";
+			}else{}
+		
+		try {
+	        // From file
+	        Sequence sequence = MidiSystem.getSequence(new File(theFile));
+	    
+	        // From URL
+	       // sequence = MidiSystem.getSequence(new URL("http://hostname/midiaudiofile"));
+	    
+	        // Create a sequencer for the sequence
+	        Sequencer sequencer = MidiSystem.getSequencer();
+	        sequencer.open();
+	        sequencer.setSequence(sequence);
+	        sequencer.start();
+	        playing = true;
+	    
+	        // Start playing
+	        sequencer.addMetaEventListener(new MetaEventListener(){
+	        	public void meta(MetaMessage event){
+	        		if (event.getType() == 47){
+	        			playing = false;
+	        		}
+	        	}
+	        });
+	    } catch (MalformedURLException e) {
+	    } catch (IOException e) {
+	    } catch (MidiUnavailableException e) {
+	    } catch (InvalidMidiDataException e) {
+	    }
+	}
+		else{}
 	}
 }

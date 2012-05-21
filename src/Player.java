@@ -106,21 +106,25 @@ public class Player extends JavaGame implements Serializable {
 
 		if (key == KeyEvent.VK_LEFT) {
 			dx = -speed;
+			dy = 0;
 			animState = ANIM_WALK_LEFT;
 		}
 
 		if (key == KeyEvent.VK_RIGHT) {
 			dx = speed;
+			dy = 0;
 			animState = ANIM_WALK_RIGHT;
 		}
 
 		if (key == KeyEvent.VK_UP) {
 			dy = -speed;
+			dx = 0;
 			animState = ANIM_WALK_UP;
 		}
 
 		if (key == KeyEvent.VK_DOWN) {
 			dy = speed;
+			dx = 0;
 			animState = ANIM_WALK_DOWN;
 		}
 	}

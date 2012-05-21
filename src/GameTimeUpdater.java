@@ -20,13 +20,6 @@ public class GameTimeUpdater extends JavaGame implements Runnable{
 					e.printStackTrace();
 				}
 		time.increase();	//Increase time
-		/* To change Alpha values every second instead of everytime updateGUI runs
-		if (ReturnTime.returnTimeOfDay() == TimeOfDay.SUNSET){
-			SkyFade.increaseAlpha();
-		}else if (ReturnTime.returnTimeOfDay() == TimeOfDay.SUNRISE){
-			SkyFade.decreaseAlpha();
-		}
-		*/
 	}
 	}
 	

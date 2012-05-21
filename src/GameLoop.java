@@ -70,7 +70,7 @@ MouseMotionListener{
 
 		//Plays background music
 		try {
-			sound.play();
+			sound.playMidi();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

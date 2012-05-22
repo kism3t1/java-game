@@ -1,6 +1,7 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -34,6 +35,10 @@ public class InventoryMenu extends Halja implements Runnable{
 	
 	private Menu[] menu;
 	private SubMenu[] subMenu;
+	
+	private int currentMenu = MENU_LEFT;
+	private int currentMenuItem = 0;
+	private int currentMenuCount;
 	
 	public InventoryMenu(Canvas gui){
 		this.gui = gui;
@@ -75,6 +80,10 @@ public class InventoryMenu extends Halja implements Runnable{
 		
 		//activate weapon menu on start
 		subMenu[SUBMENU_WEAPONS].setActive(true);
+		
+		//initialise placeholder variable
+		currentMenuCount = subMenu.length - 1;
+		currentMenuItem = SUBMENU_WEAPONS;
 	}
 
 	@Override
@@ -95,8 +104,25 @@ public class InventoryMenu extends Halja implements Runnable{
 	}
 
 	private void updateGameState() {
-		// TODO Auto-generated method stub
+		if(currentMenu == MENU_LEFT){
+			for(int i = 0; i < subMenu.length; i++){
+				if(currentMenuItem == i){
+					subMenu[i].setActive(true);
+				}else{
+					subMenu[i].setActive(false);
+				}
+			}
+			currentMenuCount = subMenu.length - 1;
+		}
 		
+		if(currentMenu == MENU_RIGHT){
+			for(int i=0; i < subMenu.length; i++){
+				if(subMenu[i].isActive()){
+					subMenu[i].update();
+					currentMenuCount = subMenu[i].item.size() - 1;
+				}
+			}
+		}
 	}
 
 	private void updateGUI(BufferStrategy strategy){
@@ -135,6 +161,26 @@ public class InventoryMenu extends Halja implements Runnable{
 			switch(key){
 			case KeyEvent.VK_ESCAPE:
 				isRunning = false;
+				break;
+			case KeyEvent.VK_UP:
+				if(currentMenuItem > 0){
+					currentMenuItem -= 1;
+				}else{
+					currentMenuItem = currentMenuCount;
+				}
+				break;
+			case KeyEvent.VK_DOWN:
+				if(currentMenuItem < currentMenuCount){
+					currentMenuItem += 1;
+				}else{
+					currentMenuItem = 0;
+				}
+				break;
+			case KeyEvent.VK_LEFT:
+				currentMenu = MENU_LEFT;
+				break;
+			case KeyEvent.VK_RIGHT:
+				currentMenu = MENU_RIGHT;
 				break;
 			}
 		}
@@ -193,7 +239,6 @@ public class InventoryMenu extends Halja implements Runnable{
 	private class SubMenu{
 		private String title = null;
 		private int x, y, width, height;
-		private Color color = BG_COLOR;
 		private ArrayList<MenuItem> item = new ArrayList<MenuItem>();
 		private boolean active = false;
 		
@@ -210,8 +255,12 @@ public class InventoryMenu extends Halja implements Runnable{
 		}
 		
 		public void draw(Graphics g){
-			g.setColor(color);
-			g.draw3DRect(x, y, width, height, true);
+			if(active && currentMenu == MENU_LEFT){
+				g.setColor(SELECT_COLOR);
+			}else{
+				g.setColor(BG_COLOR);
+			}
+			g.fill3DRect(x, y, width, height, true);
 			
 			g.setColor(Color.WHITE);
 			g.drawString(title, x + 2, y + (BUTTON_HEIGHT / 2));
@@ -231,6 +280,16 @@ public class InventoryMenu extends Halja implements Runnable{
 				item.get(i).setHeight(BUTTON_HEIGHT);
 			}
 		}
+		
+		public void update() {
+			for(int i = 0; i < item.size(); i++){
+				if(currentMenuItem == i){
+					item.get(i).setActive(true);
+				}else{
+					item.get(i).setActive(false);
+				}
+			}
+		}
 
 		public String getTitle() {
 			return title;
@@ -246,12 +305,6 @@ public class InventoryMenu extends Halja implements Runnable{
 
 		public void setActive(boolean active) {
 			this.active = active;
-			if(active){
-				this.color = SELECT_COLOR;
-			}else{
-				this.color = BG_COLOR;
-			}
-			
 			if(item.size() > 0){
 				item.get(0).setActive(true);
 				
@@ -301,7 +354,6 @@ public class InventoryMenu extends Halja implements Runnable{
 		private BufferedImage icon;
 		private int x, y, width, height;
 		private boolean active = false;
-		private Color color = BG_COLOR;
 		
 		public MenuItem(String title, String description, BufferedImage icon){
 			this.title = title;
@@ -310,8 +362,12 @@ public class InventoryMenu extends Halja implements Runnable{
 		}
 
 		public void draw(Graphics g) {
-			g.setColor(color);
-			g.draw3DRect(x, y, width, height, true);
+			if(active && currentMenu == MENU_RIGHT){
+				g.setColor(SELECT_COLOR);
+			}else{
+				g.setColor(BG_COLOR);
+			}
+			g.fill3DRect(x, y, width, height, true);
 			if(icon != null)
 				g.drawImage(icon, x+2, y+2, null);
 			
@@ -326,11 +382,6 @@ public class InventoryMenu extends Halja implements Runnable{
 
 		public void setActive(boolean active) {
 			this.active = active;
-			if(active){
-				this.color = SELECT_COLOR;
-			}else{
-				this.color = BG_COLOR;
-			}
 		}
 
 		public int getHeight() {

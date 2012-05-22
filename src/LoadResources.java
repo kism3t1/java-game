@@ -147,9 +147,10 @@ public class LoadResources extends Halja implements Runnable{
 		}
 		
 		try{
-			weaponSkin = new BufferedImage[4][2];
+			weaponSkin = new BufferedImage[4][3];
 			weaponSkin[TOD_DAYTIME][WPN_SLINGSHOT] = optimizedImage("/Images/Weapon/sword.png");
 			weaponSkin[TOD_DAYTIME][WPN_IRON_SWORD] = optimizedImage("/Images/Weapon/sword.png");
+			weaponSkin[TOD_DAYTIME][WPN_IRON_FIRE_SWORD] = optimizedImage("/Images/Weapon/sword.png");
 		}catch(IOException e){
 			System.out.println("Error loading weaponSkin");
 		}
@@ -160,13 +161,15 @@ public class LoadResources extends Halja implements Runnable{
 			weaponSkin[TOD_SUNSET][i] = castImage(weaponSkin[TOD_DAYTIME][i], TOD_SUNSET_COLOR);
 		}
 		
-		weaponMenuText = new String[2];
+		weaponMenuText = new String[3];
 		weaponMenuText[WPN_SLINGSHOT] = "Slinghsot";
 		weaponMenuText[WPN_IRON_SWORD] = "Iron Sword";
+		weaponMenuText[WPN_IRON_FIRE_SWORD] = "Iron Fire Sword";
 		
-		weapon = new Weapon[2];
+		weapon = new Weapon[3];
 		weapon[WPN_SLINGSHOT] = new Weapon(5, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, true);
 		weapon[WPN_IRON_SWORD] = new Weapon(15, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, false);
+		weapon[WPN_IRON_FIRE_SWORD] = new Weapon(15, 0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, false);
 	}
 
 	//optimize images for current system

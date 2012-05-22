@@ -46,6 +46,7 @@ public class Halja {
 	//Weapons ID's
 	public static transient final int WPN_SLINGSHOT = 0;
 	public static transient final int WPN_IRON_SWORD = 1;
+	public static transient final int WPN_IRON_FIRE_SWORD = 2;
 
 	public static transient World world;
 	public static transient GameTime gameTime;

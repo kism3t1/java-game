@@ -1,7 +1,6 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -29,7 +28,6 @@ public class InventoryMenu extends Halja implements Runnable{
 	
 	private Canvas gui = null;
 	private long cycleTime;
-	private Rectangle rectBG = null;
 	private boolean isRunning;
 	private KeyListener kl = null;
 	
@@ -48,11 +46,9 @@ public class InventoryMenu extends Halja implements Runnable{
 		kl = new TAdapter();
 		gui.addKeyListener(kl);
 		
-		rectBG = new Rectangle(gui.getWidth(), gui.getHeight());
-		
 		menu = new Menu[2];
-		menu[MENU_LEFT] = new Menu(0, 0, (int) (rectBG.getWidth() * 0.25f), (int)rectBG.getHeight());
-		menu[MENU_RIGHT] = new Menu(menu[MENU_LEFT].getWidth(), 0, (int)rectBG.getWidth() - menu[MENU_LEFT].getWidth(), (int)rectBG.getHeight());
+		menu[MENU_LEFT] = new Menu(0, 0, (int) (gui.getWidth() * 0.25f), (int)gui.getHeight());
+		menu[MENU_RIGHT] = new Menu(menu[MENU_LEFT].getWidth(), 0, gui.getWidth() - menu[MENU_LEFT].getWidth(), gui.getHeight());
 		
 		subMenu = new SubMenu[4];
 		subMenu[SUBMENU_WEAPONS] = new SubMenu("Weapons");
@@ -61,7 +57,27 @@ public class InventoryMenu extends Halja implements Runnable{
 		subMenu[SUBMENU_ITEMS] = new SubMenu("Items");
 		
 		for(int i = 0; i < weaponMenuText.length; i++){
-			subMenu[SUBMENU_WEAPONS].item.add(new MenuItem(weaponMenuText[i], "Stats go here", weaponSkin[TOD_DAYTIME][i]));
+			String stats = "Damge: " + weapon[i].damageBase;
+			
+			if(weapon[i].damageBes != 0.0f)
+				stats += "    Bes: " + (int)(weapon[i].damageBes * 100) + "%";
+			
+			if(weapon[i].damageEthert != 0.0f)
+				stats += "    Ethert: " + (int)(weapon[i].damageEthert * 100) + "%";
+			
+			if(weapon[i].damageFire != 0.0f)
+				stats += "    Fire: " + (int)(weapon[i].damageFire * 100) + "%";
+			
+			if(weapon[i].damageFrost != 0.0f)
+				stats += "    Frost: " + (int)(weapon[i].damageFrost * 100) + "%";
+			
+			if(weapon[i].damageLightning != 0.0f)
+				stats += "    Lightning: " + (int)(weapon[i].damageLightning * 100) + "%";
+			
+			if(weapon[i].damageMayth != 0.0f)
+				stats += "    Mayth: " + (int)(weapon[i].damageMayth * 100) + "%";
+			
+			subMenu[SUBMENU_WEAPONS].item.add(new MenuItem(weaponMenuText[i], stats, weaponSkin[TOD_DAYTIME][i]));
 		}
 		
 		subMenu[SUBMENU_ARMOUR].item.add(new MenuItem("Armour","Dummy Item",null));
@@ -134,7 +150,7 @@ public class InventoryMenu extends Halja implements Runnable{
 		
 		//draw menu outlines
 		g.setColor(BG_COLOR);
-		g.fillRect(0, 0, (int)rectBG.getWidth(), (int)rectBG.getHeight());
+		g.fillRect(0, 0, gui.getWidth(), gui.getHeight());
 		for(int i =0; i < menu.length; i++)
 			menu[i].draw(g);
 		

@@ -1,6 +1,8 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.CountDownLatch;
+
 import javax.swing.JFrame;
 
 
@@ -10,6 +12,8 @@ public class Halja {
 	public static transient final int KEY_DELAY = 75; 	// set delay in milliseconds between key strokes
 	
 	public static transient String nextThread;
+	
+	public static CountDownLatch latch;
 	
 	// tile level identifiers
 	public static transient final int LEVEL_FLOOR = 0;

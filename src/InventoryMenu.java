@@ -89,7 +89,6 @@ public class InventoryMenu extends Halja implements Runnable{
 	@Override
 	public void run() {
 		cycleTime = System.currentTimeMillis();
-		gui.createBufferStrategy(2);				//2 = double buffer
 		BufferStrategy strategy = gui.getBufferStrategy();
 		
 		do{
@@ -101,6 +100,7 @@ public class InventoryMenu extends Halja implements Runnable{
 		}while(isRunning);
 				
 		gui.removeKeyListener(kl);
+		latch.countDown();
 	}
 
 	private void updateGameState() {

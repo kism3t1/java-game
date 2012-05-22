@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 
 public class GameLoop extends Halja implements Runnable, MouseListener,
@@ -66,9 +67,15 @@ MouseMotionListener{
 				
 				if(inMenu){
 					gui.removeKeyListener(kl);
+					latch = new CountDownLatch(1);
 					Thread iThread = new Thread(new InventoryMenu(gui));
 					iThread.start();
-					do{}while(iThread.isAlive());	//wait until resources are loaded to continue
+					try {
+						latch.await();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}	//wait until resources are loaded to continue
 					inMenu = false;
 					gui.addKeyListener(kl);
 				}

@@ -39,6 +39,7 @@ public class InventoryMenu extends Halja implements Runnable{
 	private int currentMenu = MENU_LEFT;
 	private int currentMenuItem = 0;
 	private int currentMenuCount;
+	private int previousMenuItem = 0;
 	
 	public InventoryMenu(Canvas gui){
 		this.gui = gui;
@@ -178,9 +179,12 @@ public class InventoryMenu extends Halja implements Runnable{
 				break;
 			case KeyEvent.VK_LEFT:
 				currentMenu = MENU_LEFT;
+				currentMenuItem = previousMenuItem;
 				break;
 			case KeyEvent.VK_RIGHT:
 				currentMenu = MENU_RIGHT;
+				previousMenuItem = currentMenuItem;
+				currentMenuItem = 0;
 				break;
 			}
 		}

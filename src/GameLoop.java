@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -12,9 +13,10 @@ import java.io.IOException;
 
 public class GameLoop extends Halja implements Runnable, MouseListener,
 MouseMotionListener{
-	private boolean isRunning;
+	private boolean isRunning, inMenu;
 	private Canvas gui;
 	private long cycleTime;
+	private KeyListener kl;
 	private HUD hud = new HUD();
 	private Sounds sound = new Sounds();
 	
@@ -23,8 +25,10 @@ MouseMotionListener{
 	public GameLoop(Canvas gui){
 		this.gui = gui;
 		isRunning = true;
+		inMenu = false;
 
-		gui.addKeyListener(new TAdapter());
+		kl = new TAdapter();
+		gui.addKeyListener(kl);
 		gui.addMouseListener(this);
 		gui.addMouseMotionListener(this);
 		gui.setFocusable(true);
@@ -53,12 +57,21 @@ MouseMotionListener{
 
 		//game loop
 		while(isRunning){
-		
-			updateGameState();			//calculates any necessary changes to game play objects
+			
+				updateGameState();			//calculates any necessary changes to game play objects
 
-			updateGUI(strategy);		//redraws GUI
+				updateGUI(strategy);		//redraws GUI
 
-			syncFPS();					//tries to keep game at target FPS
+				syncFPS();					//tries to keep game at target FPS
+				
+				if(inMenu){
+					gui.removeKeyListener(kl);
+					Thread iThread = new Thread(new InventoryMenu(gui));
+					iThread.start();
+					do{}while(iThread.isAlive());	//wait until resources are loaded to continue
+					inMenu = false;
+					gui.addKeyListener(kl);
+				}
 		}
 	}
 
@@ -249,6 +262,10 @@ MouseMotionListener{
 			case KeyEvent.VK_E:
 				nextThread = "INVENTORY";
 				isRunning = false;
+				break;
+			case KeyEvent.VK_I:
+				//start inventory menu thread
+				inMenu = true;
 				break;
 			}
 		}

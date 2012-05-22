@@ -259,10 +259,6 @@ MouseMotionListener{
 				nextThread = "MENU";
 				isRunning = false;
 				break;
-			case KeyEvent.VK_E:
-				nextThread = "INVENTORY";
-				isRunning = false;
-				break;
 			case KeyEvent.VK_I:
 				//start inventory menu thread
 				inMenu = true;

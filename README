@@ -4,7 +4,7 @@ Controls:
 	KEYBOARD
 	=================================================================
 	Up, Down, Left, Right - Move Entity
-	E - View contents of your backpack
+	I - View contents of your backpack
 	
 	W, A, S, D - Move tile marker (hold SHIFT for range selection)
 	Z, X - Change tile

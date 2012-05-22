@@ -131,10 +131,6 @@ public class Halja {
 					pThread = new Thread(new GameTimeUpdater(gameTime)); // Start the Game Time when game selected
 					pThread.start();	//Starts the game Time thread
 					break;
-				case "INVENTORY":
-					//Start inventory screen
-					gThread = new Thread(new Inventory(gui));
-					break;
 				}
 				gThread.start();
 			}

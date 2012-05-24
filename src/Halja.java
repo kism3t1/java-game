@@ -1,6 +1,7 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JFrame;
@@ -68,6 +69,22 @@ public class Halja {
 	public static transient BufferedImage[][] weaponSkin;
 	
 	public static transient CollisionDetection collisionDetection = new CollisionDetection();
+	
+	//to contain CSV representing inventory
+	public static transient String invWeapons;
+	public static transient String invArmour;
+	public static transient String invPotions;
+	public static transient String invItems;
+	
+	//to contain CSV representing storage
+	public static transient String strWeapons;
+	public static transient String strArmour;
+	public static transient String strPotions;
+	public static transient String strItems;
+	
+	//to contain ID of currently equipped gear
+	public static transient int eqpWeapon;
+	public static transient int eqpArmour;
 
 	// tile offset for scrolling
 	public static transient int xOffset = 0;

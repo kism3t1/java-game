@@ -24,17 +24,6 @@ public class Map extends Halja implements Serializable {
 											// size
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				/*
-				TileSet[x][y] = new Tile();
-				TileSet[x][y].setVisible(isVisible);
-				
-				if(x == 0 || y == 0 || x == width-1 || y == height-1){
-					TileSet[x][y].setSkin(borderSkin);
-					TileSet[x][y].setVisible(true);
-					TileSet[x][y].setDestructible(false);
-				}
-				*/
-				
 				if(populate)
 					TileSet[x][y] = new Tile();
 				

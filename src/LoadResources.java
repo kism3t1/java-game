@@ -287,7 +287,9 @@ public class LoadResources extends Halja implements Runnable{
 		}
 	}
 	
-	public void saveGame(){
+	public void saveGame(String fileName) throws IOException{
+		FileOutputStream saveFile = new FileOutputStream(fileName);
 		
+		saveFile.close();
 	}
 }

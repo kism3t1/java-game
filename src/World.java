@@ -73,10 +73,12 @@ public class World extends Halja implements Serializable {
 	{
 		if(!enemy.isEmpty())
 		{
-			for(int i = 0; i < enemy.size(); i++)
+			for(Enemy e : enemy)
 			{
-				if(enemy.get(i).getID() == enemyID)
-					enemy.remove(i);
+				if(e.getID() == enemyID){
+					enemy.remove(e);
+					return;
+				}
 			}
 		}
 	}
@@ -90,9 +92,9 @@ public class World extends Halja implements Serializable {
 		{
 			do
 			{
-				for(int i = 0; i < enemy.size(); i++)
+				for(Enemy e : enemy)
 				{
-					if(enemy.get(i).getID() == id)
+					if(e.getID() == id)
 					{
 						unique = false;
 						break;
@@ -116,22 +118,22 @@ public class World extends Halja implements Serializable {
 
 	public Enemy getEnemy(int enemyID)
 	{
-		for(int i = 0; i < enemy.size(); i++){
-			if(enemy.get(i).getID() == enemyID)
-				return enemy.get(i);
+		for(Enemy e : enemy){
+			if(e.getID() == enemyID)
+				return e;
 		}
 		return null;
 	}
 
 	public void moveEnemies()
 	{
-		for(int i = 0; i < enemy.size(); i++)
-			enemy.get(i).move();
+		for(Enemy e : enemy)
+			e.move();
 	}
 
 	public void drawEnemies(Graphics g){
-		for(int i = 0; i < enemy.size(); i++)
-			enemy.get(i).draw(g);
+		for(Enemy e : enemy)
+			e.draw(g);
 	}
 
 	/* Friendly entity part */
@@ -139,18 +141,20 @@ public class World extends Halja implements Serializable {
 
 	public void addFriendly(int skin, int x, int y)
 	{
-		EntityFriendly e = new EntityFriendly(getNewFriendlyID(), skin, x, y);
-		friendly.add(e);
+		EntityFriendly f = new EntityFriendly(getNewFriendlyID(), skin, x, y);
+		friendly.add(f);
 	}
 
 	public void removeFriendly(int FriendlyID)
 	{
 		if(!friendly.isEmpty())
 		{
-			for(int i = 0; i < friendly.size(); i++)
+			for(EntityFriendly f : friendly)
 			{
-				if(friendly.get(i).getID() == FriendlyID)
-					friendly.remove(i);
+				if(f.getID() == FriendlyID){
+					friendly.remove(f);
+					return;
+				}
 			}
 		}
 	}
@@ -164,9 +168,9 @@ public class World extends Halja implements Serializable {
 		{
 			do
 			{
-				for(int i = 0; i < friendly.size(); i++)
+				for(EntityFriendly f : friendly)
 				{
-					if(friendly.get(i).getID() == id)
+					if(f.getID() == id)
 					{
 						unique = false;
 						break;
@@ -190,23 +194,23 @@ public class World extends Halja implements Serializable {
 
 	public EntityFriendly getFriendly(int FriendlyID)
 	{
-		for(int i = 0; i < friendly.size(); i++){
-			if(friendly.get(i).getID() == FriendlyID)
-				return friendly.get(i);
+		for(EntityFriendly f : friendly){
+			if(f.getID() == FriendlyID)
+				return f;
 		}
 		return null;
 	}
 
 	public void moveFriendlies()
 	{
-		for(int i = 0; i < friendly.size(); i++){
-			friendly.get(i).move();
+		for(EntityFriendly f : friendly){
+			f.move();
 		}
 
 	}
 	public void drawFriendly(Graphics g){
-		for(int i = 0; i < friendly.size(); i++)
-			friendly.get(i).draw(g);
+		for(EntityFriendly f : friendly)
+			f.draw(g);
 	}
 
 }

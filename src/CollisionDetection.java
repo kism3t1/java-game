@@ -17,9 +17,9 @@ public class CollisionDetection extends Halja{
 		// check collision with enemies
 		if (checkEnemy) {
 			if(!world.enemy.isEmpty()){
-				for (int i = 0; i < world.enemy.size(); i++) {
-					if (world.enemy.get(i).getID() != enemyID) {
-						r2 = world.enemy.get(i).getBounds(); // Get bounds of enemy
+				for (Enemy e : world.enemy) {
+					if (e.getID() != enemyID) {
+						r2 = e.getBounds(); // Get bounds of enemy
 
 						if (r1.intersects(r2)) { // Checks if entity collides with
 							// an enemy
@@ -54,9 +54,9 @@ public class CollisionDetection extends Halja{
 	public boolean checkEnemies(Rectangle r1, int enemyID){
 		Rectangle r2;
 		if(!world.enemy.isEmpty()){
-			for (int i = 0; i < world.enemy.size(); i++) {
-				if (world.enemy.get(i).getID() != enemyID) {
-					r2 = world.enemy.get(i).getBounds(); // Get bounds of enemy
+			for (Enemy e : world.enemy) {
+				if (e.getID() != enemyID) {
+					r2 = e.getBounds(); // Get bounds of enemy
 
 					if (r1.intersects(r2)) { // Checks if entity collides with
 						// an enemy
@@ -92,9 +92,9 @@ public class CollisionDetection extends Halja{
 	public boolean checkFriendly(Rectangle r1, int friendlyID){
 		Rectangle r2;
 		if(!world.friendly.isEmpty()){
-			for (int i = 0; i < world.friendly.size(); i++) {
-				if (world.friendly.get(i).getID() != friendlyID) {
-					r2 = world.friendly.get(i).getBounds(); // Get bounds of Friendly
+			for (EntityFriendly f : world.friendly) {
+				if (f.getID() != friendlyID) {
+					r2 = f.getBounds(); // Get bounds of Friendly
 
 					if (r1.intersects(r2)) { // Checks if entity collides with a friendly
 						return true;
@@ -112,11 +112,11 @@ public class CollisionDetection extends Halja{
 		Rectangle r1 = new Rectangle(point, new Dimension(1,1));
 
 		if(!world.enemy.isEmpty()){
-			for (int i = 0; i < world.enemy.size(); i++) {
-				r2 = world.enemy.get(i).getBounds(); // Get bounds of enemy
+			for (Enemy e : world.enemy) {
+				r2 = e.getBounds(); // Get bounds of enemy
 
 				if (r1.intersects(r2)) { 
-					id = world.enemy.get(i).getID();
+					id = e.getID();
 					return id;
 				}
 
@@ -134,11 +134,11 @@ public class CollisionDetection extends Halja{
 		Rectangle r1 = new Rectangle(point, new Dimension(1,1));
 
 		if(!world.friendly.isEmpty()){
-			for (int i = 0; i < world.friendly.size(); i++) {
-				r2 = world.friendly.get(i).getBounds(); // Get bounds of enemy
+			for (EntityFriendly f : world.friendly) {
+				r2 = f.getBounds(); // Get bounds of enemy
 
 				if (r1.intersects(r2)) { 
-					id = world.friendly.get(i).getID();
+					id = f.getID();
 					return id;
 				}
 

@@ -290,9 +290,114 @@ public class LoadResources extends Halja implements Runnable{
 		}
 	}
 	
-	public void saveGame(String fileName) throws IOException{
+	public static void saveGame(String fileName) throws IOException{
+		String out = null;
 		FileOutputStream saveFile = new FileOutputStream(fileName);
 		
+		out = "CAMERA_X=" + cameraX + ";";
+		saveFile.write(out.getBytes());
+		
+		out = "CAMERA_Y=" + cameraY + ";";
+		saveFile.write(out.getBytes());
+		
+		out = "OLLIE_X=" + world.ollie.getX() + ";";
+		saveFile.write(out.getBytes());
+		
+		out = "OLLIE_Y=" + world.ollie.getY() + ";";
+		saveFile.write(out.getBytes());
+		
+		out = "OLLIE_HEALTH=" + world.ollie.getHealth() + ";";
+		saveFile.write(out.getBytes());
+		
+		out = "OLLIE_ARMOUR=" + world.ollie.getArmour() + ";";
+		saveFile.write(out.getBytes());
+		
+		out = "WEAPON_EQUIPPED=" + eqpWeapon + ";";
+		saveFile.write(out.getBytes());
+		
+		out = "ARMOUR_EQUIPPED=" + eqpArmour + ";";
+		saveFile.write(out.getBytes());
+		
+		out = "INV_WEAPONS=" + invWeapons + ";";
+		saveFile.write(out.getBytes());
+		
+		out = "INV_ARMOUR=" + invArmour + ";";
+		saveFile.write(out.getBytes());
+		
+		out = "INV_POTIONS=" + invPotions + ";";
+		saveFile.write(out.getBytes());
+		
+		out = "INV_ITEMS=" + invItems + ";";
+		saveFile.write(out.getBytes());
+		
+		out = "STR_WEAPONS=" + strWeapons + ";";
+		saveFile.write(out.getBytes());
+		
+		out = "STR_ARMOUR=" + strArmour + ";";
+		saveFile.write(out.getBytes());
+
 		saveFile.close();
+	}
+	
+	public static void loadGame(String fileName) throws IOException{
+		FileInputStream loadFile = new FileInputStream(fileName);
+		
+		String in = "";
+		int i;
+		while((i = loadFile.read()) != -1){
+			in += (char)i;
+		}
+		loadFile.close();
+		
+		String[] loaded = in.split("[;]");
+		
+		for(int x = 0; x < loaded.length; x++){
+			String[] value = loaded[x].split("[=]");
+			
+			switch(value[0]){
+			case "CAMERA_X":
+				cameraX = Integer.parseInt(value[1]);
+				break;
+			case "CAMERA_Y":
+				cameraY = Integer.parseInt(value[1]);
+				break;
+			case "OLLIE_X":
+				world.ollie.setX(Integer.parseInt(value[1]));
+				break;
+			case "OLLIE_Y":
+				world.ollie.setY(Integer.parseInt(value[1]));
+				break;
+			case "OLLIE_HEALTH":
+				world.ollie.setHealth(Integer.parseInt(value[1]));
+				break;
+			case "OLLIE_ARMOUR":
+				world.ollie.setArmour(Integer.parseInt(value[1]));
+				break;
+			case "WEAPON_EQUIPPED":
+				eqpWeapon = Integer.parseInt(value[1]);
+				break;
+			case "ARMOUR_EQUIPPED":
+				eqpArmour = Integer.parseInt(value[1]);
+				break;
+			case "INV_WEAPONS":
+				invWeapons = value[1];
+				break;
+			case "INV_ARMOUR":
+				invArmour = value[1];
+				break;
+			case "INV_POTIONS":
+				invPotions = value[1];
+				break;
+			case "INV_ITEMS":
+				invItems = value[1];
+				break;
+			case "STR_WEAPONS":
+				strWeapons = value[1];
+				break;
+			case "STR_ARMOUR":
+				strArmour = value[1];
+				break;
+			}
+		}
 	}
 }

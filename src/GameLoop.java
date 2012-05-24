@@ -20,8 +20,6 @@ MouseMotionListener{
 	private KeyListener kl;
 	private HUD hud = new HUD();
 	private Sounds sound = new Sounds();
-	
-	private int cameraX, cameraY = 0;
 
 	public GameLoop(Canvas gui){
 		this.gui = gui;
@@ -269,6 +267,22 @@ MouseMotionListener{
 			case KeyEvent.VK_I:
 				//start inventory menu thread
 				inMenu = true;
+				break;
+			case KeyEvent.VK_F11:
+				try {
+					LoadResources.loadGame("1.save");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				break;
+			case KeyEvent.VK_F12:
+				try {
+					LoadResources.saveGame("1.save");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				break;
 			}
 		}

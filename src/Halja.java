@@ -1,7 +1,6 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JFrame;
@@ -80,8 +79,6 @@ public class Halja {
 	//to contain CSV representing storage
 	public static transient String strWeapons;
 	public static transient String strArmour;
-	public static transient String strPotions;
-	public static transient String strItems;
 	
 	//to contain ID of currently equipped gear
 	public static transient int eqpWeapon;
@@ -92,6 +89,8 @@ public class Halja {
 	public static transient int yOffset = 0;
 	public static transient int prevXOffset = 0;
 	public static transient int prevYOffset = 0;
+	public static transient int cameraX = 0;
+	public static transient int cameraY = 0;
 
 	// screen size info to aide scrolling
 	public static transient int screenWidth = 0;

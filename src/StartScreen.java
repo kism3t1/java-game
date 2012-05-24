@@ -8,7 +8,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -116,8 +115,8 @@ public class StartScreen extends JPanel implements Runnable{
 				menuChoice +=1;
 			}
 			
-			if ((key == KeyEvent.VK_SPACE) ||
-					(key == KeyEvent.VK_ENTER)) {
+			if (key == KeyEvent.VK_SPACE ||
+					key == KeyEvent.VK_ENTER) {
 				if (menuChoice == 1){
 					Halja.nextThread = "GAME";
 					isRunning = false;
@@ -128,8 +127,8 @@ public class StartScreen extends JPanel implements Runnable{
 				}else{
 					System.out.println("Error");
 				}
-				
 			}
+			
 		}
 			
 	}

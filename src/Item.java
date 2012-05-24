@@ -7,9 +7,11 @@
 public class Item {
 	
 	boolean thrown = false;
+	int amount;
 	
-	public Item(boolean thrown) {
+	public Item(int amount, boolean thrown) {
 		this.thrown = thrown;
+		this.amount = amount;
 	}
 	
 }

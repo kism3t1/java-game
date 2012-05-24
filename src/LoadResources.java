@@ -204,13 +204,13 @@ public class LoadResources extends Halja implements Runnable{
 		
 		potion = new Potion[3];
 		potion[PTN_POTION] = new Potion(5, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, true);
-		potion[PTN_FIRE] = new Potion(15, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, true);
+		potion[PTN_FIRE] = new Potion(15, 0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, true);
 		potion[PTN_MAYTH] = new Potion(15, 0.0f, 0.0f, 0.0f, 0.0f, 0.3f, 0.0f, true);
 		
 		//ITEMS
 		
 		try{
-			itemSkin = new BufferedImage[4][6];
+			itemSkin = new BufferedImage[4][1];
 			itemSkin[TOD_DAYTIME][ITM_GOLD] = optimizedImage("/Images/Item/gold.png");
 		
 		}catch(IOException e){
@@ -218,17 +218,43 @@ public class LoadResources extends Halja implements Runnable{
 		}
 		
 		for(int i=0; i < itemSkin[0].length; i++){
-			itemSkin[TOD_NIGHT][i] = castImage(weaponSkin[TOD_DAYTIME][i], TOD_NIGHT_COLOR);
-			itemSkin[TOD_SUNRISE][i] = castImage(weaponSkin[TOD_DAYTIME][i], TOD_SUNRISE_COLOR);
-			itemSkin[TOD_SUNSET][i] = castImage(weaponSkin[TOD_DAYTIME][i], TOD_SUNSET_COLOR);
+			itemSkin[TOD_NIGHT][i] = castImage(itemSkin[TOD_DAYTIME][i], TOD_NIGHT_COLOR);
+			itemSkin[TOD_SUNRISE][i] = castImage(itemSkin[TOD_DAYTIME][i], TOD_SUNRISE_COLOR);
+			itemSkin[TOD_SUNSET][i] = castImage(itemSkin[TOD_DAYTIME][i], TOD_SUNSET_COLOR);
 		}
 		
-		itemMenuText = new String[6];
+		itemMenuText = new String[1];
 		itemMenuText[ITM_GOLD] = "Gold";
 
 		
 		item = new Item[1];
-		item[ITM_GOLD] = new Item(true);
+		item[ITM_GOLD] = new Item(15, false);
+		
+		//Armour
+		
+		try{
+			armourSkin = new BufferedImage[4][2];
+			armourSkin[TOD_DAYTIME][ARM_STEAL_SHIELD] = optimizedImage("/Images/Armour/stealshield.png");
+			armourSkin[TOD_DAYTIME][ARM_ETHERT_SHIELD] = optimizedImage("/Images/Armour/ethertshield.png");
+		
+		}catch(IOException e){
+			System.out.println("Error loading armourSkin");
+		}
+		
+		for(int i=0; i < armourSkin[0].length; i++){
+			armourSkin[TOD_NIGHT][i] = castImage(armourSkin[TOD_DAYTIME][i], TOD_NIGHT_COLOR);
+			armourSkin[TOD_SUNRISE][i] = castImage(armourSkin[TOD_DAYTIME][i], TOD_SUNRISE_COLOR);
+			armourSkin[TOD_SUNSET][i] = castImage(armourSkin[TOD_DAYTIME][i], TOD_SUNSET_COLOR);
+		}
+		
+		armourMenuText = new String[2];
+		armourMenuText[ARM_STEAL_SHIELD] = "Steal Shield";
+		armourMenuText[ARM_ETHERT_SHIELD] = "Ethert Shield";
+
+		
+		armour = new Armour[2];
+		armour[ARM_STEAL_SHIELD] = new Armour(15, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 39);
+		armour[ARM_ETHERT_SHIELD] = new Armour(15, 0.0f, 0.0f, 0.0f, 0.3f, 0.0f, 0.0f, 39);
 
 
 	}

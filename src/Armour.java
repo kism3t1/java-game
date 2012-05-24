@@ -13,11 +13,12 @@ public class Armour {
 	float takeDamageEthert = 0.0f;
 	float takeDamageMayth = 0.0f;
 	float takeDamageBes = 0.0f;
+	int health = 0; //maybe change to float?
 	
 	
 	public Armour(int takeDamageBase, float takeDamageFire, float takeDamageIce,
 			float takeDamageLightning, float takeDamageEthert, float takeDamageMayth,
-			float takeDamageBes) {
+			float takeDamageBes, int health) {
 		this.takeDamageBase = takeDamageBase;
 		this.takeDamageFire = takeDamageFire;
 		this.takeDamageFrost = takeDamageIce;
@@ -25,6 +26,7 @@ public class Armour {
 		this.takeDamageEthert = takeDamageEthert;
 		this.takeDamageMayth = takeDamageMayth;
 		this.takeDamageBes = takeDamageBes;
+		this.health = health;
 	}
 	
 }

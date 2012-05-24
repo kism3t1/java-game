@@ -82,7 +82,35 @@ public class InventoryMenu extends Halja implements Runnable{
 			subMenu[SUBMENU_WEAPONS].item.add(new MenuItem(weaponMenuText[id], stats, weaponSkin[TOD_DAYTIME][id]));
 		}
 		
-		subMenu[SUBMENU_ARMOUR].item.add(new MenuItem("Armour","Dummy Item",null));
+		String[] arm = invArmour.split("[,]");
+		for(int i = 0; i < arm.length; i++){
+			int id = Integer.parseInt(arm[i]);
+			String stats = "Damage: " + armour[i].takeDamageBase;
+			
+			if(armour[id].takeDamageBes != 0.0f)
+				stats += "    Bes: " + (int)(armour[id].takeDamageBes * 100) + "%";
+			
+			if(armour[id].takeDamageEthert != 0.0f)
+				stats += "    Ethert: " + (int)(armour[id].takeDamageEthert * 100) + "%";
+			
+			if(armour[id].takeDamageFire != 0.0f)
+				stats += "    Fire: " + (int)(armour[id].takeDamageFire * 100) + "%";
+			
+			if(armour[id].takeDamageFrost != 0.0f)
+				stats += "    Frost: " + (int)(armour[id].takeDamageFrost * 100) + "%";
+			
+			if(armour[id].takeDamageLightning != 0.0f)
+				stats += "    Lightning: " + (int)(armour[id].takeDamageLightning * 100) + "%";
+			
+			if(armour[id].takeDamageMayth != 0.0f)
+				stats += "    Mayth: " + (int)(armour[id].takeDamageMayth * 100) + "%";
+			
+				stats += "    Health:" + (int)(armour[id].health);
+			
+			subMenu[SUBMENU_ARMOUR].item.add(new MenuItem(armourMenuText[id], stats, armourSkin[TOD_DAYTIME][id]));
+		}
+		
+		//subMenu[SUBMENU_ARMOUR].item.add(new MenuItem("Armour","Dummy Item",null));
 		
 		
 		String[] ptn = invPotions.split("[,]");
@@ -108,10 +136,22 @@ public class InventoryMenu extends Halja implements Runnable{
 			if(potion[id].damageMayth != 0.0f)
 				stats += "    Mayth: " + (int)(potion[id].damageMayth * 100) + "%";
 			
+			stats += "    Thowable: " + potion[id].thrown;
+			
 			subMenu[SUBMENU_POTIONS].item.add(new MenuItem(potionMenuText[id], stats, potionSkin[TOD_DAYTIME][id]));
 		}
 		
-		subMenu[SUBMENU_ITEMS].item.add(new MenuItem("Item","Dummy Item",null));
+		String[] itm = invItems.split("[,]");
+		for(int i = 0; i < itm.length; i++){
+			int id = Integer.parseInt(ptn[i]);
+			String stats = "Amount: " + item[i].amount;
+			
+				stats += "    Thowable: " + item[id].thrown;
+			
+			subMenu[SUBMENU_ITEMS].item.add(new MenuItem(itemMenuText[id], stats, itemSkin[TOD_DAYTIME][id]));
+		}
+		
+		//subMenu[SUBMENU_ITEMS].item.add(new MenuItem("Item","Dummy Item",null));
 		
 		//sort subMenu
 		for(int i=0; i<subMenu.length; i++){

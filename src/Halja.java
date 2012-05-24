@@ -43,6 +43,9 @@ public class Halja {
 	public static transient final int HUD_HEART = 0;
 	public static transient final int HUD_SWORD = 1;
 	
+	//NOTE:	Would it be better to have unique ID's for all items, weapons etc
+	//		or stick with below
+	
 	//Weapons ID's
 	public static transient final int WPN_SLINGSHOT = 0;
 	public static transient final int WPN_IRON_SWORD = 1;
@@ -52,12 +55,16 @@ public class Halja {
 	public static transient final int WPN_IRON_MAYTH_SWORD = 5;
 	
 	//Potion ID's
-	public static transient final int PTN_POTION = 0;
+	public static transient final int PTN_POTION = 0;	
 	public static transient final int PTN_FIRE = 1;
 	public static transient final int PTN_MAYTH = 2;
 	
 	//Item ID,s
 	public static transient final int ITM_GOLD = 0;
+	
+	//Armour ID,s
+	public static transient final int ARM_STEAL_SHIELD = 0;
+	public static transient final int ARM_ETHERT_SHIELD = 1;
 	
 
 	public static transient World world;
@@ -84,6 +91,10 @@ public class Halja {
 	public static transient Item[] item;
 	public static transient String [] itemMenuText;
 	public static transient BufferedImage[][] itemSkin;
+	
+	public static transient Armour[] armour;
+	public static transient String [] armourMenuText;
+	public static transient BufferedImage[][] armourSkin;
 	
 	public static transient CollisionDetection collisionDetection = new CollisionDetection();
 	

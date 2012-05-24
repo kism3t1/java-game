@@ -146,6 +146,7 @@ public class LoadResources extends Halja implements Runnable{
 			System.out.println("Error loading HUDIcons");
 		}
 		
+		//WEAPONS
 		try{
 			weaponSkin = new BufferedImage[4][6];
 			weaponSkin[TOD_DAYTIME][WPN_SLINGSHOT] = optimizedImage("/Images/Weapon/sword.png");
@@ -179,7 +180,59 @@ public class LoadResources extends Halja implements Runnable{
 		weapon[WPN_IRON_FROST_SWORD] = new Weapon(25, 0.0f, 0.1f, 0.0f, 0.0f, 0.0f, 0.0f, false);
 		weapon[WPN_IRON_ETHERT_SWORD] = new Weapon(30, 0.0f, 0.0f, 0.0f, 0.1f, 0.0f, 0.0f, false);
 		weapon[WPN_IRON_MAYTH_SWORD] = new Weapon(35, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f, 0.0f, false);
+		
+		//POTIONS
+		try{
+			potionSkin = new BufferedImage[4][3];
+			potionSkin[TOD_DAYTIME][PTN_POTION] = optimizedImage("/Images/Potion/firepotion.png");
+			potionSkin[TOD_DAYTIME][PTN_FIRE] = optimizedImage("/Images/Potion/maythpotion.png");
+			potionSkin[TOD_DAYTIME][PTN_MAYTH] = optimizedImage("/Images/Potion/maythpotion.png");
+		}catch(IOException e){
+			System.out.println("Error loading potionSkin");
+		}
+		
+		for(int i=0; i < potionSkin[0].length; i++){
+			potionSkin[TOD_NIGHT][i] = castImage(potionSkin[TOD_DAYTIME][i], TOD_NIGHT_COLOR);
+			potionSkin[TOD_SUNRISE][i] = castImage(potionSkin[TOD_DAYTIME][i], TOD_SUNRISE_COLOR);
+			potionSkin[TOD_SUNSET][i] = castImage(potionSkin[TOD_DAYTIME][i], TOD_SUNSET_COLOR);
+		}
+		
+		potionMenuText = new String[3];
+		potionMenuText[PTN_POTION] = "Normal Potion";
+		potionMenuText[PTN_FIRE] = "Fire Potion";
+		potionMenuText[PTN_MAYTH] = "Mayth Potion";
+		
+		potion = new Potion[3];
+		potion[PTN_POTION] = new Potion(5, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, true);
+		potion[PTN_FIRE] = new Potion(15, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, true);
+		potion[PTN_MAYTH] = new Potion(15, 0.0f, 0.0f, 0.0f, 0.0f, 0.3f, 0.0f, true);
+		
+		//ITEMS
+		
+		try{
+			itemSkin = new BufferedImage[4][6];
+			itemSkin[TOD_DAYTIME][ITM_GOLD] = optimizedImage("/Images/Item/gold.png");
+		
+		}catch(IOException e){
+			System.out.println("Error loading itemSkin");
+		}
+		
+		for(int i=0; i < itemSkin[0].length; i++){
+			itemSkin[TOD_NIGHT][i] = castImage(weaponSkin[TOD_DAYTIME][i], TOD_NIGHT_COLOR);
+			itemSkin[TOD_SUNRISE][i] = castImage(weaponSkin[TOD_DAYTIME][i], TOD_SUNRISE_COLOR);
+			itemSkin[TOD_SUNSET][i] = castImage(weaponSkin[TOD_DAYTIME][i], TOD_SUNSET_COLOR);
+		}
+		
+		itemMenuText = new String[6];
+		itemMenuText[ITM_GOLD] = "Gold";
+
+		
+		item = new Item[1];
+		item[ITM_GOLD] = new Item(true);
+
+
 	}
+	
 
 	//optimize images for current system
 	private BufferedImage optimizedImage(String resourceName) throws IOException

@@ -84,7 +84,32 @@ public class InventoryMenu extends Halja implements Runnable{
 		
 		subMenu[SUBMENU_ARMOUR].item.add(new MenuItem("Armour","Dummy Item",null));
 		
-		subMenu[SUBMENU_POTIONS].item.add(new MenuItem("Potion","Dummy Item",null));
+		
+		String[] ptn = invPotions.split("[,]");
+		for(int i = 0; i < ptn.length; i++){
+			int id = Integer.parseInt(ptn[i]);
+			String stats = "Damage: " + potion[i].damageBase;
+			
+			if(potion[id].damageBes != 0.0f)
+				stats += "    Bes: " + (int)(potion[id].damageBes * 100) + "%";
+			
+			if(potion[id].damageEthert != 0.0f)
+				stats += "    Ethert: " + (int)(potion[id].damageEthert * 100) + "%";
+			
+			if(potion[id].damageFire != 0.0f)
+				stats += "    Fire: " + (int)(potion[id].damageFire * 100) + "%";
+			
+			if(potion[id].damageFrost != 0.0f)
+				stats += "    Frost: " + (int)(potion[id].damageFrost * 100) + "%";
+			
+			if(potion[id].damageLightning != 0.0f)
+				stats += "    Lightning: " + (int)(potion[id].damageLightning * 100) + "%";
+			
+			if(potion[id].damageMayth != 0.0f)
+				stats += "    Mayth: " + (int)(potion[id].damageMayth * 100) + "%";
+			
+			subMenu[SUBMENU_POTIONS].item.add(new MenuItem(potionMenuText[id], stats, potionSkin[TOD_DAYTIME][id]));
+		}
 		
 		subMenu[SUBMENU_ITEMS].item.add(new MenuItem("Item","Dummy Item",null));
 		

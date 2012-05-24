@@ -50,6 +50,15 @@ public class Halja {
 	public static transient final int WPN_IRON_FROST_SWORD = 3;
 	public static transient final int WPN_IRON_ETHERT_SWORD = 4;
 	public static transient final int WPN_IRON_MAYTH_SWORD = 5;
+	
+	//Potion ID's
+	public static transient final int PTN_POTION = 0;
+	public static transient final int PTN_FIRE = 1;
+	public static transient final int PTN_MAYTH = 2;
+	
+	//Item ID,s
+	public static transient final int ITM_GOLD = 0;
+	
 
 	public static transient World world;
 	public static transient GameTime gameTime;
@@ -67,6 +76,14 @@ public class Halja {
 	public static transient Weapon[] weapon;
 	public static transient String[] weaponMenuText;
 	public static transient BufferedImage[][] weaponSkin;
+	
+	public static transient Potion[] potion;
+	public static transient String [] potionMenuText;
+	public static transient BufferedImage[][] potionSkin;
+	
+	public static transient Item[] item;
+	public static transient String [] itemMenuText;
+	public static transient BufferedImage[][] itemSkin;
 	
 	public static transient CollisionDetection collisionDetection = new CollisionDetection();
 	

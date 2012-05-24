@@ -56,28 +56,30 @@ public class InventoryMenu extends Halja implements Runnable{
 		subMenu[SUBMENU_POTIONS] = new SubMenu("Potions");
 		subMenu[SUBMENU_ITEMS] = new SubMenu("Items");
 		
-		for(int i = 0; i < weaponMenuText.length; i++){
-			String stats = "Damge: " + weapon[i].damageBase;
+		String[] wpn = invWeapons.split("[,]");
+		for(int i = 0; i < wpn.length; i++){
+			int id = Integer.parseInt(wpn[i]);
+			String stats = "Damage: " + weapon[i].damageBase;
 			
-			if(weapon[i].damageBes != 0.0f)
-				stats += "    Bes: " + (int)(weapon[i].damageBes * 100) + "%";
+			if(weapon[id].damageBes != 0.0f)
+				stats += "    Bes: " + (int)(weapon[id].damageBes * 100) + "%";
 			
-			if(weapon[i].damageEthert != 0.0f)
-				stats += "    Ethert: " + (int)(weapon[i].damageEthert * 100) + "%";
+			if(weapon[id].damageEthert != 0.0f)
+				stats += "    Ethert: " + (int)(weapon[id].damageEthert * 100) + "%";
 			
-			if(weapon[i].damageFire != 0.0f)
-				stats += "    Fire: " + (int)(weapon[i].damageFire * 100) + "%";
+			if(weapon[id].damageFire != 0.0f)
+				stats += "    Fire: " + (int)(weapon[id].damageFire * 100) + "%";
 			
-			if(weapon[i].damageFrost != 0.0f)
-				stats += "    Frost: " + (int)(weapon[i].damageFrost * 100) + "%";
+			if(weapon[id].damageFrost != 0.0f)
+				stats += "    Frost: " + (int)(weapon[id].damageFrost * 100) + "%";
 			
-			if(weapon[i].damageLightning != 0.0f)
-				stats += "    Lightning: " + (int)(weapon[i].damageLightning * 100) + "%";
+			if(weapon[id].damageLightning != 0.0f)
+				stats += "    Lightning: " + (int)(weapon[id].damageLightning * 100) + "%";
 			
-			if(weapon[i].damageMayth != 0.0f)
-				stats += "    Mayth: " + (int)(weapon[i].damageMayth * 100) + "%";
+			if(weapon[id].damageMayth != 0.0f)
+				stats += "    Mayth: " + (int)(weapon[id].damageMayth * 100) + "%";
 			
-			subMenu[SUBMENU_WEAPONS].item.add(new MenuItem(weaponMenuText[i], stats, weaponSkin[TOD_DAYTIME][i]));
+			subMenu[SUBMENU_WEAPONS].item.add(new MenuItem(weaponMenuText[id], stats, weaponSkin[TOD_DAYTIME][id]));
 		}
 		
 		subMenu[SUBMENU_ARMOUR].item.add(new MenuItem("Armour","Dummy Item",null));

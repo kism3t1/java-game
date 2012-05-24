@@ -184,22 +184,15 @@ MouseMotionListener{
 
 		if (gameTime.checkDateTime() == TOD_NIGHT){
 			g.drawImage(skySkins[1], 30, 30, 100, 100, null);	//Moon
-			//g.drawImage(skySkins[5], 0, 0, gui.getWidth(), gui.getHeight(), null); //Nightime 70% dark
 			
 		}else if (gameTime.checkDateTime() == TOD_DAYTIME){
 			g.drawImage(skySkins[0], 30, 30, 100, 100, null);	//Sun
 		
 		}else if (gameTime.checkDateTime() == TOD_SUNSET){
 			g.drawImage(skySkins[2], 30, 30, 100, 100, null);	//Half Sun with moon
-			// Paints a 70% dark tile and fades in from 0-50. Gets darker
-			//fadeSky.draw(g);	
-			//SkyFade.increaseAlpha();
 			
 		}else if (gameTime.checkDateTime() == TOD_SUNRISE){
 			g.drawImage(skySkins[3], 30, 30, 100, 100, null);	//Half sun
-			// Paints a 70% dark tile and fades out from 50-0. Gets lighter
-			//fadeSky.draw(g);
-			//SkyFade.decreaseAlpha();
 		}else{}
 
 		//draw HUD

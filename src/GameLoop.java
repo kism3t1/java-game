@@ -89,13 +89,13 @@ MouseMotionListener{
 		guiHeight = gui.getHeight();
 
 		//Plays background music
-		try {
+		/*try {
 			sound.playMidi();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 		world.ollie.move();
 
 		//move enemies

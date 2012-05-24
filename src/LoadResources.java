@@ -147,12 +147,13 @@ public class LoadResources extends Halja implements Runnable{
 		}
 		
 		try{
-			weaponSkin = new BufferedImage[4][5];
+			weaponSkin = new BufferedImage[4][6];
 			weaponSkin[TOD_DAYTIME][WPN_SLINGSHOT] = optimizedImage("/Images/Weapon/sword.png");
 			weaponSkin[TOD_DAYTIME][WPN_IRON_SWORD] = optimizedImage("/Images/Weapon/sword.png");
 			weaponSkin[TOD_DAYTIME][WPN_IRON_FIRE_SWORD] = optimizedImage("/Images/Weapon/firesword.png");
 			weaponSkin[TOD_DAYTIME][WPN_IRON_FROST_SWORD] = optimizedImage("/Images/Weapon/frostsword.png");
 			weaponSkin[TOD_DAYTIME][WPN_IRON_ETHERT_SWORD] = optimizedImage("/Images/Weapon/ethertsword.png");
+			weaponSkin[TOD_DAYTIME][WPN_IRON_MAYTH_SWORD] = optimizedImage("/Images/Weapon/maythsword.png");
 		}catch(IOException e){
 			System.out.println("Error loading weaponSkin");
 		}
@@ -163,19 +164,21 @@ public class LoadResources extends Halja implements Runnable{
 			weaponSkin[TOD_SUNSET][i] = castImage(weaponSkin[TOD_DAYTIME][i], TOD_SUNSET_COLOR);
 		}
 		
-		weaponMenuText = new String[5];
+		weaponMenuText = new String[6];
 		weaponMenuText[WPN_SLINGSHOT] = "Slinghsot";
 		weaponMenuText[WPN_IRON_SWORD] = "Iron Sword";
 		weaponMenuText[WPN_IRON_FIRE_SWORD] = "Iron Fire Sword";
 		weaponMenuText[WPN_IRON_FROST_SWORD] = "Iron Frost Sword";
 		weaponMenuText[WPN_IRON_ETHERT_SWORD] = "Iron Ethert Sword";
+		weaponMenuText[WPN_IRON_MAYTH_SWORD] = "Iron Mayth Sword";
 		
-		weapon = new Weapon[5];
+		weapon = new Weapon[6];
 		weapon[WPN_SLINGSHOT] = new Weapon(5, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, true);
 		weapon[WPN_IRON_SWORD] = new Weapon(15, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, false);
 		weapon[WPN_IRON_FIRE_SWORD] = new Weapon(15, 0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, false);
-		weapon[WPN_IRON_FROST_SWORD] = new Weapon(15, 0.0f, 0.1f, 0.0f, 0.0f, 0.0f, 0.0f, false);
-		weapon[WPN_IRON_ETHERT_SWORD] = new Weapon(15, 0.0f, 0.0f, 0.0f, 0.1f, 0.0f, 0.0f, false);
+		weapon[WPN_IRON_FROST_SWORD] = new Weapon(25, 0.0f, 0.1f, 0.0f, 0.0f, 0.0f, 0.0f, false);
+		weapon[WPN_IRON_ETHERT_SWORD] = new Weapon(30, 0.0f, 0.0f, 0.0f, 0.1f, 0.0f, 0.0f, false);
+		weapon[WPN_IRON_MAYTH_SWORD] = new Weapon(35, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f, 0.0f, false);
 	}
 
 	//optimize images for current system

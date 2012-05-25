@@ -89,6 +89,7 @@ public class World extends Halja implements Serializable {
 			{
 				if(e.getID() == enemyID){
 					enemy.remove(e);
+					enemy.trimToSize();
 					return;
 				}
 			}
@@ -165,6 +166,7 @@ public class World extends Halja implements Serializable {
 			{
 				if(f.getID() == FriendlyID){
 					friendly.remove(f);
+					friendly.trimToSize();
 					return;
 				}
 			}

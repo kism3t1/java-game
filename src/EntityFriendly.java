@@ -28,8 +28,8 @@ public class EntityFriendly extends Halja implements Serializable {
 		this.skin = skin;
 		this.x = x;
 		this.y = y;
-		width = entityFriendlySkins[TOD_DAYTIME][skin][0].getWidth();
-		height = entityFriendlySkins[TOD_DAYTIME][skin][0].getHeight();
+		width = friendlySkins[TOD_DAYTIME][skin][0].getWidth();
+		height = friendlySkins[TOD_DAYTIME][skin][0].getHeight();
 		this.id = id;
 		speed = 1;
 		health = 3;
@@ -170,7 +170,7 @@ public class EntityFriendly extends Halja implements Serializable {
 			break;	
 		}
 		if(visible)
-			g.drawImage(entityFriendlySkins[gameTime.checkDateTime()][skin][ai.retutnAnimState()].nextFrame(), x, y, null);
+			g.drawImage(friendlySkins[gameTime.checkDateTime()][skin][ai.retutnAnimState()].nextFrame(), x, y, null);
 	}
 
 }

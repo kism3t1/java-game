@@ -37,6 +37,21 @@ public class Enemy extends Halja implements Serializable {
 		animState = ANIM_STILL;
 	}
 	
+	public Enemy(int id, int skin, int x, int y, int health) {
+		this.skin = skin;
+		this.x = x;
+		this.y = y;
+		width = enemySkins[TOD_DAYTIME][skin][0].getWidth();
+		height = enemySkins[TOD_DAYTIME][skin][0].getHeight();
+		this.id = id;
+		speed = 1;
+		this.health = health;
+		//dLast = System.currentTimeMillis() - 500;
+		ai = new EntityAIEnemy(id);
+		
+		animState = ANIM_STILL;
+	}
+	
 	public void move() {
 		x += dx;
 		y += dy;

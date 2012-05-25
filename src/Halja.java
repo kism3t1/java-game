@@ -1,7 +1,6 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JFrame;
@@ -79,7 +78,7 @@ public class Halja {
 	
 	public static transient Animation[][][] enemySkins;
 	public static transient Animation[][] entitySkins;
-	public static transient Animation[][][] entityFriendlySkins;
+	public static transient Animation[][][] friendlySkins;
 	
 	public static transient Weapon[] weapon;
 	public static transient String[] weaponMenuText;

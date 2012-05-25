@@ -74,6 +74,12 @@ public class World extends Halja implements Serializable {
 		Enemy e = new Enemy(getNewID(), skin, x, y);
 		enemy.add(e);
 	}
+	
+	public void addEnemy(int skin, int x, int y, int health)
+	{
+		Enemy e = new Enemy(getNewID(), skin, x, y, health);
+		enemy.add(e);
+	}
 
 	public void removeEnemy(int enemyID)
 	{

@@ -99,31 +99,31 @@ public class LoadResources extends Halja implements Runnable{
 
 		try{
 			//Friendly Entities
-			entityFriendlySkins = new Animation[4][2][6];
+			friendlySkins = new Animation[4][2][6];
 			//Pig
-			entityFriendlySkins[TOD_DAYTIME][0][0] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);		//0 - old skin
-			entityFriendlySkins[TOD_DAYTIME][0][ANIM_STILL] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);
-			entityFriendlySkins[TOD_DAYTIME][0][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);
-			entityFriendlySkins[TOD_DAYTIME][0][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);
-			entityFriendlySkins[TOD_DAYTIME][0][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);
-			entityFriendlySkins[TOD_DAYTIME][0][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);
+			friendlySkins[TOD_DAYTIME][0][0] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);		//0 - old skin
+			friendlySkins[TOD_DAYTIME][0][ANIM_STILL] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);
+			friendlySkins[TOD_DAYTIME][0][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);
+			friendlySkins[TOD_DAYTIME][0][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);
+			friendlySkins[TOD_DAYTIME][0][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);
+			friendlySkins[TOD_DAYTIME][0][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/pig.png"), 32, 32, 0);
 
 			//Fox
-			entityFriendlySkins[TOD_DAYTIME][1][0] = new Animation(optimizedImage("/Images/fox.png"), 22, 32, 0);		//0 - old skin
-			entityFriendlySkins[TOD_DAYTIME][1][ANIM_STILL] = new Animation(optimizedImage("/Images/fox.png"), 32, 32, 0);
-			entityFriendlySkins[TOD_DAYTIME][1][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/fox.png"), 32, 32, 0);
-			entityFriendlySkins[TOD_DAYTIME][1][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/fox.png"), 32, 32, 0);
-			entityFriendlySkins[TOD_DAYTIME][1][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/fox.png"), 32, 32, 0);
-			entityFriendlySkins[TOD_DAYTIME][1][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/fox.png"), 32, 32, 0);
+			friendlySkins[TOD_DAYTIME][1][0] = new Animation(optimizedImage("/Images/fox.png"), 22, 32, 0);		//0 - old skin
+			friendlySkins[TOD_DAYTIME][1][ANIM_STILL] = new Animation(optimizedImage("/Images/fox.png"), 32, 32, 0);
+			friendlySkins[TOD_DAYTIME][1][ANIM_WALK_DOWN] = new Animation(optimizedImage("/Images/fox.png"), 32, 32, 0);
+			friendlySkins[TOD_DAYTIME][1][ANIM_WALK_LEFT] = new Animation(optimizedImage("/Images/fox.png"), 32, 32, 0);
+			friendlySkins[TOD_DAYTIME][1][ANIM_WALK_RIGHT] = new Animation(optimizedImage("/Images/fox.png"), 32, 32, 0);
+			friendlySkins[TOD_DAYTIME][1][ANIM_WALK_UP] = new Animation(optimizedImage("/Images/fox.png"), 32, 32, 0);
 
 		}catch(IOException e){
 			System.out.println("Error loading FriendlySkins");
 		}
 		//generate alternate entity skins
-			for(int i=0; i < entityFriendlySkins[0].length; i ++){
-				entityFriendlySkins[TOD_NIGHT][i] = castImageArray(entityFriendlySkins[TOD_DAYTIME][i], TOD_NIGHT_COLOR);
-				entityFriendlySkins[TOD_SUNRISE][i] = castImageArray(entityFriendlySkins[TOD_DAYTIME][i], TOD_SUNRISE_COLOR);
-				entityFriendlySkins[TOD_SUNSET][i] = castImageArray(entityFriendlySkins[TOD_DAYTIME][i], TOD_SUNSET_COLOR);
+			for(int i=0; i < friendlySkins[0].length; i ++){
+				friendlySkins[TOD_NIGHT][i] = castImageArray(friendlySkins[TOD_DAYTIME][i], TOD_NIGHT_COLOR);
+				friendlySkins[TOD_SUNRISE][i] = castImageArray(friendlySkins[TOD_DAYTIME][i], TOD_SUNRISE_COLOR);
+				friendlySkins[TOD_SUNSET][i] = castImageArray(friendlySkins[TOD_DAYTIME][i], TOD_SUNSET_COLOR);
 			}
 
 		try{

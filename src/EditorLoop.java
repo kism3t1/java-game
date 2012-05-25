@@ -657,8 +657,8 @@ MouseMotionListener{
 			menu = new JMenu("Add Friendly");
 			subMenu = new JMenu("Type");
 			subMenu.setLayout(new GridLayout(0,5));
-			for(int i = 0; i < entityFriendlySkins[0].length; i++){
-				menuItem = new JMenuItem(new ImageIcon(entityFriendlySkins[gameTime.checkDateTime()][i][0].getImage()));
+			for(int i = 0; i < friendlySkins[0].length; i++){
+				menuItem = new JMenuItem(new ImageIcon(friendlySkins[gameTime.checkDateTime()][i][0].getImage()));
 				menuItem.addActionListener(this);
 				menuItem.setActionCommand("FRIEND:" + Integer.toString(i));
 				subMenu.add(menuItem);
@@ -902,10 +902,10 @@ MouseMotionListener{
 				break;
 			case "HEALTH":
 				int i = Integer.parseInt(JOptionPane.showInputDialog(null, 
-						"Enter new enemy health value (whole number only)", 
-						"Enemy Health", 
+						"Enter new friendly health value (whole number only)", 
+						"Friendly Health", 
 						JOptionPane.PLAIN_MESSAGE, 
-						new ImageIcon(enemySkins[gameTime.checkDateTime()][world.getFriendly(friendlyID).getSkin()][0].getImage()),
+						new ImageIcon(friendlySkins[gameTime.checkDateTime()][world.getFriendly(friendlyID).getSkin()][0].getImage()),
 						null,
 						world.getFriendly(friendlyID).getHealth()).toString());
 				world.getFriendly(friendlyID).setHealth(i);

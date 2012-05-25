@@ -1,7 +1,6 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -56,63 +55,70 @@ public class InventoryMenu extends Halja implements Runnable{
 		subMenu[SUBMENU_POTIONS] = new SubMenu("Potions");
 		subMenu[SUBMENU_ITEMS] = new SubMenu("Items");
 		
-		String[] wpn = invWeapons.split("[,]");
-		for(int i = 0; i < wpn.length; i++){
-			int id = Integer.parseInt(wpn[i]);
-			String stats = "Damage: " + weapon[i].damageBase;
-			
-			if(weapon[id].damageBes != 0.0f)
-				stats += "    Bes: " + (int)(weapon[id].damageBes * 100) + "%";
-			
-			if(weapon[id].damageEthert != 0.0f)
-				stats += "    Ethert: " + (int)(weapon[id].damageEthert * 100) + "%";
-			
-			if(weapon[id].damageFire != 0.0f)
-				stats += "    Fire: " + (int)(weapon[id].damageFire * 100) + "%";
-			
-			if(weapon[id].damageFrost != 0.0f)
-				stats += "    Frost: " + (int)(weapon[id].damageFrost * 100) + "%";
-			
-			if(weapon[id].damageLightning != 0.0f)
-				stats += "    Lightning: " + (int)(weapon[id].damageLightning * 100) + "%";
-			
-			if(weapon[id].damageMayth != 0.0f)
-				stats += "    Mayth: " + (int)(weapon[id].damageMayth * 100) + "%";
-			
-			subMenu[SUBMENU_WEAPONS].item.add(new MenuItem(weaponMenuText[id], stats, weaponSkin[TOD_DAYTIME][id]));
+		if(invWeapons != null){
+			String[] wpn = invWeapons.split("[,]");
+			for(int i = 0; i < wpn.length; i++){
+				int id = Integer.parseInt(wpn[i]);
+				String stats = "Damage: " + weapon[i].damageBase;
+
+				if(weapon[id].damageBes != 0.0f)
+					stats += "    Bes: " + (int)(weapon[id].damageBes * 100) + "%";
+
+				if(weapon[id].damageEthert != 0.0f)
+					stats += "    Ethert: " + (int)(weapon[id].damageEthert * 100) + "%";
+
+				if(weapon[id].damageFire != 0.0f)
+					stats += "    Fire: " + (int)(weapon[id].damageFire * 100) + "%";
+
+				if(weapon[id].damageFrost != 0.0f)
+					stats += "    Frost: " + (int)(weapon[id].damageFrost * 100) + "%";
+
+				if(weapon[id].damageLightning != 0.0f)
+					stats += "    Lightning: " + (int)(weapon[id].damageLightning * 100) + "%";
+
+				if(weapon[id].damageMayth != 0.0f)
+					stats += "    Mayth: " + (int)(weapon[id].damageMayth * 100) + "%";
+
+				subMenu[SUBMENU_WEAPONS].item.add(new MenuItem(weaponMenuText[id], stats, weaponSkin[TOD_DAYTIME][id]));
+			}
+		}else{
+			subMenu[SUBMENU_WEAPONS].item.add(new MenuItem("You have no weapons", "", null));
 		}
-		
-		String[] arm = invArmour.split("[,]");
-		for(int i = 0; i < arm.length; i++){
-			int id = Integer.parseInt(arm[i]);
-			String stats = "Damage: " + armour[i].takeDamageBase;
-			
-			if(armour[id].takeDamageBes != 0.0f)
-				stats += "    Bes: " + (int)(armour[id].takeDamageBes * 100) + "%";
-			
-			if(armour[id].takeDamageEthert != 0.0f)
-				stats += "    Ethert: " + (int)(armour[id].takeDamageEthert * 100) + "%";
-			
-			if(armour[id].takeDamageFire != 0.0f)
-				stats += "    Fire: " + (int)(armour[id].takeDamageFire * 100) + "%";
-			
-			if(armour[id].takeDamageFrost != 0.0f)
-				stats += "    Frost: " + (int)(armour[id].takeDamageFrost * 100) + "%";
-			
-			if(armour[id].takeDamageLightning != 0.0f)
-				stats += "    Lightning: " + (int)(armour[id].takeDamageLightning * 100) + "%";
-			
-			if(armour[id].takeDamageMayth != 0.0f)
-				stats += "    Mayth: " + (int)(armour[id].takeDamageMayth * 100) + "%";
-			
+
+		if(invArmour != null){
+			String[] arm = invArmour.split("[,]");
+			for(int i = 0; i < arm.length; i++){
+				int id = Integer.parseInt(arm[i]);
+				String stats = "Damage: " + armour[i].takeDamageBase;
+
+				if(armour[id].takeDamageBes != 0.0f)
+					stats += "    Bes: " + (int)(armour[id].takeDamageBes * 100) + "%";
+
+				if(armour[id].takeDamageEthert != 0.0f)
+					stats += "    Ethert: " + (int)(armour[id].takeDamageEthert * 100) + "%";
+
+				if(armour[id].takeDamageFire != 0.0f)
+					stats += "    Fire: " + (int)(armour[id].takeDamageFire * 100) + "%";
+
+				if(armour[id].takeDamageFrost != 0.0f)
+					stats += "    Frost: " + (int)(armour[id].takeDamageFrost * 100) + "%";
+
+				if(armour[id].takeDamageLightning != 0.0f)
+					stats += "    Lightning: " + (int)(armour[id].takeDamageLightning * 100) + "%";
+
+				if(armour[id].takeDamageMayth != 0.0f)
+					stats += "    Mayth: " + (int)(armour[id].takeDamageMayth * 100) + "%";
+
 				stats += "    Health:" + (int)(armour[id].health);
-			
-			subMenu[SUBMENU_ARMOUR].item.add(new MenuItem(armourMenuText[id], stats, armourSkin[TOD_DAYTIME][id]));
+
+				subMenu[SUBMENU_ARMOUR].item.add(new MenuItem(armourMenuText[id], stats, armourSkin[TOD_DAYTIME][id]));
+			}
+		}else{
+			subMenu[SUBMENU_ARMOUR].item.add(new MenuItem("You have no armour", "", null));
 		}
 		
-		//subMenu[SUBMENU_ARMOUR].item.add(new MenuItem("Armour","Dummy Item",null));
 		
-		
+		if(invPotions != null){
 		String[] ptn = invPotions.split("[,]");
 		for(int i = 0; i < ptn.length; i++){
 			int id = Integer.parseInt(ptn[i]);
@@ -140,18 +146,23 @@ public class InventoryMenu extends Halja implements Runnable{
 			
 			subMenu[SUBMENU_POTIONS].item.add(new MenuItem(potionMenuText[id], stats, potionSkin[TOD_DAYTIME][id]));
 		}
+		}else{
+			subMenu[SUBMENU_POTIONS].item.add(new MenuItem("You have no potions", "", null));
+		}
 		
+		if(invItems != null){
 		String[] itm = invItems.split("[,]");
 		for(int i = 0; i < itm.length; i++){
-			int id = Integer.parseInt(ptn[i]);
+			int id = Integer.parseInt(itm[i]);
 			String stats = "Amount: " + item[i].amount;
 			
 				stats += "    Thowable: " + item[id].thrown;
 			
 			subMenu[SUBMENU_ITEMS].item.add(new MenuItem(itemMenuText[id], stats, itemSkin[TOD_DAYTIME][id]));
 		}
-		
-		//subMenu[SUBMENU_ITEMS].item.add(new MenuItem("Item","Dummy Item",null));
+		}else{
+			subMenu[SUBMENU_ITEMS].item.add(new MenuItem("You have no items", "", null));
+		}
 		
 		//sort subMenu
 		for(int i=0; i<subMenu.length; i++){

@@ -99,7 +99,7 @@ public class Halja {
 	public static transient CollisionDetection collisionDetection = new CollisionDetection();
 	
 	//to contain CSV representing inventory
-	public static transient String invWeapons;
+	public static transient String invWeapons = String.valueOf(WPN_SLINGSHOT);
 	public static transient String invArmour;
 	public static transient String invPotions;
 	public static transient String invItems;

@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -15,23 +16,28 @@ public class World extends Halja implements Serializable {
 	private String title = "Default World";
 	private int width;
 	private int height;
-
-	public ArrayList<Enemy> enemy;
-	public ArrayList<EntityFriendly> friendly;
-	public Player ollie;
+	
+	private int start_x = tileWidth * 2;
+	private int start_y = tileHeight * 2;
+	
+	private int[][] enemyArray;
+	private int[][] friendlyArray;
+	
+	public transient ArrayList<Enemy> enemy;
+	public transient ArrayList<EntityFriendly> friendly;
+	public transient Player ollie;
 
 	public World(String title, int width, int height, int borderSkin) {
 		this.title = title;
 		this.width = width + 2;			//we add 2 to width and height
 		this.height = height + 2;		//to allow for the border
 
-		enemy = new ArrayList<Enemy>();
 		ollie = new Player();
-
 		friendly = new ArrayList<EntityFriendly>();
-
+		enemy = new ArrayList<Enemy>();
+		
 		floorMap = new Map(width, height, true, borderSkin);	
-		wallMap = new Map(width, height, false, borderSkin);	
+		wallMap = new Map(width, height, false, borderSkin);
 	}
 
 	public String getTitle() {
@@ -211,6 +217,63 @@ public class World extends Halja implements Serializable {
 	public void drawFriendly(Graphics g){
 		for(EntityFriendly f : friendly)
 			f.draw(g);
+	}
+	
+	public void setStart(int x, int y){
+		start_x = x;
+		start_y = y;
+	}
+	
+	public void setStart(Point pos){
+		start_x = pos.x;
+		start_y = pos.y;
+	}
+	
+	public boolean PrepareSave(){
+		try{
+			enemyArray = new int[enemy.size()][4];
+			for(int x = 0; x < enemyArray.length; x++){
+				enemyArray[x][0] = enemy.get(x).getSkin();
+				enemyArray[x][1] = enemy.get(x).getX();
+				enemyArray[x][2] = enemy.get(x).getY();
+				enemyArray[x][3] = enemy.get(x).getHealth();
+			}
+
+			friendlyArray = new int[friendly.size()][4];
+			for(int x = 0; x < friendlyArray.length; x++){
+				friendlyArray[x][0] = friendly.get(x).getSkin();
+				friendlyArray[x][1] = friendly.get(x).getX();
+				friendlyArray[x][2] = friendly.get(x).getY();
+				friendlyArray[x][3] = friendly.get(x).getHealth();
+			}
+		}catch(Exception e){
+			System.out.println(e);
+			return false;
+		}
+		return true;
+	}
+	
+	public void Initialise(){
+		if(ollie == null)
+			ollie = new Player();
+		
+		if(friendly == null)
+			friendly = new ArrayList<EntityFriendly>();
+		
+		if(enemy == null)
+			enemy = new ArrayList<Enemy>();
+		
+		enemy.clear();
+		friendly.clear();
+		
+		ollie.setX(start_x);
+		ollie.setY(start_y);
+		
+		for(int x = 0; x < enemyArray.length; x++)
+			addEnemy(enemyArray[x][0], enemyArray[x][1], enemyArray[x][2]);
+		
+		for(int x = 0; x < friendlyArray.length; x++)
+			addFriendly(friendlyArray[x][0], friendlyArray[x][1], friendlyArray[x][2]);
 	}
 
 }

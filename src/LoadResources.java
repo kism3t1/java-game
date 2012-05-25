@@ -342,7 +342,10 @@ public class LoadResources extends Halja implements Runnable{
 			FileOutputStream saveFile = new FileOutputStream("world.wld");
 			GZIPOutputStream gzipFile = new GZIPOutputStream(saveFile);
 			ObjectOutputStream saveObject = new ObjectOutputStream(gzipFile);
+			
+			world.PrepareSave();
 			saveObject.writeObject(world);
+			
 			saveObject.flush();
 			saveObject.close();
 			gzipFile.close();
@@ -362,7 +365,10 @@ public class LoadResources extends Halja implements Runnable{
 			FileInputStream loadFile = new FileInputStream("world.wld");
 			GZIPInputStream gzipFile = new GZIPInputStream(loadFile);
 			ObjectInputStream loadObject = new ObjectInputStream(gzipFile);
+			
 			world = (World) loadObject.readObject();
+			world.Initialise();
+			
 			gzipFile.close();
 			loadObject.close();
 			loadFile.close();

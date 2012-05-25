@@ -828,6 +828,7 @@ MouseMotionListener{
 				break;
 			case "START":
 				world.ollie.setPos(marker.getFirstTileX() * tileWidth, marker.getFirstTileY() * tileHeight);
+				world.setStart(world.ollie.getPos());
 				break;
 			}
 		}

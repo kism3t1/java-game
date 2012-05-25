@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.io.Serializable;
@@ -90,6 +91,10 @@ public class Player extends Halja implements Serializable {
 	public void setPos(int x, int y) {
 		this.x = x;
 		this.y = y;
+	}
+	
+	public Point getPos() {
+		return new Point(x, y);
 	}
 
 	public int getSpeed() {

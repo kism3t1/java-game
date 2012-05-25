@@ -3,7 +3,8 @@ HALJA
 Controls:
 	KEYBOARD
 	=================================================================
-	Up, Down, Left, Right - Move Entity
+	W, A, S, D - Move Entity
+	CTRL - Attack
 	I - View contents of your backpack
 	
 	W, A, S, D - Move tile marker (hold SHIFT for range selection)

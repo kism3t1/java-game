@@ -1,7 +1,10 @@
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.io.Serializable;
 
 public class Player extends Halja implements Serializable {
@@ -10,8 +13,10 @@ public class Player extends Halja implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 7743962361732364015L;
+	
 	private int dx;
 	private int dy;
+	private int direction;
 	private int speed;
 	public int x, y, width, height;
 	public int skin;
@@ -23,6 +28,11 @@ public class Player extends Halja implements Serializable {
 	private int frame_count = 0;
 	private long frame_last;
 	private boolean visible;
+	
+	private AffineTransform wpnTransform = new AffineTransform();
+	private int wpnRotation = -45;
+	private boolean attacking = false;
+	private int attack_frame = 0;
 
 	public Player() {
 		skin = 0;
@@ -107,52 +117,50 @@ public class Player extends Halja implements Serializable {
 
 	public void keyPressed(KeyEvent e) {
 
-		int key = e.getKeyCode();
-
-		if (key == KeyEvent.VK_LEFT) {
+		switch(e.getKeyCode()){
+		case KeyEvent.VK_A:
 			dx = -speed;
 			dy = 0;
+			setDirection(DIR_LEFT);
 			animState = ANIM_WALK_LEFT;
-		}
-
-		if (key == KeyEvent.VK_RIGHT) {
+			break;
+		case KeyEvent.VK_D:
 			dx = speed;
 			dy = 0;
+			setDirection(DIR_RIGHT);
 			animState = ANIM_WALK_RIGHT;
-		}
-
-		if (key == KeyEvent.VK_UP) {
+			break;
+		case KeyEvent.VK_W:
 			dy = -speed;
 			dx = 0;
+			setDirection(DIR_UP);
 			animState = ANIM_WALK_UP;
-		}
-
-		if (key == KeyEvent.VK_DOWN) {
+			break;
+		case KeyEvent.VK_S:
 			dy = speed;
 			dx = 0;
+			setDirection(DIR_DOWN);
 			animState = ANIM_WALK_DOWN;
+			break;
+		case KeyEvent.VK_CONTROL:
+			if(!attacking){
+				attack_frame = 6;
+				attacking = true;
+				state = STATE_ATTACKING;
+			}
+			break;
 		}
 	}
 
 	public void keyReleased(KeyEvent e) {
-		int key = e.getKeyCode();
-
-		if (key == KeyEvent.VK_LEFT) {
+		switch(e.getKeyCode()){
+		case KeyEvent.VK_CONTROL:
+			break;
+		default:
 			dx = 0;
-		}
-
-		if (key == KeyEvent.VK_RIGHT) {
-			dx = 0;
-		}
-
-		if (key == KeyEvent.VK_UP) {
 			dy = 0;
+			animState = ANIM_STILL;
 		}
-
-		if (key == KeyEvent.VK_DOWN) {
-			dy = 0;
-		}
-		animState = ANIM_STILL;
 	}
 	
 	public int getWidth() {
@@ -195,6 +203,14 @@ public class Player extends Halja implements Serializable {
 		this.armour = armour;
 	}
 
+	public int getDirection() {
+		return direction;
+	}
+
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
+
 	public void setX(int x) {
 		this.x = x;
 	}
@@ -209,6 +225,7 @@ public class Player extends Halja implements Serializable {
 	
 	public void draw(Graphics g)
 	{
+		Graphics2D g2d = (Graphics2D) g;
 		switch(state)		//is player injured? Adjust visibility if so
 		{
 		case STATE_NORMAL:
@@ -231,8 +248,45 @@ public class Player extends Halja implements Serializable {
 			visible = true;
 			break;	
 		}
-		if(visible)
+		
+	if(attacking){
+		if(attack_frame > 0)
+		{
+			wpnRotation += 20;
+			switch(direction){
+			case DIR_UP:
+				wpnTransform.setToTranslation(x, y - 13);
+				wpnTransform.rotate(Math.toRadians(wpnRotation), weaponSkin[0][eqpWeapon].getWidth() / 2, weaponSkin[0][eqpWeapon].getHeight());
+				break;
+			case DIR_DOWN:
+				wpnTransform.setToTranslation(x, y + 13);
+				wpnTransform.translate(0, -weaponSkin[0][eqpWeapon].getHeight(null));
+				wpnTransform.rotate(Math.toRadians(wpnRotation), weaponSkin[0][eqpWeapon].getWidth() / 2, weaponSkin[0][eqpWeapon].getHeight());
+				break;
+			case DIR_RIGHT:
+				wpnTransform.setToTranslation(x + 3, y - 3);
+				wpnTransform.rotate(Math.toRadians(wpnRotation), weaponSkin[0][eqpWeapon].getWidth() / 2, weaponSkin[0][eqpWeapon].getHeight());
+				break;
+			case DIR_LEFT:
+				wpnTransform.setToTranslation(x - 3, y - 3);
+				wpnTransform.translate(-weaponSkin[0][eqpWeapon].getWidth(null), 0);
+				wpnTransform.rotate(Math.toRadians(wpnRotation), weaponSkin[0][eqpWeapon].getWidth() / 2, weaponSkin[0][eqpWeapon].getHeight());
+			}
+			
+			attack_frame -= 1;
+		}else{
+			attacking = false;
+			wpnRotation = -45;
+			state = STATE_NORMAL;
+		}
+	}
+		
+		if(visible){
 			g.drawImage(entitySkins[gameTime.checkDateTime()][animState].nextFrame(), x, y, null);
+			
+			if(attacking)
+				g2d.drawImage(weaponSkin[gameTime.checkDateTime()][eqpWeapon], wpnTransform, null);
+		}
 	}
 
 }

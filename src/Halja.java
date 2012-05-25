@@ -22,11 +22,18 @@ public class Halja {
 	//animation state identifiers
 	public static transient final int STATE_NORMAL = 0;
 	public static transient final int STATE_INJURED = 1;
+	public static transient final int STATE_ATTACKING = 2;
 	public static transient final int ANIM_STILL = 1;
 	public static transient final int ANIM_WALK_LEFT = 2;
 	public static transient final int ANIM_WALK_RIGHT = 3;
 	public static transient final int ANIM_WALK_UP = 4;
 	public static transient final int ANIM_WALK_DOWN = 5;
+	
+	//direction identifiers
+	public static final transient int DIR_UP = 0;
+	public static final transient int DIR_DOWN = 1;
+	public static final transient int DIR_LEFT = 2;
+	public static final transient int DIR_RIGHT = 3;
 	
 	//Time of Day identifiers
 	public static final transient int TOD_DAYTIME = 0;
@@ -109,7 +116,7 @@ public class Halja {
 	public static transient String strArmour;
 	
 	//to contain ID of currently equipped gear
-	public static transient int eqpWeapon;
+	public static transient int eqpWeapon = WPN_SLINGSHOT;
 	public static transient int eqpArmour;
 
 	// tile offset for scrolling

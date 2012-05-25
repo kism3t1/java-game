@@ -59,25 +59,25 @@ public class InventoryMenu extends Halja implements Runnable{
 			String[] wpn = invWeapons.split("[,]");
 			for(int i = 0; i < wpn.length; i++){
 				int id = Integer.parseInt(wpn[i]);
-				String stats = "Damage: " + weapon[i].damageBase;
+				String stats = "Damage: " + weapon[i].getDamageBase();
 
-				if(weapon[id].damageBes != 0.0f)
-					stats += "    Bes: " + (int)(weapon[id].damageBes * 100) + "%";
+				if(weapon[id].getDamageBes() != 0.0f)
+					stats += "    Bes: " + (int)(weapon[id].getDamageBes() * 100) + "%";
 
-				if(weapon[id].damageEthert != 0.0f)
-					stats += "    Ethert: " + (int)(weapon[id].damageEthert * 100) + "%";
+				if(weapon[id].getDamageEthert() != 0.0f)
+					stats += "    Ethert: " + (int)(weapon[id].getDamageEthert() * 100) + "%";
 
-				if(weapon[id].damageFire != 0.0f)
-					stats += "    Fire: " + (int)(weapon[id].damageFire * 100) + "%";
+				if(weapon[id].getDamageFire() != 0.0f)
+					stats += "    Fire: " + (int)(weapon[id].getDamageFire() * 100) + "%";
 
-				if(weapon[id].damageFrost != 0.0f)
-					stats += "    Frost: " + (int)(weapon[id].damageFrost * 100) + "%";
+				if(weapon[id].getDamageFrost() != 0.0f)
+					stats += "    Frost: " + (int)(weapon[id].getDamageFrost() * 100) + "%";
 
-				if(weapon[id].damageLightning != 0.0f)
-					stats += "    Lightning: " + (int)(weapon[id].damageLightning * 100) + "%";
+				if(weapon[id].getDamageLightning() != 0.0f)
+					stats += "    Lightning: " + (int)(weapon[id].getDamageLightning() * 100) + "%";
 
-				if(weapon[id].damageMayth != 0.0f)
-					stats += "    Mayth: " + (int)(weapon[id].damageMayth * 100) + "%";
+				if(weapon[id].getDamageMayth() != 0.0f)
+					stats += "    Mayth: " + (int)(weapon[id].getDamageMayth() * 100) + "%";
 
 				subMenu[SUBMENU_WEAPONS].item.add(new MenuItem(weaponMenuText[id], stats, weaponSkin[TOD_DAYTIME][id]));
 			}

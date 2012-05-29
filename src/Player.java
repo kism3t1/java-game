@@ -18,10 +18,12 @@ public class Player extends Halja implements Serializable {
 	private int dy;
 	private int direction;
 	private int speed;
-	public int x, y, width, height;
-	public int skin;
+	private int x, y, width, height;
+	private int skin;
 	private int health;
 	private int armour;
+	private int maxHealth;
+	private int maxArmour;
 	
 	private int state;
 	private int animState = ANIM_STILL;
@@ -39,8 +41,10 @@ public class Player extends Halja implements Serializable {
 
 	public Player() {
 		skin = 0;
-		health = 5;
+		health = 50;
+		maxHealth = health;
 		armour = 4;
+		maxArmour = armour;
 		width = entitySkins[TOD_DAYTIME][skin].getWidth();
 		height = entitySkins[TOD_DAYTIME][skin].getHeight();
 		x = tileWidth * 2;		//default position
@@ -56,8 +60,10 @@ public class Player extends Halja implements Serializable {
 		skin = 0;
 		this.x = x;
 		this.y = y;
-		health = 5;
+		health = 50;
+		maxHealth = health;
 		armour = 4;
+		maxArmour = armour;
 		width = entitySkins[TOD_DAYTIME][skin].getWidth();
 		height = entitySkins[TOD_DAYTIME][skin].getHeight();
 		speed = 5;
@@ -71,8 +77,10 @@ public class Player extends Halja implements Serializable {
 		this.skin = skin;
 		this.x = x;
 		this.y = y;
-		health = 5;
+		health = 50;
+		maxHealth = health;
 		armour = 4;
+		maxArmour = armour;
 		width = entitySkins[TOD_DAYTIME][skin].getWidth();
 		height = entitySkins[TOD_DAYTIME][skin].getHeight();
 		speed = 5;
@@ -348,6 +356,14 @@ public class Player extends Halja implements Serializable {
 			if(attacking)
 				g2d.drawImage(weaponSkin[gameTime.checkDateTime()][eqpWeapon], wpnTransform, null);
 		}
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public float getMaxArmour() {
+		return maxArmour;
 	}
 
 }

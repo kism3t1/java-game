@@ -33,6 +33,9 @@ public class Player extends Halja implements Serializable {
 	private int wpnRotation = -45;
 	private boolean attacking = false;
 	private int attack_frame = 0;
+	
+	private Point curPos;
+	private Point destination;
 
 	public Player() {
 		skin = 0;
@@ -46,6 +49,22 @@ public class Player extends Halja implements Serializable {
 		state = STATE_NORMAL;
 		animState = ANIM_STILL;
 		visible = true;
+		destination = world.floorMap.getTileAtPos(getPos(), cameraX, cameraY);
+	}
+	
+	public Player(int x, int y) {
+		skin = 0;
+		this.x = x;
+		this.y = y;
+		health = 5;
+		armour = 4;
+		width = entitySkins[TOD_DAYTIME][skin].getWidth();
+		height = entitySkins[TOD_DAYTIME][skin].getHeight();
+		speed = 5;
+		state = STATE_NORMAL;
+		animState = ANIM_STILL;
+		visible = true;
+		destination = world.floorMap.getTileAtPos(getPos(), cameraX, cameraY);
 	}
 
 	public Player(int skin, int x, int y) {
@@ -60,9 +79,39 @@ public class Player extends Halja implements Serializable {
 		state = STATE_NORMAL;
 		animState = ANIM_STILL;
 		visible = true;
+		destination = world.floorMap.getTileAtPos(getPos(), cameraX, cameraY);
 	}
 
 	public void move() {
+		curPos = world.floorMap.getTileAtPos(getPos(), cameraX, cameraY);
+		if(curPos.distance(destination) != 0){
+			//Point destPos = world.floorMap.TileSet[destination.x][destination.y].getPos();
+			if (curPos.x < destination.x){
+				dx = speed;
+				dy = 0;
+				animState = ANIM_WALK_RIGHT;
+			}
+			else if (curPos.x > destination.x){
+				dx = -speed;
+				dy = 0;
+				animState = ANIM_WALK_LEFT;
+			}
+			else if (curPos.y < destination.y){
+				dx = 0; 
+				dy = speed;
+				animState = ANIM_WALK_DOWN;
+			}
+			else if (curPos.y > destination.y){
+				dx = 0;
+				dy = -speed;
+				animState = ANIM_WALK_UP;
+			}
+		}else{
+			dx = 0;
+			dy = 0;
+			animState = ANIM_STILL;
+		}
+		
 		x += dx;
 		y += dy;
 
@@ -70,6 +119,7 @@ public class Player extends Halja implements Serializable {
 		{
 			x -= dx;
 			y -= dy;
+			destination = world.floorMap.getTileAtPos(getPos(), cameraX, cameraY);
 		}
 
 		if(collisionDetection.checkEnemies(getBounds(), -1))
@@ -115,6 +165,7 @@ public class Player extends Halja implements Serializable {
 		this.speed = speed;
 	}
 
+	/*
 	public void keyPressed(KeyEvent e) {
 
 		switch(e.getKeyCode()){
@@ -162,6 +213,7 @@ public class Player extends Halja implements Serializable {
 			animState = ANIM_STILL;
 		}
 	}
+	*/
 	
 	public int getWidth() {
 		return width;
@@ -221,6 +273,15 @@ public class Player extends Halja implements Serializable {
 	
 	public Rectangle getBounds() { // Get bounds for collision detection
 		return new Rectangle(x, y, width, height);
+	}
+	
+	public void setDestination(Point tilePos){
+		/*
+		destination = world.floorMap.TileSet[tilePos.x][tilePos.y].getPos();
+		destination.x += tileWidth / 2;
+		destination.y += tileHeight / 2;
+		 */
+		destination = tilePos;
 	}
 	
 	public void draw(Graphics g)

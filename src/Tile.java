@@ -1,3 +1,4 @@
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.io.Serializable;
 
@@ -26,16 +27,36 @@ public class Tile extends Halja implements Serializable {
 	private int x;
 	private int y;
 
-	public Tile() { // default constructor with default values
+	public Tile(int x, int y) { // default constructor with default values
 		skin = 0;
 		health = 3;
 		destructible = false;
+		this.x = x;
+		this.y = y;
 	}
 
-	public Tile(byte bSkin, byte bHealth, boolean isDestructible) { // customisable contructor
+	public Tile(int x, int y, byte bSkin, byte bHealth, boolean isDestructible) { // customisable contructor
 		skin = bSkin;
 		health = bHealth;
 		destructible = isDestructible;
+		this.x = x;
+		this.y = y;
+	}
+	
+	public Tile(Point pos) { // default constructor with default values
+		skin = 0;
+		health = 3;
+		destructible = false;
+		x = pos.x;
+		y = pos.y;
+	}
+
+	public Tile(Point pos, byte bSkin, byte bHealth, boolean isDestructible) { // customisable contructor
+		skin = bSkin;
+		health = bHealth;
+		destructible = isDestructible;
+		x = pos.x;
+		y = pos.y;
 	}
 
 	public boolean isDestructible() { // returns destructible field
@@ -80,6 +101,10 @@ public class Tile extends Halja implements Serializable {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+	
+	public Point getPos(){
+		return new Point(x,y);
 	}
 
 	public void setPos(int x, int y) {

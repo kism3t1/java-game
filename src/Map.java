@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.awt.Point;
 import java.io.Serializable;
 
 
@@ -24,12 +25,13 @@ public class Map extends Halja implements Serializable {
 											// size
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				if(populate)
-					TileSet[x][y] = new Tile();
+				if(populate){
+					TileSet[x][y] = new Tile(x * tileWidth, y * tileHeight);
+				}
 				
 				if(x == 0 || y == 0 || x == width-1 || y == height-1){
 					if(TileSet[x][y] == null)
-						TileSet[x][y] = new Tile();
+						TileSet[x][y] = new Tile(x * tileWidth, y * tileHeight);
 					
 					TileSet[x][y].setSkin(borderSkin);
 					TileSet[x][y].setDestructible(false);
@@ -50,7 +52,7 @@ public class Map extends Halja implements Serializable {
 			boolean isDestructible, boolean isVisible) {
 		
 		if(TileSet[tileX][tileY] == null)
-			TileSet[tileX][tileY] = new Tile();
+			TileSet[tileX][tileY] = new Tile(tileX * tileWidth, tileY * tileHeight);
 		
 		TileSet[tileX][tileY].setSkin(bSkin);
 		TileSet[tileX][tileY].setHealth(bHealth);
@@ -69,6 +71,22 @@ public class Map extends Halja implements Serializable {
 		}
 	}
 	
+	public Point getTileAtPos(Point pos, int cameraX, int cameraY){
+		int mapX = cameraX / tileWidth;
+		int mapY = cameraY / tileHeight;
+		
+		for(int x = 0; x <= screenTilesWide+1; x++){
+			for(int y = 0; y <= screenTilesHigh+1; y++){
+				if (TileSet[x + mapX][y + mapY].getBounds().contains(pos)
+						&& x > 0 && y > 0 && x < width && y < height) {
+					return new Point(x + mapX, y + mapY);
+				}
+			}
+		}
+		
+		return null;
+	}
+	
 	public void draw(Graphics g, int cameraX, int cameraY)
 	{
 		int mapX = cameraX / tileWidth;
@@ -79,7 +97,7 @@ public class Map extends Halja implements Serializable {
 		
 		for(int x = 0; x <= screenTilesWide+1; x++){
 			for(int y = 0; y <= screenTilesHigh+1; y++){
-				if(x + mapX >= 0 && x + mapX < TileSet.length && y + mapY >= 0 && y + mapY < TileSet[0].length)
+				if(x + mapX >= 0 && x + mapX < width && y + mapY >= 0 && y + mapY < height)
 				{
 					if(TileSet[x + mapX][y + mapY] != null){
 						TileSet[x + mapX][y + mapY].setPos((x * tileWidth) - mapXoff, (y * tileHeight) - mapYoff);

@@ -1,6 +1,7 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -216,7 +217,13 @@ MouseMotionListener{
 
 	// mouse control
 	@Override
-	public void mouseClicked(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {
+		switch (e.getButton()) {
+		case MouseEvent.BUTTON1:
+			world.ollie.setDestination(world.floorMap.getTileAtPos(e.getPoint(), cameraX, cameraY));
+			break;
+		}
+	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {}
@@ -243,14 +250,14 @@ MouseMotionListener{
 
 		public void keyReleased(KeyEvent e) {
 
-			world.ollie.keyReleased(e);
+			//world.ollie.keyReleased(e);
 
 		}
 
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
 
-			world.ollie.keyPressed(e);
+			//world.ollie.keyPressed(e);
 
 			switch (key) {
 			case KeyEvent.VK_ESCAPE:	//kill thread and exit to menu

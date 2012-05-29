@@ -244,7 +244,7 @@ MouseMotionListener{
 			for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
 				for (int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++) {
 					if (m.TileSet[x][y] == null)
-						m.TileSet[x][y] = new Tile();
+						m.TileSet[x][y] = new Tile(x * tileWidth, y * tileHeight);
 					m.TileSet[x][y].setSkin(nextSkin);
 				}
 			}
@@ -271,7 +271,7 @@ MouseMotionListener{
 			for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
 				for (int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++) {
 					if (m.TileSet[x][y] == null)
-						m.TileSet[x][y] = new Tile();
+						m.TileSet[x][y] = new Tile(x * tileWidth, y * tileHeight);
 					m.TileSet[x][y].setSkin(nextSkin);
 				}
 			}
@@ -288,7 +288,7 @@ MouseMotionListener{
 		for (int x = marker.getFirstTileX(); x <= marker.getLastTileX(); x++) {
 			for (int y = marker.getFirstTileY(); y <= marker.getLastTileY(); y++) {
 				if (m.TileSet[x][y] == null)
-					m.TileSet[x][y] = new Tile();
+					m.TileSet[x][y] = new Tile(x * tileWidth, y * tileHeight);
 				m.TileSet[x][y].setSkin(skin);
 			}
 		}
@@ -521,7 +521,7 @@ MouseMotionListener{
 
 		public void keyReleased(KeyEvent e) {
 
-			world.ollie.keyReleased(e);
+			//world.ollie.keyReleased(e);
 			marker.keyReleased(e);
 
 		}
@@ -530,7 +530,7 @@ MouseMotionListener{
 			int key = e.getKeyCode();
 			shiftKey = e.isShiftDown();
 
-			world.ollie.keyPressed(e);
+			//world.ollie.keyPressed(e);
 			marker.keyPressed(e);
 
 			switch (key) {

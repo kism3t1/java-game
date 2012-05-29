@@ -263,7 +263,7 @@ public class World extends Halja implements Serializable {
 	
 	public void Initialise(){
 		if(ollie == null)
-			ollie = new Player();
+			ollie = new Player(start_x, start_y);
 		
 		if(friendly == null)
 			friendly = new ArrayList<EntityFriendly>();
@@ -273,9 +273,6 @@ public class World extends Halja implements Serializable {
 		
 		enemy.clear();
 		friendly.clear();
-		
-		ollie.setX(start_x);
-		ollie.setY(start_y);
 		
 		for(int x = 0; x < enemyArray.length; x++)
 			addEnemy(enemyArray[x][0], enemyArray[x][1], enemyArray[x][2]);

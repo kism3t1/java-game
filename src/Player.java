@@ -91,29 +91,63 @@ public class Player extends Halja implements Serializable {
 	}
 
 	public void move() {
-		curPos = world.floorMap.getTileAtPos(getPos(), cameraX, cameraY);
-		if(curPos.distance(destination) != 0){
-			//Point destPos = world.floorMap.TileSet[destination.x][destination.y].getPos();
-			if (curPos.x < destination.x){
-				dx = speed;
+		curPos = getPos();
+		curPos.x += entitySkins[gameTime.checkDateTime()][skin].getWidth() / 2;
+		curPos.y += entitySkins[gameTime.checkDateTime()][skin].getHeight() / 2;
+		
+		Point destPos = world.floorMap.TileSet[destination.x][destination.y].getPos();
+		destPos.x += tileWidth / 2;
+		destPos.y += tileHeight / 2;
+		
+		if(curPos.x != destPos.x || curPos.y != destPos.y){
+			if (curPos.x < destPos.x){
+				if(Math.abs(curPos.x - destPos.x)< speed)
+					dx = Math.abs(curPos.x - destPos.x);
+				else
+					dx = speed;
 				dy = 0;
 				animState = ANIM_WALK_RIGHT;
 			}
-			else if (curPos.x > destination.x){
-				dx = -speed;
+			else if (curPos.x > destPos.x){
+				if(Math.abs(curPos.x - destPos.x)< speed)
+					dx = -Math.abs(curPos.x - destPos.x);
+				else
+					dx = -speed;
 				dy = 0;
 				animState = ANIM_WALK_LEFT;
 			}
-			else if (curPos.y < destination.y){
+			else if (curPos.y < destPos.y){
+				if(Math.abs(curPos.y - destPos.y)< speed)
+					dy = Math.abs(curPos.y - destPos.y);
+				else
+					dy = speed;
 				dx = 0; 
-				dy = speed;
 				animState = ANIM_WALK_DOWN;
 			}
-			else if (curPos.y > destination.y){
+			else if (curPos.y > destPos.y){
+				if(Math.abs(curPos.y - destPos.y)< speed)
+					dy = -Math.abs(curPos.y - destPos.y);
+				else
+					dy = -speed;
 				dx = 0;
-				dy = -speed;
 				animState = ANIM_WALK_UP;
 			}
+			/*
+			if(Math.abs(curPos.x - destPos.x)<= speed){
+				dx = 0;
+				dy = 0;
+				animState = ANIM_STILL;
+				x = destPos.x;
+			}
+				
+			if(Math.abs(curPos.y - destPos.y)<= speed){
+				dx = 0;
+				dy = 0;
+				animState = ANIM_STILL;
+				y = destPos.y;
+			}
+			*/
+				
 		}else{
 			dx = 0;
 			dy = 0;
@@ -163,6 +197,11 @@ public class Player extends Halja implements Serializable {
 	
 	public Point getPos() {
 		return new Point(x, y);
+	}
+	
+	public void setPos(Point pos) {
+		x = pos.x;
+		y = pos.y;
 	}
 
 	public int getSpeed() {

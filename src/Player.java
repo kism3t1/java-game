@@ -303,7 +303,11 @@ public class Player extends Halja implements Serializable {
 	}
 	
 	public void setArmour(int armour){
-		this.armour = armour;
+		if(armour < maxArmour){
+			this.armour = armour;
+		}else{
+			this.armour = maxArmour;
+		}
 	}
 
 	public int getDirection() {

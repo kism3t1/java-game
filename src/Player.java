@@ -291,7 +291,11 @@ public class Player extends Halja implements Serializable {
 	}
 
 	public void setHealth(int health) {
-		this.health = health;
+		if(health < maxHealth){
+			this.health = health;
+		}else{
+			this.health = maxHealth;
+		}
 	}
 	
 	public int getArmour(){

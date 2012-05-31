@@ -22,7 +22,7 @@ public class AStar extends Halja{
 	}
 	
 	private static final int HV_COST = 10;		//cost of moving horizontally or vertically
-	private static final int DIAG_COST = 14;	//cost of moving diagonally
+	private static final int DIAG_COST = 1000;	//cost of moving diagonally (14 is norm, 1000 to prevent diagonal movement)
 	
 	private ArrayList<Node> openList = new ArrayList<Node>();	//nodes yet to be checked
 	private ArrayList<Node> closedList = new ArrayList<Node>();	//nodes already checked
@@ -40,6 +40,8 @@ public class AStar extends Halja{
 	public boolean debug = true;
 	
 	public AStar(){}
+	
+	
 	/**
 	 * Calculates the path (if any) from startPos to targetPos.
 	 * 
@@ -105,20 +107,10 @@ public class AStar extends Halja{
 							onClosedList = -1;
 							
 							//check if node is already on closed list
-							for(Node n : closedList){
-								if(n.getX() == node.getX() && n.getY() == node.getY()){
-									onClosedList = closedList.indexOf(n);
-									break;
-								}
-							}
-							
+							onClosedList = isOnClosedList(node);
+														
 							//check if node is already on open list
-							for(Node n : openList){
-								if(n.getX() == node.getX() && n.getY() == node.getY()){
-									onOpenList = openList.indexOf(n);
-									break;
-								}
-							}
+							onOpenList = isOnOpenList(node);
 
 							if(onClosedList == -1){	//if node isn't already on closed list
 								if(onOpenList > -1){	//if node is already on the open list
@@ -160,6 +152,24 @@ public class AStar extends Halja{
 		}while(!openList.isEmpty());
 		
 		return ReturnCode.IMPOSSIBLE;
+	}
+	
+	private int isOnClosedList(Node node){
+		for(Node n : closedList){
+			if(n.getX() == node.getX() && n.getY() == node.getY()){
+				return closedList.indexOf(n);
+			}
+		}
+		return -1;
+	}
+
+	private int isOnOpenList(Node node){
+		for(Node n : openList){
+			if(n.getX() == node.getX() && n.getY() == node.getY()){
+				return openList.indexOf(n);
+			}
+		}
+		return -1;
 	}
 	
 	private void BuildPath(){

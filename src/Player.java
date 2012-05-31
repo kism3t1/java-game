@@ -38,7 +38,6 @@ public class Player extends Halja implements Serializable {
 	private int attack_frame = 0;
 	
 	private Point curPos;
-	private Point destination;
 	private Point[] path;
 	private int pathPos = 0;
 	
@@ -58,7 +57,6 @@ public class Player extends Halja implements Serializable {
 		state = STATE_NORMAL;
 		animState = ANIM_STILL;
 		visible = true;
-		destination = world.floorMap.getTileAtPos(getPos(), cameraX, cameraY);
 	}
 	
 	public Player(int x, int y) {
@@ -75,7 +73,6 @@ public class Player extends Halja implements Serializable {
 		state = STATE_NORMAL;
 		animState = ANIM_STILL;
 		visible = true;
-		destination = world.floorMap.getTileAtPos(getPos(), cameraX, cameraY);
 	}
 
 	public Player(int skin, int x, int y) {
@@ -92,7 +89,6 @@ public class Player extends Halja implements Serializable {
 		state = STATE_NORMAL;
 		animState = ANIM_STILL;
 		visible = true;
-		destination = world.floorMap.getTileAtPos(getPos(), cameraX, cameraY);
 	}
 
 	public void move() {
@@ -111,32 +107,31 @@ public class Player extends Halja implements Serializable {
 						dx = Math.abs(curPos.x - destPos.x);
 					else
 						dx = speed;
-					dy = 0;
 					animState = ANIM_WALK_RIGHT;
-				}
-				else if (curPos.x > destPos.x){
+				}else if (curPos.x > destPos.x){
 					if(Math.abs(curPos.x - destPos.x)< speed)
 						dx = -Math.abs(curPos.x - destPos.x);
 					else
 						dx = -speed;
-					dy = 0;
 					animState = ANIM_WALK_LEFT;
+				}else{
+					dx = 0;
 				}
-				else if (curPos.y < destPos.y){
+				
+				if (curPos.y < destPos.y){
 					if(Math.abs(curPos.y - destPos.y)< speed)
 						dy = Math.abs(curPos.y - destPos.y);
 					else
 						dy = speed;
-					dx = 0; 
 					animState = ANIM_WALK_DOWN;
-				}
-				else if (curPos.y > destPos.y){
+				}else if (curPos.y > destPos.y){
 					if(Math.abs(curPos.y - destPos.y)< speed)
 						dy = -Math.abs(curPos.y - destPos.y);
 					else
 						dy = -speed;
-					dx = 0;
 					animState = ANIM_WALK_UP;
+				}else{
+					dy = 0;
 				}
 			}else if(pathPos < path.length - 1){
 				pathPos++;
@@ -154,7 +149,6 @@ public class Player extends Halja implements Serializable {
 		{
 			x -= dx;
 			y -= dy;
-			destination = world.floorMap.getTileAtPos(getPos(), cameraX, cameraY);
 		}
 
 		if(collisionDetection.checkEnemies(getBounds(), -1))
@@ -324,15 +318,7 @@ public class Player extends Halja implements Serializable {
 	}
 	
 	public void setDestination(Point tilePos){
-		/*
-		destination = world.floorMap.TileSet[tilePos.x][tilePos.y].getPos();
-		destination.x += tileWidth / 2;
-		destination.y += tileHeight / 2;
-		 */
-		destination = tilePos;
-		AStar.ReturnCode rc = aStar.FindPath(world.floorMap.getTileAtPos(getPos(), cameraX, cameraY), destination);
-
-		if(rc == AStar.ReturnCode.FOUND){
+		if(aStar.FindPath(world.floorMap.getTileAtPos(getPos(), cameraX, cameraY), tilePos) == AStar.ReturnCode.FOUND){
 			path = aStar.GetPath();
 			pathPos = 0;
 		}

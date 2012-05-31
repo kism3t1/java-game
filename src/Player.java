@@ -38,6 +38,8 @@ public class Player extends Halja implements Serializable {
 	
 	private Point curPos;
 	private Point destination;
+	
+	private AStar aStar = new AStar();
 
 	public Player() {
 		skin = 0;
@@ -337,6 +339,10 @@ public class Player extends Halja implements Serializable {
 		destination.y += tileHeight / 2;
 		 */
 		destination = tilePos;
+		
+		if(aStar.FindPath(world.floorMap.getTileAtPos(getPos(), cameraX, cameraY), destination)
+				== AStar.ReturnCode.FOUND)
+			aStar.GetPath();
 	}
 	
 	public void draw(Graphics g)

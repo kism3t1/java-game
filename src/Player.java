@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -38,6 +39,8 @@ public class Player extends Halja implements Serializable {
 	
 	private Point curPos;
 	private Point destination;
+	private Point[] path;
+	private int pathPos = 0;
 	
 	private AStar aStar = new AStar();
 
@@ -93,69 +96,57 @@ public class Player extends Halja implements Serializable {
 	}
 
 	public void move() {
-		curPos = getPos();
-		curPos.x += entitySkins[gameTime.checkDateTime()][skin].getWidth() / 2;
-		curPos.y += entitySkins[gameTime.checkDateTime()][skin].getHeight() / 2;
-		
-		Point destPos = world.floorMap.TileSet[destination.x][destination.y].getPos();
-		destPos.x += tileWidth / 2;
-		destPos.y += tileHeight / 2;
-		
-		if(curPos.x != destPos.x || curPos.y != destPos.y){
-			if (curPos.x < destPos.x){
-				if(Math.abs(curPos.x - destPos.x)< speed)
-					dx = Math.abs(curPos.x - destPos.x);
-				else
-					dx = speed;
-				dy = 0;
-				animState = ANIM_WALK_RIGHT;
-			}
-			else if (curPos.x > destPos.x){
-				if(Math.abs(curPos.x - destPos.x)< speed)
-					dx = -Math.abs(curPos.x - destPos.x);
-				else
-					dx = -speed;
-				dy = 0;
-				animState = ANIM_WALK_LEFT;
-			}
-			else if (curPos.y < destPos.y){
-				if(Math.abs(curPos.y - destPos.y)< speed)
-					dy = Math.abs(curPos.y - destPos.y);
-				else
-					dy = speed;
-				dx = 0; 
-				animState = ANIM_WALK_DOWN;
-			}
-			else if (curPos.y > destPos.y){
-				if(Math.abs(curPos.y - destPos.y)< speed)
-					dy = -Math.abs(curPos.y - destPos.y);
-				else
-					dy = -speed;
+		if(path != null){
+			curPos = getPos();
+			curPos.x += entitySkins[gameTime.checkDateTime()][skin].getWidth() / 2;
+			curPos.y += entitySkins[gameTime.checkDateTime()][skin].getHeight() / 2;
+
+			Point destPos = world.floorMap.TileSet[path[pathPos].x][path[pathPos].y].getPos();
+			destPos.x += tileWidth / 2;
+			destPos.y += tileHeight / 2;
+
+			if(curPos.x != destPos.x || curPos.y != destPos.y){
+				if (curPos.x < destPos.x){
+					if(Math.abs(curPos.x - destPos.x)< speed)
+						dx = Math.abs(curPos.x - destPos.x);
+					else
+						dx = speed;
+					dy = 0;
+					animState = ANIM_WALK_RIGHT;
+				}
+				else if (curPos.x > destPos.x){
+					if(Math.abs(curPos.x - destPos.x)< speed)
+						dx = -Math.abs(curPos.x - destPos.x);
+					else
+						dx = -speed;
+					dy = 0;
+					animState = ANIM_WALK_LEFT;
+				}
+				else if (curPos.y < destPos.y){
+					if(Math.abs(curPos.y - destPos.y)< speed)
+						dy = Math.abs(curPos.y - destPos.y);
+					else
+						dy = speed;
+					dx = 0; 
+					animState = ANIM_WALK_DOWN;
+				}
+				else if (curPos.y > destPos.y){
+					if(Math.abs(curPos.y - destPos.y)< speed)
+						dy = -Math.abs(curPos.y - destPos.y);
+					else
+						dy = -speed;
+					dx = 0;
+					animState = ANIM_WALK_UP;
+				}
+			}else if(pathPos < path.length - 1){
+				pathPos++;
+			}else{
 				dx = 0;
-				animState = ANIM_WALK_UP;
-			}
-			/*
-			if(Math.abs(curPos.x - destPos.x)<= speed){
-				dx = 0;
 				dy = 0;
+				path = null;
 				animState = ANIM_STILL;
-				x = destPos.x;
 			}
-				
-			if(Math.abs(curPos.y - destPos.y)<= speed){
-				dx = 0;
-				dy = 0;
-				animState = ANIM_STILL;
-				y = destPos.y;
-			}
-			*/
-				
-		}else{
-			dx = 0;
-			dy = 0;
-			animState = ANIM_STILL;
 		}
-		
 		x += dx;
 		y += dy;
 
@@ -339,10 +330,12 @@ public class Player extends Halja implements Serializable {
 		destination.y += tileHeight / 2;
 		 */
 		destination = tilePos;
-		
-		if(aStar.FindPath(world.floorMap.getTileAtPos(getPos(), cameraX, cameraY), destination)
-				== AStar.ReturnCode.FOUND)
-			aStar.GetPath();
+		AStar.ReturnCode rc = aStar.FindPath(world.floorMap.getTileAtPos(getPos(), cameraX, cameraY), destination);
+
+		if(rc == AStar.ReturnCode.FOUND){
+			path = aStar.GetPath();
+			pathPos = 0;
+		}
 	}
 	
 	public void draw(Graphics g)
@@ -400,6 +393,15 @@ public class Player extends Halja implements Serializable {
 			attacking = false;
 			wpnRotation = -45;
 			state = STATE_NORMAL;
+		}
+	}
+	
+	if(aStar.debug && path != null){
+		g.setColor(Color.RED);
+		for(int i=0; i<path.length; i++){
+			g.fillRect(world.floorMap.TileSet[path[i].x][path[i].y].getX(), 
+					world.floorMap.TileSet[path[i].x][path[i].y].getY(),
+					tileWidth, tileHeight);
 		}
 	}
 		

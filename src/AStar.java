@@ -5,6 +5,16 @@ import java.util.ArrayList;
 
 public class AStar extends Halja{
 	
+	/**
+	 * Result returned by FindPath()
+	 * 
+	 * @param	FOUND		a path was found and can be retrieved via GetPath()
+	 * @param	IMPOSSIBLE	no path is possible between the start and end point
+	 * @param	MATCH		the start and end positions match; no path necessary
+	 * @see		AStar#FindPath
+	 * @author LosOjos
+	 *
+	 */
 	public enum ReturnCode{
 		FOUND,
 		IMPOSSIBLE,
@@ -27,8 +37,19 @@ public class AStar extends Halja{
 	
 	private Point[] path;
 	
-	public AStar(){}
+	public boolean debug = true;
 	
+	public AStar(){}
+	/**
+	 * Calculates the path (if any) from startPos to targetPos.
+	 * 
+	 * @param	startPos	a Point containing the X & Y coordinates of the start position of the desired path
+	 * @param	targetPos	a Point containing the X & Y coordinates of the target position on the desired path
+	 * @return				an AStar.ReturnCode depending on the outcome of the search
+	 * @see					ReturnCode
+	 * @see					#GetPath
+	 * @author LosOjos
+	 */
 	public ReturnCode FindPath(Point startPos, Point targetPos){
 		//check whether path needs to be calculated
 		if(startPos.x == targetPos.x && startPos.y == targetPos.y)	//already on target, no calculation neccessary
@@ -39,6 +60,8 @@ public class AStar extends Halja{
 		//clear previous path info
 		openList.clear();
 		closedList.clear();
+		openList.trimToSize();
+		closedList.trimToSize();
 		
 		startNode = new Node(null, startPos.x, startPos.y);
 		targetNode = new Node(null, targetPos.x, targetPos.y);
@@ -64,7 +87,7 @@ public class AStar extends Halja{
 			//check 1 node radius for accessibility and add to open list if walkable
 			for(int x = -1; x <= 1; x++){
 				for(int y = -1; y <= 1; y++){
-					if(x != 0 && y != 0){	//don't check current node
+					//if(x != 0 && y != 0){	//don't check current node
 						if(world.wallMap.TileSet[curNode.x + x][curNode.y + y] == null){	//if no obstacle present and not already on closed list
 							
 							Node node = new Node(curNode, curNode.x + x, curNode.y + y);	//new node from parent
@@ -103,7 +126,8 @@ public class AStar extends Halja{
 									node = openList.get(onOpenList);	//get existing instance of node
 									int newCost = 0;
 									
-									if(node.getX() - curNode.getX() == 0 || node.getY() - curNode.getY() == 0){	//horizontal or vertical move
+									if(Math.abs(node.getX() - curNode.getX()) == 0 
+											|| Math.abs(node.getY() - curNode.getY()) == 0){	//horizontal or vertical move
 										newCost = curNode.getMoveCost() + HV_COST;
 									}else{	//diagonal move
 										newCost = curNode.getMoveCost() + DIAG_COST;
@@ -132,7 +156,7 @@ public class AStar extends Halja{
 						}
 					}
 				}
-			}
+			//}
 		}while(!openList.isEmpty());
 		
 		return ReturnCode.IMPOSSIBLE;
@@ -158,7 +182,13 @@ public class AStar extends Halja{
 		reversePath.trimToSize();
 		reversePath.toArray(path);
 	}
-	
+	/**
+	 * Returns the path calculated by FindPath()
+	 * 
+	 * @return	an array of Points symbolising the calculated path
+	 * @author LosOjos
+	 * @see		#FindPath
+	 */
 	public Point[] GetPath(){
 		return path;
 	}

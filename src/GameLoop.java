@@ -37,6 +37,9 @@ MouseMotionListener{
 		//initial calculation of screen -> tile size
 		screenTilesWide = gui.getWidth() / tileWidth;
 		screenTilesHigh = gui.getHeight() / tileHeight;
+		
+		if(world != null)
+			world = null;
 
 		try {
 			LoadResources.loadWorld(false);

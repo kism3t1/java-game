@@ -157,6 +157,12 @@ public class World extends Halja implements Serializable {
 		EntityFriendly f = new EntityFriendly(getNewFriendlyID(), skin, x, y);
 		friendly.add(f);
 	}
+	
+	public void addFriendly(int skin, int x, int y, int health)
+	{
+		EntityFriendly f = new EntityFriendly(getNewFriendlyID(), skin, x, y, health);
+		friendly.add(f);
+	}
 
 	public void removeFriendly(int FriendlyID)
 	{
@@ -239,6 +245,7 @@ public class World extends Halja implements Serializable {
 	
 	public boolean PrepareSave(){
 		try{
+			enemy.trimToSize();
 			enemyArray = new int[enemy.size()][4];
 			for(int x = 0; x < enemyArray.length; x++){
 				enemyArray[x][0] = enemy.get(x).getSkin();
@@ -247,6 +254,7 @@ public class World extends Halja implements Serializable {
 				enemyArray[x][3] = enemy.get(x).getHealth();
 			}
 
+			friendly.trimToSize();
 			friendlyArray = new int[friendly.size()][4];
 			for(int x = 0; x < friendlyArray.length; x++){
 				friendlyArray[x][0] = friendly.get(x).getSkin();
@@ -262,23 +270,31 @@ public class World extends Halja implements Serializable {
 	}
 	
 	public void Initialise(){
-		if(ollie == null)
-			ollie = new Player(start_x, start_y);
+		cameraX = 0;
+		cameraY = 0;
 		
-		if(friendly == null)
-			friendly = new ArrayList<EntityFriendly>();
+		if(ollie != null)
+			ollie = null;
+		ollie = new Player(start_x, start_y);
 		
-		if(enemy == null)
-			enemy = new ArrayList<Enemy>();
+		if(friendly != null)
+			friendly = null;
+		friendly = new ArrayList<EntityFriendly>();
+		
+		if(enemy != null)
+			enemy = null;
+		enemy = new ArrayList<Enemy>();
 		
 		enemy.clear();
+		enemy.trimToSize();
 		friendly.clear();
+		friendly.trimToSize();
 		
 		for(int x = 0; x < enemyArray.length; x++)
-			addEnemy(enemyArray[x][0], enemyArray[x][1], enemyArray[x][2]);
+			addEnemy(enemyArray[x][0], enemyArray[x][1], enemyArray[x][2], enemyArray[x][3]);
 		
 		for(int x = 0; x < friendlyArray.length; x++)
-			addFriendly(friendlyArray[x][0], friendlyArray[x][1], friendlyArray[x][2]);
+			addFriendly(friendlyArray[x][0], friendlyArray[x][1], friendlyArray[x][2], friendlyArray[x][3]);
 	}
 
 }

@@ -38,6 +38,21 @@ public class EntityFriendly extends Halja implements Serializable {
 		dLast = System.currentTimeMillis() - 800;
 		ai = new EntityAIFriendly(id);
 	}
+	
+	public EntityFriendly(int id, int skin, int x, int y, int health) {
+		this.skin = skin;
+		this.x = x;
+		this.y = y;
+		width = friendlySkins[TOD_DAYTIME][skin][0].getWidth();
+		height = friendlySkins[TOD_DAYTIME][skin][0].getHeight();
+		this.id = id;
+		speed = 1;
+		this.health = health;
+		state = STATE_NORMAL;
+		visible = true;
+		dLast = System.currentTimeMillis() - 800;
+		ai = new EntityAIFriendly(id);
+	}
 
 	public void move() {
 		x += dx;

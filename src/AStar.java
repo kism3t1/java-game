@@ -89,7 +89,9 @@ public class AStar extends Halja{
 			//check 1 node radius for accessibility and add to open list if walkable
 			for(int x = -1; x <= 1; x++){
 				for(int y = -1; y <= 1; y++){
-					//if(x != 0 && y != 0){	//don't check current node
+					if(curNode.x + x > 0 && curNode.y + y > 0
+							&& curNode.x + x < world.floorMap.getWidth()
+							&& curNode.y + y < world.floorMap.getHeight()){	//don't check out of bounds
 						if(world.wallMap.TileSet[curNode.x + x][curNode.y + y] == null){	//if no obstacle present and not already on closed list
 							
 							Node node = new Node(curNode, curNode.x + x, curNode.y + y);	//new node from parent
@@ -148,7 +150,7 @@ public class AStar extends Halja{
 						}
 					}
 				}
-			//}
+			}
 		}while(!openList.isEmpty());
 		
 		return ReturnCode.IMPOSSIBLE;

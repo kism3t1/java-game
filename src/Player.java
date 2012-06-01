@@ -385,9 +385,9 @@ public class Player extends Halja implements Serializable {
 	if(aStar.debug && path != null){
 		g.setColor(Color.RED);
 		for(int i=0; i<path.length; i++){
-			g.fillRect(world.floorMap.TileSet[path[i].x][path[i].y].getX(), 
-					world.floorMap.TileSet[path[i].x][path[i].y].getY(),
-					tileWidth, tileHeight);
+			g.fillRect(world.floorMap.TileSet[path[i].x][path[i].y].getX() + (tileWidth / 3), 
+					world.floorMap.TileSet[path[i].x][path[i].y].getY() + (tileWidth / 3),
+					tileWidth / 3, tileHeight / 3);
 		}
 	}
 		

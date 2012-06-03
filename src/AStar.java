@@ -178,14 +178,14 @@ public class AStar extends Halja{
 	private void BuildPath(){
 		ArrayList<Point> tempPath = new ArrayList<Point>();
 		ArrayList<Point> reversePath = new ArrayList<Point>();
-		Node parentNode = targetNode.getParent();
+		Node parentNode = targetNode;
 		
 		tempPath.add(new Point(targetNode.getX(), targetNode.getY()));
 		
 		do{
 			tempPath.add(new Point(parentNode.getX(), parentNode.getY()));
 			parentNode = parentNode.getParent();
-		}while(parentNode != null);
+		}while(parentNode.hasParent());
 		
 		for(int i = tempPath.size() - 1; i >=0; i--){
 			reversePath.add(tempPath.get(i));
@@ -264,6 +264,13 @@ public class AStar extends Halja{
 
 		public void setParent(Node parent) {
 			this.parent = parent;
+		}
+		
+		public boolean hasParent(){
+			if(parent == null)
+				return false;
+			else
+				return true;
 		}
 	}
 }

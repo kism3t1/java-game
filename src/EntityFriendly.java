@@ -70,6 +70,8 @@ public class EntityFriendly extends Halja implements Serializable {
 		}
 
 		if (collisionDetection.check(getBounds(), true, true, true, id) != CollisionDetection.CD_NULL) {	//Check Collision
+			x -= dx;
+			y -= dy;
 			ai.randomAIDirection();	//Run random AI Direction method
 			dx = ai.returnx();		//Get x value from AI Class
 			dy = ai.returny();		//Get y value from AI Class

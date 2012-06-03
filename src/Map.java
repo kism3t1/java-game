@@ -95,12 +95,18 @@ public class Map extends Halja implements Serializable {
 		int mapXoff = cameraX % tileWidth;
 		int mapYoff = cameraY % tileHeight;
 		
+		for(int x = 0; x < width; x++){
+			for(int y = 0; y < height; y++){
+				if(TileSet[x][y] != null)
+					TileSet[x][y].setPos(((x - mapX) * tileWidth) - mapXoff, ((y - mapY) * tileHeight) - mapYoff);
+			}
+		}
+		
 		for(int x = 0; x <= screenTilesWide+1; x++){
 			for(int y = 0; y <= screenTilesHigh+1; y++){
 				if(x + mapX >= 0 && x + mapX < width && y + mapY >= 0 && y + mapY < height)
 				{
 					if(TileSet[x + mapX][y + mapY] != null){
-						TileSet[x + mapX][y + mapY].setPos((x * tileWidth) - mapXoff, (y * tileHeight) - mapYoff);
 						g.drawImage(tileSkins[gameTime.checkDateTime()][TileSet[x + mapX][y + mapY].getSkin()], TileSet[x + mapX][y + mapY].getX(), TileSet[x + mapX][y + mapY].getY(), null);
 					}
 				}

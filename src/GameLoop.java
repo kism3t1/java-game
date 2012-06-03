@@ -21,11 +21,25 @@ MouseMotionListener{
 	private KeyListener kl;
 	private HUD hud = new HUD();
 	private Sounds sound = new Sounds();
+	
+	//to calculate FPS
+	private static final int MAX_SAMPLES = 10;
+	private int tickIndex = 0;
+	private int tickSum = 0;
+	private Integer[] tickList;
+	private int tick = 0;
+	private long tickTime = 0;
+	private double FPS = 0;
+	private boolean displayFPS = true;
 
 	public GameLoop(Canvas gui){
 		this.gui = gui;
 		isRunning = true;
 		inMenu = false;
+		
+		tickList = new Integer[MAX_SAMPLES];
+		for(int i = 0; i < MAX_SAMPLES; i++)
+			tickList[i] = 0;
 
 		kl = new TAdapter();
 		gui.addKeyListener(kl);
@@ -55,6 +69,7 @@ MouseMotionListener{
 	@Override
 	public void run() {
 		cycleTime = System.currentTimeMillis();
+		tickTime = (int) System.currentTimeMillis();
 		gui.createBufferStrategy(2);				//2 = double buffer
 		BufferStrategy strategy = gui.getBufferStrategy();
 
@@ -66,6 +81,14 @@ MouseMotionListener{
 				updateGUI(strategy);		//redraws GUI
 
 				syncFPS();					//tries to keep game at target FPS
+				
+				tick++;
+				if(System.currentTimeMillis() - tickTime >= 1000){
+					FPS = getFPS(tick);
+					tickTime = System.currentTimeMillis();
+					tick = 0;
+				}
+				
 				
 				if(inMenu){
 					gui.removeKeyListener(kl);
@@ -202,6 +225,12 @@ MouseMotionListener{
 		//draw HUD
 		hud.draw(g);
 		
+		//write FPS
+		if(displayFPS){
+			g.setColor(Color.WHITE);
+			g.drawString("FPS: " + String.valueOf(FPS), guiWidth - 60, 20);
+		}
+		
 		g.dispose();
 		strategy.show();
 		
@@ -289,5 +318,20 @@ MouseMotionListener{
 				break;
 			}
 		}
+	}
+	
+	private double getFPS(int newTick)
+	{
+	    tickSum-=tickList[tickIndex];  /* subtract value falling off */
+	    tickSum+=newTick;              /* add new value */
+	    tickList[tickIndex]=newTick;   /* save new value so it can be subtracted later */
+	    if(tickIndex+1==MAX_SAMPLES){    /* inc buffer index */
+	    	tickIndex=0;
+	    }else{
+	    	tickIndex++;
+	    }
+
+	    /* return average */
+	    return((double)tickSum/MAX_SAMPLES);
 	}
 }

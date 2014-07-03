@@ -20,5 +20,4 @@ Test Plans for Player Health:
 	Technique: Start Game. Walk into pool with many floating eyeballs. 
 	Wait for armour bar to be destroyed. 
 	Wait for health bar to empty. 
-	Result: Test failed. 
-	Notes: After health bar reaches empty stage, the red bar wraps around the other way and grows.
+	Result: Test success. 

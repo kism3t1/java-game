@@ -21,7 +21,7 @@ public class Player extends Halja implements Serializable {
 	private int speed;
 	private int x, y, width, height;
 	private int skin;
-	private int health = 10;
+	private int health = 50;
 	private int armour;
 	private int maxHealth;
 	private int maxArmour;

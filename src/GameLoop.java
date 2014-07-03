@@ -183,6 +183,11 @@ MouseMotionListener{
 				world.friendly.get(i).setY(world.friendly.get(i).getY() + dif);
 			}
 		}
+		//if the players health is zero, stop the current game, and return to the menu
+		if (world.ollie.getHealth() <= 0){
+			isRunning = false;
+			nextThread = "MENU";
+		}
 	
 	}
 

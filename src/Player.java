@@ -21,7 +21,7 @@ public class Player extends Halja implements Serializable {
 	private int speed;
 	private int x, y, width, height;
 	private int skin;
-	private int health;
+	private int health = 50;
 	private int armour;
 	private int maxHealth;
 	private int maxArmour;
@@ -45,7 +45,6 @@ public class Player extends Halja implements Serializable {
 
 	public Player() {
 		skin = 0;
-		health = 50;
 		maxHealth = health;
 		armour = 4;
 		maxArmour = armour;
@@ -63,7 +62,6 @@ public class Player extends Halja implements Serializable {
 		skin = 0;
 		this.x = x;
 		this.y = y;
-		health = 50;
 		maxHealth = health;
 		armour = 4;
 		maxArmour = armour;
@@ -79,7 +77,6 @@ public class Player extends Halja implements Serializable {
 		this.skin = skin;
 		this.x = x;
 		this.y = y;
-		health = 50;
 		maxHealth = health;
 		armour = 4;
 		maxArmour = armour;
@@ -167,6 +164,9 @@ public class Player extends Halja implements Serializable {
 		state = STATE_INJURED;
 		frame_count = 6;
 		frame_last = System.currentTimeMillis() - 200;
+		if (health <0){
+			health = 0;
+		}
 	}
 
 	public int getX() {
